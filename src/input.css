@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #FFD700;
+  --color-orange: #FFA500;
+
+  --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-dashboard-float: dashboardFloat 6s ease-in-out infinite;
+
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes dashboardFloat {
+    0%, 100% {
+      transform: translateY(-50%) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-60%) rotate(2deg);
+    }
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
