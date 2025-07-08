@@ -1,33 +1,13 @@
 import { loadNavbar } from './components/navbar.js';
 import { loadFooter } from './components/footer.js';
+import { initUtils } from './components/utils.js';
 import PricingToggle from './components/pricing.js';
 
 
-// Dynamically add Font Awesome script to <head>
-(function addFontAwesome() {
-  if (!document.querySelector('script[src*="fontawesome.com"]')) {
-    const fa = document.createElement('script');
-    fa.src = "https://kit.fontawesome.com/cfa9c31eb9.js";
-    fa.crossOrigin = "anonymous";
-    fa.async = true;
-    document.head.appendChild(fa);
-  }
-})();
-
-// Dynamically add favicon to <head>
-(function addFavicon() {
-  const faviconUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/v1750484712/MT1_LOGO_ORIGINAL_1_1_iqx9yf.png";
-  let link = document.querySelector('link[rel~="icon"]');
-  if (!link) {
-    link = document.createElement('link');
-    link.rel = 'icon';
-    document.head.appendChild(link);
-  }
-  link.type = 'image/png';
-  link.href = faviconUrl;
-})();
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Initialize common utilities
+  initUtils();
+  
   loadNavbar();
   loadFooter();
   
