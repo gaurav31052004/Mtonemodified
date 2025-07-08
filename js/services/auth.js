@@ -17,7 +17,7 @@ class AuthHandler {
    * Initialize authentication flow
    */
   init() {
-    this.bindEvents();
+    // Note: Event binding is handled by LoginModule to avoid duplicate listeners
     this.checkExistingAuth();
   }
 
@@ -42,26 +42,14 @@ class AuthHandler {
   }
 
   /**
-   * Bind event listeners
+   * Bind event listeners (Deprecated - handled by LoginModule)
+   * This method is kept for backward compatibility but should not be used
+   * to avoid duplicate event listeners.
    */
   bindEvents() {
-    // Form submissions
-    document.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      if (e.target.id === 'email-form') {
-        this.handleEmailSubmit();
-      } else if (e.target.id === 'otp-form') {
-        this.handleOTPSubmit();
-      }
-    });
-
-    // Resend OTP
-    document.addEventListener('click', (e) => {
-      if (e.target.id === 'resend-otp') {
-        this.handleResendOTP();
-      }
-    });
+    // Event binding is now handled by LoginModule to prevent duplicate listeners
+    // This method is kept for backward compatibility but does nothing
+    console.warn('AuthHandler.bindEvents() is deprecated. Event binding is handled by LoginModule.');
   }
 
   /**
