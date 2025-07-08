@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>MT One - Next-Gen CRM for Real Estate Teams</title>
+	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/output.css">
 	<script type="module" src="/js/main.js" defer></script>
 </head>
@@ -36,8 +37,9 @@
 	<div id="navbar"></div>
 
 	<!-- Hero Section -->
-	<section class="min-h-screen flex items-center justify-center px-8 relative overflow-hidden" id="home">
-		<div class="max-w-6xl text-center z-10">
+	<section class="min-h-[80vh] flex items-center justify-center px-8 relative overflow-hidden pt-24 md:pt-32" id="home"
+		style="background: url('https://res.cloudinary.com/df1kus7ro/image/upload/v1751970492/e7863c3c4d78bb43903b750cf54b36dd8fb063c0_nidaro.png') center/cover no-repeat;">
+		<div class="max-w-6xl text-center z-10 flex flex-col justify-center items-center h-full">
 			<h1 class="text-4xl md:text-6xl font-extrabold mb-4 gradient-text leading-tight">Next-Gen CRM for Real
 				Estate Teams</h1>
 			<p class="text-xl md:text-2xl mb-12 text-gray-600 max-w-2xl mx-auto">Manage leads, listings & follow-ups —
@@ -59,34 +61,27 @@
 	<!-- Features Section -->
 	<section class="py-24 px-8 max-w-6xl mx-auto">
 		<h2 class="text-center text-3xl md:text-5xl mb-12 text-gold">Core Features</h2>
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
 			<div
-				class="p-10 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/20 transition-all duration-300 cursor-pointer">
-				<div class="text-5xl mb-6 text-gold">🎯</div>
-				<h3 class="text-2xl mb-4 text-gray-800">Smart Lead Capture</h3>
+				class="p-6 md:p-10 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/20 transition-all duration-300 cursor-pointer flex flex-col">
+				<div class="text-4xl md:text-5xl mb-6 text-gold">🎯</div>
+				<h3 class="text-xl md:text-2xl mb-4 text-gray-800 font-bold">Smart Lead Capture</h3>
 				<p class="text-gray-600 leading-relaxed">Automatically capture and organize leads from multiple sources
 					with intelligent tagging and scoring.</p>
 			</div>
 			<div
-				class="p-10 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/20 transition-all duration-300 cursor-pointer">
-				<div class="text-5xl mb-6 text-gold">🔄</div>
-				<h3 class="text-2xl mb-4 text-gray-800">Automated Follow-Ups</h3>
+				class="p-6 md:p-10 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/20 transition-all duration-300 cursor-pointer flex flex-col">
+				<div class="text-4xl md:text-5xl mb-6 text-gold">🔄</div>
+				<h3 class="text-xl md:text-2xl mb-4 text-gray-800 font-bold">Automated Follow-Ups</h3>
 				<p class="text-gray-600 leading-relaxed">Never miss a lead with intelligent follow-up sequences and
 					personalized communication workflows.</p>
 			</div>
 			<div
-				class="p-10 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/20 transition-all duration-300 cursor-pointer">
-				<div class="text-5xl mb-6 text-gold">🏠</div>
-				<h3 class="text-2xl mb-4 text-gray-800">Property Inventory</h3>
+				class="p-6 md:p-10 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/20 transition-all duration-300 cursor-pointer flex flex-col md:col-span-2 lg:col-span-1">
+				<div class="text-4xl md:text-5xl mb-6 text-gold">🏠</div>
+				<h3 class="text-xl md:text-2xl mb-4 text-gray-800 font-bold">Property Inventory</h3>
 				<p class="text-gray-600 leading-relaxed">Manage your entire property portfolio with detailed listings,
 					photos, and market analytics.</p>
-			</div>
-			<div
-				class="p-10 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/20 transition-all duration-300 cursor-pointer">
-				<div class="text-5xl mb-6 text-gold">💬</div>
-				<h3 class="text-2xl mb-4 text-gray-800">Communication Logs</h3>
-				<p class="text-gray-600 leading-relaxed">Track all client interactions, calls, emails, and meetings in
-					one centralized communication hub.</p>
 			</div>
 		</div>
 	</section>
@@ -95,7 +90,7 @@
 	<section class="py-24 px-8 bg-gold/[0.03]" id="about">
 		<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 			<div>
-				<h2 class="text-3xl md:text-4xl mb-6 text-gold">Why mtone.in?</h2>
+				<h2 class="text-3xl md:text-4xl mb-6 text-gold">Why MT One?</h2>
 				<p class="text-lg md:text-xl leading-relaxed text-gray-600 mb-8">Transform your real estate business
 					with our cutting-edge CRM platform designed specifically for modern property professionals.
 					Experience unparalleled efficiency with AI-powered insights, seamless integrations, and intuitive
@@ -112,63 +107,179 @@
 	</section>
 
 	<!-- Pricing Section -->
-	<section class="py-24 px-8 max-w-6xl mx-auto" id="pricing">
-		<h2 class="text-center text-3xl md:text-5xl mb-12 text-gold">Pricing Plans</h2>
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-			<div
-				class="p-12 py-16 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:border-gold hover:shadow-xl hover:shadow-gold/30 transition-all duration-300 relative overflow-hidden">
-				<h3 class="text-2xl md:text-3xl mb-4 text-gold">Basic</h3>
-				<div class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">$29<span
-						class="text-base text-gray-500">/month</span></div>
-				<ul class="list-none mb-8 space-y-2">
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Up to 100 leads</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Basic CRM features
-					</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Email support</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Mobile app access</li>
-				</ul>
-				<a href="#"
-					class="inline-block px-8 py-4 text-lg font-semibold text-gray-800 bg-white/90 border border-gold/50 rounded-full backdrop-blur-sm hover:bg-gold/10 hover:border-gold hover:-translate-y-1 transition-all duration-300">Get
-					Started</a>
-			</div>
-			<div
-				class="p-12 py-16 text-center bg-gold/5 backdrop-blur-xl border-2 border-gold rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:shadow-xl hover:shadow-gold/30 transition-all duration-300 relative overflow-hidden">
-				<h3 class="text-2xl md:text-3xl mb-4 text-gold">Pro</h3>
-				<div class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">$79<span
-						class="text-base text-gray-500">/month</span></div>
-				<ul class="list-none mb-8 space-y-2">
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Up to 1,000 leads</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Advanced automation
-					</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Priority support</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Custom integrations
-					</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Analytics dashboard
-					</li>
-				</ul>
-				<a href="#"
-					class="inline-block px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-gold to-orange rounded-full shadow-lg shadow-gold/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-gold/50 transition-all duration-300">Most
-					Popular</a>
-			</div>
-			<div
-				class="p-12 py-16 text-center bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/15 hover:-translate-y-3 hover:border-gold hover:shadow-xl hover:shadow-gold/30 transition-all duration-300 relative overflow-hidden">
-				<h3 class="text-2xl md:text-3xl mb-4 text-gold">Enterprise</h3>
-				<div class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">$199<span
-						class="text-base text-gray-500">/month</span></div>
-				<ul class="list-none mb-8 space-y-2">
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Unlimited leads</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>White-label solution
-					</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>24/7 phone support
-					</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Custom development
-					</li>
-					<li class="py-2 text-gray-600"><span class="text-gold font-bold mr-2">✓</span>Advanced reporting
-					</li>
-				</ul>
-				<a href="#"
-					class="inline-block px-8 py-4 text-lg font-semibold text-gray-800 bg-white/90 border border-gold/50 rounded-full backdrop-blur-sm hover:bg-gold/10 hover:border-gold hover:-translate-y-1 transition-all duration-300">Contact
-					Sales</a>
+	<section class="py-24 px-8 max-w-6xl mx-auto relative" id="pricing">
+		<!-- Golden glow circles -->
+		<div class="absolute top-16 left-0 w-96 h-96 bg-gradient-to-br from-yellow-500/30 to-orange-400/20 rounded-full blur-3xl opacity-60 -z-10"></div>
+		<div class="absolute bottom-16 right-0 w-80 h-80 bg-gradient-to-tl from-yellow-600/35 to-yellow-300/25 rounded-full blur-3xl opacity-70 -z-10"></div>
+		
+		<h2 class="text-center text-3xl md:text-5xl mb-12">
+			<span class="text-black">Pick the price</span>
+			<span class="bg-gradient-to-r from-gold via-gold to-yellow-600 bg-clip-text text-transparent"> that's right for
+				you</span>
+		</h2>
+		<div class="max-w-6xl mx-auto">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="pricing-cards">
+				<!-- Lite Plan -->
+				<div class="bg-white/90 rounded-2xl shadow-xl p-8 backdrop-blur-sm relative hover:shadow-2xl transition-all duration-300 min-h-[400px]" data-plan="lite">
+					<div class="absolute top-4 left-4">
+						<span class="inline-block px-3 py-1 text-sm font-semibold rounded-full" style="color: #035388; background-color: #E3F8FF;">Lite</span>
+					</div>
+					<div class="text-center mb-6 mt-8">
+						<div class="mb-4">
+							<span class="text-3xl font-bold" style="color: #bfa100;">$29</span>
+							<span class="text-gray-600" style="color: #bfa100;">/month</span>
+						</div>
+						<p class="text-sm text-gray-600 mb-6">Just using this for yourself? Lite is the way to go for the free
+							platform.</p>
+<button
+							class="w-full bg-gradient-to-r from-gold to-[#bfa100] hover:from-gold hover:to-yellow-500 text-white font-medium py-3 px-4 rounded-2xl transition-colors">
+							Select Lite
+						</button>
+					</div>
+
+					<div class="space-y-3">
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Up to 1,000 leads</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Basic CRM features</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Email support</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Mobile app access</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Pro Plan -->
+				<div class="bg-white/90 rounded-2xl shadow-xl p-8 backdrop-blur-sm relative hover:shadow-2xl transition-all duration-300 min-h-[400px]" data-plan="pro">
+					<div class="absolute top-4 left-4">
+						<span class="inline-block px-3 py-1 text-sm font-semibold rounded-full" style="color: #880303; background-color: #FFE3EC;">Pro</span>
+					</div>
+					<div class="text-center mb-6 mt-8">
+						<div class="mb-4">
+							<span class="text-3xl font-bold" style="color: #bfa100;">$79</span>
+							<span class="text-gray-600" style="color: #bfa100;">/month</span>
+						</div>
+						<p class="text-sm text-gray-600 mb-6">Just using this for yourself? Lite is the way to go for the free
+							platform.</p>
+						<button
+							class="w-full bg-white hover:bg-gray-50 text-yellow-600 font-medium py-3 px-4 rounded-2xl border border-yellow-400 transition-colors">
+							Select Pro
+						</button>
+					</div>
+
+					<div class="space-y-3">
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Up to 1,000 leads</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Basic CRM features</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Email support</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Mobile app access</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Team Plan -->
+				<div class="bg-white/90 rounded-2xl shadow-xl p-8 backdrop-blur-sm relative hover:shadow-2xl transition-all duration-300 min-h-[400px]" data-plan="team">
+					<div class="absolute top-4 left-4">
+						<span class="inline-block px-3 py-1 text-sm font-semibold rounded-full" style="color: #058803; background-color: #F3FDF8;">Team</span>
+					</div>
+					<div class="text-center mb-6 mt-8">
+						<div class="mb-4">
+							<span class="text-3xl font-bold" style="color: #bfa100;">$119</span>
+							<span class="text-gray-600" style="color: #bfa100;">/month</span>
+						</div>
+						<p class="text-sm text-gray-600 mb-6">Just using this for yourself? Lite is the way to go for the free
+							platform.</p>
+<button
+							class="w-full bg-gradient-to-r from-gold to-[#bfa100] hover:from-gold hover:to-yellow-500 text-white font-medium py-3 px-4 rounded-2xl transition-colors">
+							Select Team
+						</button>
+					</div>
+
+					<div class="space-y-3">
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Up to 1,000 leads</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Basic CRM features</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Email support</span>
+						</div>
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd"
+									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+									clip-rule="evenodd"></path>
+							</svg>
+							<span class="text-sm text-gray-700">Mobile app access</span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
