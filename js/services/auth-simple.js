@@ -1,13 +1,12 @@
 import CONFIG from '../config/config.js';
 import { authService, StorageService } from '../services/api.js';
-import { AuthUtils } from '../utils/auth-utils.js';
 
 /**
- * Partner Authentication Handler - manages the partner authentication flow
+ * Partner Authentication Handler - Simple, standalone handler
  */
 class AuthHandler {
   constructor() {
-    this.currentStep = 'partner-selection'; // 'partner-selection', 'email-input', 'otp-verification'
+    this.currentStep = 'partner-selection';
     this.selectedPartner = null;
     this.userEmail = null;
     this.otpTimer = null;
@@ -17,7 +16,6 @@ class AuthHandler {
    * Initialize authentication flow
    */
   init() {
-    // Note: Event binding is handled by LoginModule to avoid duplicate listeners
     this.checkExistingAuth();
   }
 
@@ -37,19 +35,8 @@ class AuthHandler {
     const selectedPartner = StorageService.getSelectedPartner();
     if (selectedPartner) {
       this.selectedPartner = selectedPartner;
-      this.showEmailInput();
+      this.currentStep = 'email-input';
     }
-  }
-
-  /**
-   * Bind event listeners (Deprecated - handled by LoginModule)
-   * This method is kept for backward compatibility but should not be used
-   * to avoid duplicate event listeners.
-   */
-  bindEvents() {
-    // Event binding is now handled by LoginModule to prevent duplicate listeners
-    // This method is kept for backward compatibility but does nothing
-    console.warn('AuthHandler.bindEvents() is deprecated. Event binding is handled by LoginModule.');
   }
 
   /**
@@ -58,16 +45,7 @@ class AuthHandler {
   selectPartner(partner) {
     this.selectedPartner = partner;
     StorageService.storeSelectedPartner(partner);
-    
-    this.showEmailInput();
-  }
-
-  /**
-   * Show email input step
-   */
-  showEmailInput() {
     this.currentStep = 'email-input';
-    this.updateUI();
   }
 
   /**
@@ -77,7 +55,7 @@ class AuthHandler {
     const emailInput = document.getElementById('email');
     const email = emailInput.value.trim();
     
-    if (!AuthUtils.validateEmail(email)) {
+    if (!this.validateEmail(email)) {
       throw new Error('Please enter a valid email address');
     }
 
@@ -97,21 +75,12 @@ class AuthHandler {
       // If email is valid partner, send OTP
       await authService.sendOTP(email, this.selectedPartner.domain);
       this.userEmail = email;
-      this.showOTPInput();
+      this.currentStep = 'otp-verification';
       
       return { success: true, message: 'OTP sent successfully to your email' };
     } catch (error) {
       throw error;
     }
-  }
-
-  /**
-   * Show OTP input step
-   */
-  showOTPInput() {
-    this.currentStep = 'otp-verification';
-    this.updateUI();
-    this.startOTPTimer();
   }
 
   /**
@@ -121,10 +90,10 @@ class AuthHandler {
     const otpInput = document.getElementById('otp');
     const otp = otpInput.value.trim();
     
-    if (!this.validateOTP(otp)) return;
+    if (!otp || otp.length !== CONFIG.UI.OTP_LENGTH) {
+      throw new Error(`Please enter a valid ${CONFIG.UI.OTP_LENGTH}-digit OTP`);
+    }
 
-    this.showLoading('Verifying OTP...');
-    
     try {
       const response = await authService.verifyOTP(
         this.userEmail,
@@ -136,33 +105,15 @@ class AuthHandler {
         // Store authentication data
         authService.storeAuthData(response.token, this.userEmail);
         
-        this.showSuccess('Login successful! Redirecting...');
-        
         // Redirect after a short delay
         setTimeout(() => {
           this.redirectToApp(response.token);
         }, 100);
+        
+        return { success: true, message: 'Login successful! Redirecting...' };
       }
     } catch (error) {
-      this.showError(error.message || 'Invalid OTP');
-    } finally {
-      this.hideLoading();
-    }
-  }
-
-  /**
-   * Handle back button click
-   */
-  handleBackButton() {
-    if (this.currentStep === 'otp-verification') {
-      this.currentStep = 'email-input';
-      this.stopOTPTimer();
-      this.updateUI();
-    } else if (this.currentStep === 'email-input') {
-      this.currentStep = 'partner-selection';
-      StorageService.storeSelectedPartner(null);
-      this.selectedPartner = null;
-      this.updateUI();
+      throw error;
     }
   }
 
@@ -171,35 +122,70 @@ class AuthHandler {
    */
   async handleResendOTP() {
     if (!this.userEmail || !this.selectedPartner) {
-      this.showError('Session expired. Please start again.');
-      return;
+      throw new Error('Session expired. Please start again.');
     }
-
-    this.showLoading('Resending OTP...');
     
     try {
       await authService.sendOTP(this.userEmail, this.selectedPartner.domain);
-      this.showSuccess('OTP resent successfully');
-      this.startOTPTimer();
+      return { success: true, message: 'OTP resent successfully' };
     } catch (error) {
-      this.showError(error.message || 'Failed to resend OTP');
-    } finally {
-      this.hideLoading();
+      throw error;
     }
   }
 
   /**
-   * Update UI based on current step
+   * Validate email format
+   */
+  validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  /**
+   * Start OTP timer
+   */
+  startOTPTimer() {
+    this.stopOTPTimer();
+    
+    let timeLeft = CONFIG.UI.OTP_EXPIRY_TIME / 1000;
+    const timerElement = document.getElementById('otp-timer');
+    const resendButton = document.getElementById('resend-otp');
+    
+    if (timerElement && resendButton) {
+      resendButton.style.display = 'none';
+      timerElement.style.display = 'block';
+      
+      this.otpTimer = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerElement.textContent = `Resend OTP in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft <= 0) {
+          this.stopOTPTimer();
+          timerElement.style.display = 'none';
+          resendButton.style.display = 'block';
+        }
+        
+        timeLeft--;
+      }, 1000);
+    }
+  }
+
+  /**
+   * Stop OTP timer
+   */
+  stopOTPTimer() {
+    if (this.otpTimer) {
+      clearInterval(this.otpTimer);
+      this.otpTimer = null;
+    }
+  }
+
+  /**
+   * Update UI based on current step - handled by LoginModule
    */
   updateUI() {
-    const steps = ['partner-selection', 'email-input', 'otp-verification'];
-    
-    steps.forEach(step => {
-      const element = document.getElementById(`${step}-step`);
-      if (element) {
-        element.style.display = step === this.currentStep ? 'block' : 'none';
-      }
-    });
+    // This is overridden by LoginModule
   }
 
   /**
@@ -213,11 +199,11 @@ class AuthHandler {
    * Reset authentication flow
    */
   reset() {
-    super.reset();
     this.currentStep = 'partner-selection';
     this.selectedPartner = null;
+    this.userEmail = null;
+    this.stopOTPTimer();
     StorageService.clearAll();
-    this.updateUI();
   }
 }
 
