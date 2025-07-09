@@ -1,5 +1,5 @@
 import CONFIG from '../config/config.js';
-import { authService as baseAuthService, StorageService } from '../services/api.js';
+import { partnerService as baseAuthService } from './partner-service.js';
 
 class AdminAuthService {
   constructor() {

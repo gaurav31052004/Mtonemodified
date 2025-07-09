@@ -1,18 +1,12 @@
 import { initUtils } from "./components/utils.js";
 import AdminAuthHandler from "./services/admin-auth-handler.js";
 
-/**
- * Admin Login Module - handles admin login page functionality
- */
 class AdminLoginModule {
   constructor() {
     this.authHandler = new AdminAuthHandler();
     this.currentStep = "email-input";
   }
 
-  /**
-   * Initialize admin login module
-   */
   async init() {
     // Initialize utilities (FontAwesome, etc.)
     initUtils();
@@ -24,9 +18,6 @@ class AdminLoginModule {
     this.setupEventListeners();
   }
 
-  /**
-   * Setup admin login page functionality
-   */
   async setupLogin() {
     try {
       this.showLoading(true);
@@ -50,9 +41,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Setup event listeners
-   */
   setupEventListeners() {
     // Back button
     const backButton = document.getElementById("back-button");
@@ -92,9 +80,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Setup AuthHandler override to work with our UI
-   */
   setupAuthHandlerOverride() {
     // Override step navigation
     const originalUpdateUI = this.authHandler.updateUI.bind(this.authHandler);
@@ -130,9 +115,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Handle email form submission
-   */
   async handleEmailSubmit(e) {
     e.preventDefault();
 
@@ -150,9 +132,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Handle OTP form submission
-   */
   async handleOTPSubmit(e) {
     e.preventDefault();
 
@@ -166,9 +145,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Validate email input
-   */
   validateEmailInput() {
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("email-error");
@@ -192,9 +168,6 @@ class AdminLoginModule {
     return true;
   }
 
-  /**
-   * Show email error
-   */
   showEmailError(message) {
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("email-error");
@@ -210,9 +183,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Hide email error
-   */
   hideEmailError() {
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("email-error");
@@ -227,18 +197,12 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Format OTP input
-   */
   formatOTPInput(e) {
     const input = e.target;
     const value = input.value.replace(/\D/g, ""); // Remove non-digits
     input.value = value;
   }
 
-  /**
-   * Set button loading state
-   */
   setButtonLoading(buttonId, loading) {
     const button = document.getElementById(buttonId);
     if (!button) return;
@@ -261,9 +225,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Show loading state
-   */
   showLoading(show) {
     const loading = document.getElementById("loading");
     if (!loading) return;
@@ -275,31 +236,19 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Show error message
-   */
   showError(message) {
     this.showMessage(message, "error");
   }
 
-  /**
-   * Show success message
-   */
   showSuccess(message) {
     this.showMessage(message, "success");
   }
 
-  /**
-   * Show message
-   */
   showMessage(message, type) {
     // Use toast notification
     this.showToast(message, type);
   }
 
-  /**
-   * Show toast notification
-   */
   showToast(message, type) {
     // Remove any existing toast
     const existingToast = document.querySelector(".toast-notification");
@@ -352,9 +301,6 @@ class AdminLoginModule {
     }, 5000);
   }
 
-  /**
-   * Hide toast notification
-   */
   hideToast(toast) {
     if (toast && toast.parentNode) {
       toast.classList.add("translate-x-full", "opacity-0");
@@ -366,9 +312,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Handle back button
-   */
   handleBackButton() {
     if (this.currentStep === "otp-verification") {
       this.currentStep = "email-input";
@@ -396,9 +339,6 @@ class AdminLoginModule {
     this.updateStepIndicators();
   }
 
-  /**
-   * Handle resend OTP
-   */
   async handleResendOTP() {
     try {
       await this.authHandler.handleResendOTP();
@@ -408,9 +348,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Update step display
-   */
   updateStepDisplay() {
     const steps = ["email-input", "otp-verification"];
     const backButton = document.getElementById("back-button");
@@ -441,9 +378,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Update step indicators
-   */
   updateStepIndicators() {
     const stepMapping = {
       "email-input": 1,
@@ -466,9 +400,6 @@ class AdminLoginModule {
     }
   }
 
-  /**
-   * Handle resend OTP (override to call auth handler)
-   */
   async handleResendOTP() {
     try {
       await this.authHandler.handleResendOTP();

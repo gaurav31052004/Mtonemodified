@@ -1,19 +1,13 @@
 import { initUtils } from "./components/utils.js";
 import AuthHandler from "./services/partner-auth-handler.js";
-import { partnerService } from "./services/api.js";
+import { partnerService } from "./services/partner-service.js";
 
-/**
- * Login Module - handles partner login page functionality
- */
 class LoginModule {
   constructor() {
     this.authHandler = new AuthHandler();
     this.currentStep = "partner-selection";
   }
 
-  /**
-   * Initialize login module
-   */
   async init() {
     // Initialize utilities (FontAwesome, etc.)
     initUtils();
@@ -25,9 +19,6 @@ class LoginModule {
     this.setupEventListeners();
   }
 
-  /**
-   * Setup login page functionality
-   */
   async setupLogin() {
     try {
       this.showLoading(true);
@@ -54,9 +45,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Setup event listeners
-   */
   setupEventListeners() {
     // Back button
     const backButton = document.getElementById("back-button");
@@ -96,9 +84,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Setup AuthHandler override to work with our UI
-   */
   setupAuthHandlerOverride() {
     // Override step navigation
     const originalUpdateUI = this.authHandler.updateUI.bind(this.authHandler);
@@ -118,9 +103,6 @@ class LoginModule {
     };
   }
 
-  /**
-   * Render partner selection cards
-   */
   async renderPartnerSelection() {
     const container = document.getElementById("partner-selection");
     if (!container) return;
@@ -173,9 +155,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Handle partner selection
-   */
   selectPartner(partner) {
     // Remove previous selections
     document.querySelectorAll(".partner-card").forEach((card) => {
@@ -191,9 +170,6 @@ class LoginModule {
     this.authHandler.selectPartner(partner);
   }
 
-  /**
-   * Handle back button
-   */
   handleBackButton() {
     if (this.currentStep === "email-input") {
       this.currentStep = "partner-selection";
@@ -240,9 +216,6 @@ class LoginModule {
     this.updateStepIndicators();
   }
 
-  /**
-   * Handle resend OTP (override to call auth handler)
-   */
   async handleResendOTP() {
     try {
       await this.authHandler.handleResendOTP();
@@ -252,9 +225,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Handle email form submission
-   */
   async handleEmailSubmit(e) {
     e.preventDefault();
 
@@ -272,9 +242,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Handle OTP form submission
-   */
   async handleOTPSubmit(e) {
     e.preventDefault();
 
@@ -288,9 +255,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Validate email input
-   */
   validateEmailInput() {
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("email-error");
@@ -314,9 +278,6 @@ class LoginModule {
     return true;
   }
 
-  /**
-   * Show email error
-   */
   showEmailError(message) {
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("email-error");
@@ -332,9 +293,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Hide email error
-   */
   hideEmailError() {
     const emailInput = document.getElementById("email");
     const emailError = document.getElementById("email-error");
@@ -349,18 +307,12 @@ class LoginModule {
     }
   }
 
-  /**
-   * Format OTP input
-   */
   formatOTPInput(e) {
     const input = e.target;
     const value = input.value.replace(/\D/g, ""); // Remove non-digits
     input.value = value;
   }
 
-  /**
-   * Set button loading state
-   */
   setButtonLoading(buttonId, loading) {
     const button = document.getElementById(buttonId);
     if (!button) return;
@@ -383,9 +335,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Show loading state
-   */
   showLoading(show) {
     const loading = document.getElementById("loading");
     if (!loading) return;
@@ -397,31 +346,19 @@ class LoginModule {
     }
   }
 
-  /**
-   * Show error message
-   */
   showError(message) {
     this.showMessage(message, "error");
   }
 
-  /**
-   * Show success message
-   */
   showSuccess(message) {
     this.showMessage(message, "success");
   }
 
-  /**
-   * Show message
-   */
   showMessage(message, type) {
     // Use toast notification
     this.showToast(message, type);
   }
 
-  /**
-   * Show toast notification
-   */
   showToast(message, type) {
     // Remove any existing toast
     const existingToast = document.querySelector('.toast-notification');
@@ -473,9 +410,6 @@ class LoginModule {
     }, 5000);
   }
 
-  /**
-   * Hide toast notification
-   */
   hideToast(toast) {
     if (toast && toast.parentNode) {
       toast.classList.add('translate-x-full', 'opacity-0');
@@ -487,9 +421,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Update step display
-   */
   updateStepDisplay() {
     const steps = ["partner-selection", "email-input", "otp-verification"];
     const backButton = document.getElementById("back-button");
@@ -554,9 +485,6 @@ class LoginModule {
     }
   }
 
-  /**
-   * Update step indicators
-   */
   updateStepIndicators() {
     const stepMapping = {
       "partner-selection": 1,

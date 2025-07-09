@@ -1,10 +1,6 @@
-import CONFIG from '../config/config.js';
-import { adminAuthService } from '../services/admin-auth.js';
+import { adminAuthService } from './admin-service.js';
 import { AuthUtils, OTPTimerManager } from '../utils/auth-utils.js';
 
-/**
- * Admin Authentication Handler - Simple, standalone handler
- */
 class AdminAuthHandler {
   constructor() {
     this.currentStep = 'email-input';
@@ -12,16 +8,10 @@ class AdminAuthHandler {
     this.otpTimerManager = new OTPTimerManager();
   }
 
-  /**
-   * Initialize admin authentication flow
-   */
   init() {
     this.checkExistingAuth();
   }
 
-  /**
-   * Check if admin is already authenticated
-   */
   checkExistingAuth() {
     if (adminAuthService.isAdminAuthenticated()) {
       const token = adminAuthService.getAuthToken();
@@ -32,9 +22,6 @@ class AdminAuthHandler {
     }
   }
 
-  /**
-   * Handle email form submission
-   */
   async handleEmailSubmit() {
     const emailInput = document.getElementById('email');
     const email = emailInput.value.trim();
@@ -69,18 +56,12 @@ class AdminAuthHandler {
     }
   }
 
-  /**
-   * Show OTP input step
-   */
   showOTPInput() {
     this.currentStep = 'otp-verification';
     this.updateUI();
     this.startOTPTimer();
   }
 
-  /**
-   * Handle OTP form submission
-   */
   async handleOTPSubmit() {
     const otpInput = document.getElementById('otp');
     const otp = otpInput.value.trim();
@@ -114,9 +95,6 @@ class AdminAuthHandler {
     }
   }
 
-  /**
-   * Handle back button click
-   */
   handleBackButton() {
     if (this.currentStep === 'otp-verification') {
       this.currentStep = 'email-input';
@@ -125,9 +103,6 @@ class AdminAuthHandler {
     }
   }
 
-  /**
-   * Handle resend OTP
-   */
   async handleResendOTP() {
     if (!this.userEmail) {
       this.showError('Session expired. Please start again.');
@@ -147,72 +122,45 @@ class AdminAuthHandler {
     }
   }
 
-  /**
-   * Update UI based on current step
-   */
   updateUI() {
     const steps = ['email-input', 'otp-verification'];
     AuthUtils.updateStepDisplay(this.currentStep, steps);
     AuthUtils.updateBackButton(this.currentStep, 'email-input');
   }
 
-  /**
-   * Redirect to admin application
-   */
   redirectToAdminApp(token) {
     adminAuthService.redirectToAdminApp(token);
   }
 
-  /**
-   * Reset authentication flow
-   */
   reset() {
     this.currentStep = 'email-input';
     adminAuthService.clearAdminAuthData();
     this.updateUI();
   }
 
-  /**
-   * Start OTP timer
-   */
   startOTPTimer() {
     this.otpTimerManager.start();
   }
 
-  /**
-   * Stop OTP timer
-   */
   stopOTPTimer() {
     this.otpTimerManager.stop();
   }
 
-  /**
-   * Show loading state
-   */
   showLoading(message) {
     // This method is typically overridden by the UI module
     console.log('Loading:', message);
   }
 
-  /**
-   * Hide loading state
-   */
   hideLoading() {
     // This method is typically overridden by the UI module
     console.log('Loading hidden');
   }
 
-  /**
-   * Show success message
-   */
   showSuccess(message) {
     // This method is typically overridden by the UI module
     console.log('Success:', message);
   }
 
-  /**
-   * Show error message
-   */
   showError(message) {
     // This method is typically overridden by the UI module
     console.error('Error:', message);

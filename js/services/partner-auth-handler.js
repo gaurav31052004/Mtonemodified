@@ -1,6 +1,6 @@
-import CONFIG from "../config/config.js";
-import { authService, StorageService } from "./api.js";
 import { AuthUtils, OTPTimerManager } from "../utils/auth-utils.js";
+import { partnerService } from "./partner-service.js";
+import { StorageService } from "./storage-service.js";
 
 class AuthHandler {
   constructor() {
@@ -15,8 +15,8 @@ class AuthHandler {
   }
 
   checkExistingAuth() {
-    if (authService.isAuthenticated()) {
-      const token = authService.getAuthToken();
+    if (partnerService.isAuthenticated()) {
+      const token = partnerService.getAuthToken();
       if (token) {
         this.redirectToApp(token);
         return;
@@ -56,7 +56,7 @@ class AuthHandler {
 
     try {
       // First validate email with backend
-      const response = await authService.checkEmail(email);
+      const response = await partnerService.checkEmail(email);
 
       // Check if user type is Partner
       if (response.data && response.data.userType !== "Partner") {
@@ -64,7 +64,7 @@ class AuthHandler {
       }
 
       // If email is valid partner, send OTP
-      await authService.sendOTP(email, this.selectedPartner.domain);
+      await partnerService.sendOTP(email, this.selectedPartner.domain);
       this.userEmail = email;
       this.showOTPInput();
 
@@ -93,7 +93,7 @@ class AuthHandler {
     this.showLoading("Verifying OTP...");
 
     try {
-      const response = await authService.verifyOTP(
+      const response = await partnerService.verifyOTP(
         this.userEmail,
         otp,
         this.selectedPartner.domain,
@@ -101,7 +101,7 @@ class AuthHandler {
 
       if (response.success) {
         // Store authentication data
-        authService.storeAuthData(response.token, this.userEmail);
+        partnerService.storeAuthData(response.token, this.userEmail);
 
         this.showSuccess("Login successful! Redirecting...");
 
@@ -139,7 +139,7 @@ class AuthHandler {
     this.showLoading("Resending OTP...");
 
     try {
-      await authService.sendOTP(this.userEmail, this.selectedPartner.domain);
+      await partnerService.sendOTP(this.userEmail, this.selectedPartner.domain);
       this.showSuccess("OTP resent successfully");
       this.startOTPTimer();
     } catch (error) {
@@ -155,7 +155,7 @@ class AuthHandler {
   }
 
   redirectToApp(token) {
-    authService.redirectToApp(token);
+    partnerService.redirectToApp(token);
   }
 
   reset() {
