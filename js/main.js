@@ -14,6 +14,80 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize pricing toggle component
   new PricingToggle();
 
+  // Function to apply smooth scroll to all relevant links
+  const applySmoothScroll = () => {
+    // Enhanced smooth scroll handler for all links
+    const handleSmoothScroll = (anchor) => {
+      // Remove existing listeners to prevent duplicates
+      anchor.removeEventListener('click', anchor.smoothScrollHandler);
+      
+      anchor.smoothScrollHandler = function (e) {
+        const href = this.getAttribute('href');
+        
+        if (!href) return;
+        
+        try {
+          const url = new URL(href, window.location.origin);
+          const isCurrentPage = url.pathname === window.location.pathname || 
+                               (url.pathname === '/' && window.location.pathname === '/index.html') ||
+                               (url.pathname === '/index.html' && window.location.pathname === '/');
+          
+          // Handle hash links on current page
+          if (url.hash && isCurrentPage) {
+            e.preventDefault();
+            const target = document.querySelector(url.hash);
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+              // Update URL hash without triggering scroll
+              history.pushState(null, null, url.hash);
+            }
+          }
+          // Handle cross-page navigation with hash
+          else if (url.hash && !isCurrentPage) {
+            // Store the target hash for after page load
+            sessionStorage.setItem('scrollTarget', url.hash);
+            // Allow normal navigation to occur
+          }
+          // Handle simple hash links (like #home, #about)
+          else if (href.startsWith('#')) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+              // Update URL hash without triggering scroll
+              history.pushState(null, null, href);
+            }
+          }
+        } catch (error) {
+          // If URL parsing fails, handle as simple hash link
+          if (href.startsWith('#')) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+              history.pushState(null, null, href);
+            }
+          }
+        }
+      };
+      
+      anchor.addEventListener('click', anchor.smoothScrollHandler);
+    };
+
+    // Apply to all links that might have hashes (navbar, footer, etc.)
+    document.querySelectorAll('a[href*="#"]').forEach(handleSmoothScroll);
+    document.querySelectorAll('a[href^="#"]').forEach(handleSmoothScroll);
+  };
+
   // Add style for active nav underline first
   if (!document.getElementById('active-nav-style')) {
     const style = document.createElement('style');
@@ -96,44 +170,32 @@ document.addEventListener('DOMContentLoaded', async () => {
       setActiveNav('home');
     }
   }, 200);
-  // Wait for navbar/footer to be loaded before attaching smooth scroll
+  
+  // Apply smooth scrolling initially and after components load
   setTimeout(() => {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href && href.startsWith('#')) {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
+    applySmoothScroll();
+    
+    // Handle cross-page navigation - scroll to target after page load
+    const scrollTarget = sessionStorage.getItem('scrollTarget');
+    if (scrollTarget) {
+      sessionStorage.removeItem('scrollTarget');
+      setTimeout(() => {
+        const target = document.querySelector(scrollTarget);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          history.replaceState(null, null, scrollTarget);
         }
-      });
-    });
-
-    // Also handle links that might contain full paths but are on the same page
-    document.querySelectorAll('a[href*="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        const url = new URL(href, window.location.origin);
-
-        // Check if it's the same page but with a hash
-        if (url.pathname === window.location.pathname && url.hash) {
-          e.preventDefault();
-          const target = document.querySelector(url.hash);
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        }
-      });
-    });
-  }, 100);
+      }, 300); // Small delay to ensure page is fully loaded
+    }
+  }, 300);
+  
+  // Re-apply smooth scrolling when footer is loaded
+  setTimeout(() => {
+    applySmoothScroll();
+  }, 500);
 
   // Add scroll effect to header (now works with #navbar)
   window.addEventListener('scroll', function () {

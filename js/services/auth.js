@@ -146,9 +146,11 @@ class AuthHandler {
         // Redirect after a short delay
         setTimeout(() => {
           this.redirectToApp(response.token);
-        }, 1500);
+        }, 100);
       }
     } catch (error) {
+      console.log(error);
+      
       this.showError(error.message || 'Invalid OTP');
     } finally {
       this.hideLoading();

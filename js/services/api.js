@@ -33,14 +33,19 @@ class ApiService {
       const response = await fetch(url, config);
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
       const data = await response.json();
       
       if (CONFIG.DEBUG) {
         console.log('API Response:', data);
+      }
+
+      if (!response.ok) {
+        // Create error with API response message if available
+        const error = new Error(data.message || `HTTP error! status: ${response.status}`);
+        error.status = response.status;
+        error.statusText = response.statusText;
+        error.apiResponse = data;
+        throw error;
       }
 
       return data;
@@ -171,6 +176,23 @@ class AuthService extends ApiService {
       throw new Error(response.message || 'Email not found');
     } catch (error) {
       console.error('Error checking email:', error);
+      
+      // Handle 404 specifically for email not found
+      if (error.status === 404) {
+        const emailNotFoundError = new Error(error.apiResponse?.message || 'Email address not found. Please check your email or contact your administrator.');
+        emailNotFoundError.code = 'EMAIL_NOT_FOUND';
+        emailNotFoundError.status = 404;
+        throw emailNotFoundError;
+      }
+      
+      // If the error already has the API response message, use it
+      if (error.apiResponse && error.apiResponse.message) {
+        const apiError = new Error(error.apiResponse.message);
+        apiError.status = error.status;
+        apiError.apiResponse = error.apiResponse;
+        throw apiError;
+      }
+      
       throw error;
     }
   }
@@ -192,6 +214,15 @@ class AuthService extends ApiService {
       throw new Error(response.message || 'Failed to send OTP');
     } catch (error) {
       console.error('Error sending OTP:', error);
+      
+      // If the error already has the API response message, use it
+      if (error.apiResponse && error.apiResponse.message) {
+        const apiError = new Error(error.apiResponse.message);
+        apiError.status = error.status;
+        apiError.apiResponse = error.apiResponse;
+        throw apiError;
+      }
+      
       throw error;
     }
   }
@@ -215,9 +246,29 @@ class AuthService extends ApiService {
         };
       }
       
-      throw new Error(response.message || 'Failed to verify OTP');
+      // If API returns an error response, throw with message and status
+      const error = new Error(response.message || 'Failed to verify OTP');
+      error.status = response.httpStatus || 400;
+      error.apiResponse = response;
+      throw error;
     } catch (error) {
       console.error('Error verifying OTP:', error);
+      
+      // If the error already has the API response message, use it
+      if (error.apiResponse && error.apiResponse.message) {
+        const apiError = new Error(error.apiResponse.message);
+        apiError.status = error.status;
+        apiError.apiResponse = error.apiResponse;
+        throw apiError;
+      }
+      
+      // If error is not an instance of Error, wrap it
+      if (!(error instanceof Error)) {
+        const wrapped = new Error('Failed to verify OTP');
+        wrapped.original = error;
+        throw wrapped;
+      }
+      
       throw error;
     }
   }

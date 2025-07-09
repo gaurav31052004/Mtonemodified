@@ -141,14 +141,14 @@ class LoginModule {
         const partnersHTML = partners
           .map((partner) => {
             return `
-            <div class="partner-card flex items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition-all duration-300 bg-white hover:border-gold hover:-translate-y-1 hover:shadow-lg" 
+            <div class="partner-card flex items-center p-3 border-2 border-gray-200 rounded-xl cursor-pointer transition-all duration-300 bg-white hover:border-gold hover:-translate-y-0.5 hover:shadow-md" 
                  data-partner='${JSON.stringify(partner)}'>
               <img src="${partner.iconUrl}" 
                    alt="${partner.masterDetailName}" 
-                   class="w-10 h-10 object-contain mr-4 rounded-lg">
+                   class="w-8 h-8 object-contain mr-3 rounded-lg">
               <div class="flex-1">
-                <h3 class="text-base font-semibold text-gray-800 mb-1">${partner.masterDetailName}</h3>
-                <p class="text-gray-600 text-sm">${partner.domain}</p>
+                <h3 class="text-sm font-semibold text-gray-800 mb-0.5">${partner.masterDetailName}</h3>
+                <p class="text-gray-600 text-xs">${partner.domain}</p>
               </div>
             </div>
           `;
@@ -170,9 +170,9 @@ class LoginModule {
     } catch (error) {
       console.error("Error loading partners:", error);
       container.innerHTML = `
-        <div class="text-center p-6 text-red-600">
-          <p class="mb-2">Failed to load partner locations</p>
-          <button onclick="location.reload()" class="text-gold underline">Retry</button>
+        <div class="text-center p-4 text-red-600">
+          <p class="mb-2 text-sm">Failed to load partner locations</p>
+          <button onclick="location.reload()" class="text-gold underline text-sm">Retry</button>
         </div>
       `;
     } finally {
