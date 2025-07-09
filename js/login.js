@@ -1,5 +1,5 @@
 import { initUtils } from "./components/utils.js";
-import AuthHandler from "./services/auth.js";
+import AuthHandler from "./services/partner-auth-handler.js";
 import { partnerService } from "./services/api.js";
 
 /**

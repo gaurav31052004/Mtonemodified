@@ -1,14 +1,15 @@
 import CONFIG from '../config/config.js';
 import { adminAuthService } from '../services/admin-auth.js';
-import BaseAuthHandler from './base-auth-handler.js';
+import { AuthUtils, OTPTimerManager } from '../utils/auth-utils.js';
 
 /**
- * Admin Authentication Handler - manages the admin authentication flow
+ * Admin Authentication Handler - Simple, standalone handler
  */
-class AdminAuthHandler extends BaseAuthHandler {
+class AdminAuthHandler {
   constructor() {
-    super();
-    this.currentStep = 'email-input'; // 'email-input', 'otp-verification'
+    this.currentStep = 'email-input';
+    this.userEmail = null;
+    this.otpTimerManager = new OTPTimerManager();
   }
 
   /**
@@ -38,7 +39,9 @@ class AdminAuthHandler extends BaseAuthHandler {
     const emailInput = document.getElementById('email');
     const email = emailInput.value.trim();
     
-    if (!this.validateEmailInput(email)) return;
+    if (!AuthUtils.validateEmail(email)) {
+      throw new Error('Please enter a valid email address');
+    }
 
     this.showLoading('Validating admin email...');
     
@@ -82,7 +85,11 @@ class AdminAuthHandler extends BaseAuthHandler {
     const otpInput = document.getElementById('otp');
     const otp = otpInput.value.trim();
     
-    if (!this.validateOTP(otp)) return;
+    const validation = AuthUtils.validateOTP(otp);
+    if (!validation.valid) {
+      this.showError(validation.error);
+      return;
+    }
 
     this.showLoading('Verifying OTP...');
     
@@ -145,13 +152,8 @@ class AdminAuthHandler extends BaseAuthHandler {
    */
   updateUI() {
     const steps = ['email-input', 'otp-verification'];
-    
-    steps.forEach(step => {
-      const element = document.getElementById(`${step}-step`);
-      if (element) {
-        element.style.display = step === this.currentStep ? 'block' : 'none';
-      }
-    });
+    AuthUtils.updateStepDisplay(this.currentStep, steps);
+    AuthUtils.updateBackButton(this.currentStep, 'email-input');
   }
 
   /**
@@ -165,10 +167,55 @@ class AdminAuthHandler extends BaseAuthHandler {
    * Reset authentication flow
    */
   reset() {
-    super.reset();
     this.currentStep = 'email-input';
     adminAuthService.clearAdminAuthData();
     this.updateUI();
+  }
+
+  /**
+   * Start OTP timer
+   */
+  startOTPTimer() {
+    this.otpTimerManager.start();
+  }
+
+  /**
+   * Stop OTP timer
+   */
+  stopOTPTimer() {
+    this.otpTimerManager.stop();
+  }
+
+  /**
+   * Show loading state
+   */
+  showLoading(message) {
+    // This method is typically overridden by the UI module
+    console.log('Loading:', message);
+  }
+
+  /**
+   * Hide loading state
+   */
+  hideLoading() {
+    // This method is typically overridden by the UI module
+    console.log('Loading hidden');
+  }
+
+  /**
+   * Show success message
+   */
+  showSuccess(message) {
+    // This method is typically overridden by the UI module
+    console.log('Success:', message);
+  }
+
+  /**
+   * Show error message
+   */
+  showError(message) {
+    // This method is typically overridden by the UI module
+    console.error('Error:', message);
   }
 }
 

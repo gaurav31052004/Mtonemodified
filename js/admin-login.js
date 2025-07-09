@@ -1,5 +1,5 @@
-import { initUtils } from './components/utils.js';
-import AdminAuthHandler from './services/admin-auth-handler.js';
+import { initUtils } from "./components/utils.js";
+import AdminAuthHandler from "./services/admin-auth-handler.js";
 
 /**
  * Admin Login Module - handles admin login page functionality
@@ -36,7 +36,7 @@ class AdminLoginModule {
 
       // Setup auth handler override
       this.setupAuthHandlerOverride();
-      
+
       // Update initial display
       this.updateStepDisplay();
       this.updateStepIndicators();
@@ -103,6 +103,23 @@ class AdminLoginModule {
       this.currentStep = this.authHandler.currentStep;
       this.updateStepDisplay();
       this.updateStepIndicators();
+    };
+
+    // Override UI feedback methods to use our toast system
+    this.authHandler.showError = (message) => {
+      this.showError(message);
+    };
+
+    this.authHandler.showSuccess = (message) => {
+      this.showSuccess(message);
+    };
+
+    this.authHandler.showLoading = (message) => {
+      this.showLoading(true);
+    };
+
+    this.authHandler.hideLoading = () => {
+      this.showLoading(false);
     };
 
     // Override handleBackButton in AuthHandler if it exists
@@ -285,26 +302,27 @@ class AdminLoginModule {
    */
   showToast(message, type) {
     // Remove any existing toast
-    const existingToast = document.querySelector('.toast-notification');
+    const existingToast = document.querySelector(".toast-notification");
     if (existingToast) {
       existingToast.remove();
     }
 
     // Create toast element
-    const toast = document.createElement('div');
-    toast.className = 'toast-notification fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full opacity-0';
-    
+    const toast = document.createElement("div");
+    toast.className =
+      "toast-notification fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full opacity-0";
+
     // Set toast styling based on type
-    if (type === 'error') {
-      toast.classList.add('bg-red-500', 'text-white');
+    if (type === "error") {
+      toast.classList.add("bg-red-500", "text-white");
       toast.innerHTML = `
         <div class="flex items-center">
           <i class="fas fa-exclamation-circle mr-2"></i>
           <span>${message}</span>
         </div>
       `;
-    } else if (type === 'success') {
-      toast.classList.add('bg-green-500', 'text-white');
+    } else if (type === "success") {
+      toast.classList.add("bg-green-500", "text-white");
       toast.innerHTML = `
         <div class="flex items-center">
           <i class="fas fa-check-circle mr-2"></i>
@@ -314,18 +332,18 @@ class AdminLoginModule {
     }
 
     // Add close button
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'ml-4 text-white hover:text-gray-200';
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "ml-4 text-white hover:text-gray-200";
     closeBtn.innerHTML = '<i class="fas fa-times"></i>';
     closeBtn.onclick = () => this.hideToast(toast);
-    toast.querySelector('div').appendChild(closeBtn);
+    toast.querySelector("div").appendChild(closeBtn);
 
     // Add to body
     document.body.appendChild(toast);
 
     // Animate in
     setTimeout(() => {
-      toast.classList.remove('translate-x-full', 'opacity-0');
+      toast.classList.remove("translate-x-full", "opacity-0");
     }, 10);
 
     // Auto hide after 5 seconds
@@ -339,7 +357,7 @@ class AdminLoginModule {
    */
   hideToast(toast) {
     if (toast && toast.parentNode) {
-      toast.classList.add('translate-x-full', 'opacity-0');
+      toast.classList.add("translate-x-full", "opacity-0");
       setTimeout(() => {
         if (toast.parentNode) {
           toast.parentNode.removeChild(toast);
@@ -355,18 +373,18 @@ class AdminLoginModule {
     if (this.currentStep === "otp-verification") {
       this.currentStep = "email-input";
       this.authHandler.currentStep = "email-input";
-      
+
       // Stop OTP timer when going back
       if (this.authHandler.stopOTPTimer) {
         this.authHandler.stopOTPTimer();
       }
-      
+
       // Clear OTP input
       const otpInput = document.getElementById("otp");
       if (otpInput) {
         otpInput.value = "";
       }
-      
+
       // Hide OTP timer and resend button
       const otpTimer = document.getElementById("otp-timer");
       const resendOtp = document.getElementById("resend-otp");
@@ -406,7 +424,9 @@ class AdminLoginModule {
     });
 
     // Show current step
-    const currentStepElement = document.getElementById(`${this.currentStep}-step`);
+    const currentStepElement = document.getElementById(
+      `${this.currentStep}-step`,
+    );
     if (currentStepElement) {
       currentStepElement.classList.remove("hidden");
     }

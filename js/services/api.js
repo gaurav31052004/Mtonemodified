@@ -1,8 +1,5 @@
 import CONFIG from '../config/config.js';
 
-/**
- * API Service class for handling all HTTP requests
- */
 class ApiService {
   constructor() {
     this.baseURL = CONFIG.API.BASE_URL;
@@ -13,9 +10,6 @@ class ApiService {
     };
   }
 
-  /**
-   * Generic HTTP request method
-   */
   async request(endpoint, options = {}) {
     const url = CONFIG.getApiUrl(endpoint);
     const config = {
@@ -59,9 +53,6 @@ class ApiService {
     }
   }
 
-  /**
-   * GET request
-   */
   async get(endpoint, params = {}) {
     const queryString = new URLSearchParams(params).toString();
     const url = queryString ? `${endpoint}?${queryString}` : endpoint;
@@ -71,9 +62,6 @@ class ApiService {
     });
   }
 
-  /**
-   * POST request
-   */
   async post(endpoint, data = {}) {
     return this.request(endpoint, {
       method: 'POST',
@@ -81,9 +69,6 @@ class ApiService {
     });
   }
 
-  /**
-   * PUT request
-   */
   async put(endpoint, data = {}) {
     return this.request(endpoint, {
       method: 'PUT',
@@ -91,30 +76,18 @@ class ApiService {
     });
   }
 
-  /**
-   * DELETE request
-   */
   async delete(endpoint) {
     return this.request(endpoint, {
       method: 'DELETE'
     });
   }
 
-  /**
-   * Update authorization token
-   */
   setAuthToken(token) {
     this.defaultHeaders.Authorization = `Bearer ${token}`;
   }
 }
 
-/**
- * Partner Service - handles partner location operations
- */
 class PartnerService extends ApiService {
-  /**
-   * Fetch all partner locations
-   */
   async getPartnerLocations() {
     try {
       const response = await this.get(CONFIG.ENDPOINTS.PARTNER_LOCATIONS);
@@ -154,13 +127,7 @@ class PartnerService extends ApiService {
   }
 }
 
-/**
- * Authentication Service - handles OTP and authentication operations
- */
 class AuthService extends ApiService {
-  /**
-   * Check if email exists in the system
-   */
   async checkEmail(email) {
     try {
       const response = await this.get(`${CONFIG.ENDPOINTS.CHECK_EMAIL}?email=${encodeURIComponent(email)}`);
@@ -197,9 +164,6 @@ class AuthService extends ApiService {
     }
   }
 
-  /**
-   * Send OTP to email
-   */
   async sendOTP(email, domain) {
     try {
       const response = await this.post(CONFIG.ENDPOINTS.OTP_VERIFICATION, {
@@ -227,9 +191,6 @@ class AuthService extends ApiService {
     }
   }
 
-  /**
-   * Verify OTP and get authentication token
-   */
   async verifyOTP(email, otp, domain) {
     try {
       const response = await this.post(CONFIG.ENDPOINTS.OTP_VERIFICATION, {
@@ -273,83 +234,50 @@ class AuthService extends ApiService {
     }
   }
 
-  /**
-   * Redirect to main application with token
-   */
   redirectToApp(token) {
     const redirectUrl = CONFIG.getRedirectUrl(token);
     window.location.href = redirectUrl;
   }
 
-  /**
-   * Store authentication data
-   */
   storeAuthData(token, email) {
     localStorage.setItem(CONFIG.STORAGE_KEYS.USER_TOKEN, token);
     localStorage.setItem(CONFIG.STORAGE_KEYS.USER_EMAIL, email);
   }
 
-  /**
-   * Clear authentication data
-   */
   clearAuthData() {
     localStorage.removeItem(CONFIG.STORAGE_KEYS.USER_TOKEN);
     localStorage.removeItem(CONFIG.STORAGE_KEYS.USER_EMAIL);
     localStorage.removeItem(CONFIG.STORAGE_KEYS.SELECTED_PARTNER);
   }
 
-  /**
-   * Check if user is authenticated
-   */
   isAuthenticated() {
     return !!localStorage.getItem(CONFIG.STORAGE_KEYS.USER_TOKEN);
   }
 
-  /**
-   * Get stored authentication token
-   */
   getAuthToken() {
     return localStorage.getItem(CONFIG.STORAGE_KEYS.USER_TOKEN);
   }
 }
 
-/**
- * Storage Service - handles local storage operations
- */
 class StorageService {
-  /**
-   * Store partner data
-   */
   static storePartnerData(partnerData) {
     localStorage.setItem(CONFIG.STORAGE_KEYS.PARTNER_DATA, JSON.stringify(partnerData));
   }
 
-  /**
-   * Get stored partner data
-   */
   static getPartnerData() {
     const data = localStorage.getItem(CONFIG.STORAGE_KEYS.PARTNER_DATA);
     return data ? JSON.parse(data) : null;
   }
 
-  /**
-   * Store selected partner
-   */
   static storeSelectedPartner(partner) {
     localStorage.setItem(CONFIG.STORAGE_KEYS.SELECTED_PARTNER, JSON.stringify(partner));
   }
 
-  /**
-   * Get selected partner
-   */
   static getSelectedPartner() {
     const data = localStorage.getItem(CONFIG.STORAGE_KEYS.SELECTED_PARTNER);
     return data ? JSON.parse(data) : null;
   }
 
-  /**
-   * Clear all stored data
-   */
   static clearAll() {
     Object.values(CONFIG.STORAGE_KEYS).forEach(key => {
       localStorage.removeItem(key);
@@ -357,7 +285,6 @@ class StorageService {
   }
 }
 
-// Export service instances
 export const partnerService = new PartnerService();
 export const authService = new AuthService();
 export { StorageService };
