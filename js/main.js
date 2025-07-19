@@ -1,23 +1,31 @@
-import { loadNavbar } from './components/navbar.js';
-import { loadFooter } from './components/footer.js';
-import { initUtils } from './components/utils.js';
-import PricingToggle from './components/pricing.js';
-import ApplicationDownload from './components/application.js';
+import { loadNavbar } from "./components/navbar.js";
+import { loadFooter } from "./components/footer.js";
+import { initUtils } from "./components/utils.js";
+import PricingToggle from "./components/pricing.js";
+import ApplicationDownload from "./components/application.js";
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // Initialize common utilities
   initUtils();
-  
+
   loadNavbar();
   loadFooter();
-  
+
   // Initialize pricing toggle component
-  if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+  if (
+    window.location.pathname === "/" ||
+    window.location.pathname === "/index.html"
+  ) {
     new PricingToggle();
   }
 
   // Initialize application download logic if on application page
-  if (window.location.pathname.includes('/application/index.html') || window.location.pathname.endsWith('/application/')) {
+  if (
+    window.location.pathname.includes("/application/index.html") ||
+    window.location.pathname.endsWith(
+      "/application/" || window.location.pathname.endsWith("/application"),
+    )
+  ) {
     new ApplicationDownload();
   }
   // Function to apply smooth scroll to all relevant links
@@ -25,27 +33,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Enhanced smooth scroll handler for all links
     const handleSmoothScroll = (anchor) => {
       // Remove existing listeners to prevent duplicates
-      anchor.removeEventListener('click', anchor.smoothScrollHandler);
-      
+      anchor.removeEventListener("click", anchor.smoothScrollHandler);
+
       anchor.smoothScrollHandler = function (e) {
-        const href = this.getAttribute('href');
-        
+        const href = this.getAttribute("href");
+
         if (!href) return;
-        
+
         try {
           const url = new URL(href, window.location.origin);
-          const isCurrentPage = url.pathname === window.location.pathname || 
-                               (url.pathname === '/' && window.location.pathname === '/index.html') ||
-                               (url.pathname === '/index.html' && window.location.pathname === '/');
-          
+          const isCurrentPage =
+            url.pathname === window.location.pathname ||
+            (url.pathname === "/" &&
+              window.location.pathname === "/index.html") ||
+            (url.pathname === "/index.html" &&
+              window.location.pathname === "/");
+
           // Handle hash links on current page
           if (url.hash && isCurrentPage) {
             e.preventDefault();
             const target = document.querySelector(url.hash);
             if (target) {
               target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+                behavior: "smooth",
+                block: "start",
               });
               // Update URL hash without triggering scroll
               history.pushState(null, null, url.hash);
@@ -54,17 +65,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           // Handle cross-page navigation with hash
           else if (url.hash && !isCurrentPage) {
             // Store the target hash for after page load
-            sessionStorage.setItem('scrollTarget', url.hash);
+            sessionStorage.setItem("scrollTarget", url.hash);
             // Allow normal navigation to occur
           }
           // Handle simple hash links (like #home, #about)
-          else if (href.startsWith('#')) {
+          else if (href.startsWith("#")) {
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
               target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+                behavior: "smooth",
+                block: "start",
               });
               // Update URL hash without triggering scroll
               history.pushState(null, null, href);
@@ -72,21 +83,21 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         } catch (error) {
           // If URL parsing fails, handle as simple hash link
-          if (href.startsWith('#')) {
+          if (href.startsWith("#")) {
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
               target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+                behavior: "smooth",
+                block: "start",
               });
               history.pushState(null, null, href);
             }
           }
         }
       };
-      
-      anchor.addEventListener('click', anchor.smoothScrollHandler);
+
+      anchor.addEventListener("click", anchor.smoothScrollHandler);
     };
 
     // Apply to all links that might have hashes (navbar, footer, etc.)
@@ -95,9 +106,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   // Add style for active nav underline first
-  if (!document.getElementById('active-nav-style')) {
-    const style = document.createElement('style');
-    style.id = 'active-nav-style';
+  if (!document.getElementById("active-nav-style")) {
+    const style = document.createElement("style");
+    style.id = "active-nav-style";
     style.innerHTML = `
       #navbar a {
         position: relative;
@@ -131,13 +142,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Section-to-nav highlighting (after navbar is loaded)
   setTimeout(() => {
-    const sectionIds = ['home', 'about', 'pricing'];
-    const navSelector = '#navbar a[href]';
+    const sectionIds = ["home", "about", "pricing"];
+    const navSelector = "#navbar a[href]";
 
     // Helper to remove highlight from all nav items
     function clearActiveNav() {
-      document.querySelectorAll(navSelector).forEach(a => {
-        a.classList.remove('active-nav');
+      document.querySelectorAll(navSelector).forEach((a) => {
+        a.classList.remove("active-nav");
       });
     }
 
@@ -147,78 +158,83 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Find nav link for this section
       const nav = document.querySelector(`${navSelector}[href$="#${id}"]`);
       if (nav) {
-        nav.classList.add('active-nav');
+        nav.classList.add("active-nav");
       }
     }
 
     // Observe sections for intersection
-    const sectionElements = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+    const sectionElements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
     if (sectionElements.length) {
-      const observer = new IntersectionObserver((entries) => {
-        let mostVisible = null;
-        let maxRatio = 0;
-        entries.forEach(entry => {
-          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-            mostVisible = entry.target;
-            maxRatio = entry.intersectionRatio;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          let mostVisible = null;
+          let maxRatio = 0;
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+              mostVisible = entry.target;
+              maxRatio = entry.intersectionRatio;
+            }
+          });
+          if (mostVisible) {
+            setActiveNav(mostVisible.id);
           }
-        });
-        if (mostVisible) {
-          setActiveNav(mostVisible.id);
-        }
-      }, {
-        threshold: [0.1, 0.3, 0.5],
-        rootMargin: '-80px 0px -50% 0px' // adjust for header height
-      });
-      sectionElements.forEach(section => observer.observe(section));
-      
+        },
+        {
+          threshold: [0.1, 0.3, 0.5],
+          rootMargin: "-80px 0px -50% 0px", // adjust for header height
+        },
+      );
+      sectionElements.forEach((section) => observer.observe(section));
+
       // Set initial active state for home section
-      setActiveNav('home');
+      setActiveNav("home");
     }
   }, 200);
-  
+
   // Apply smooth scrolling initially and after components load
   setTimeout(() => {
     applySmoothScroll();
-    
+
     // Handle cross-page navigation - scroll to target after page load
-    const scrollTarget = sessionStorage.getItem('scrollTarget');
+    const scrollTarget = sessionStorage.getItem("scrollTarget");
     if (scrollTarget) {
-      sessionStorage.removeItem('scrollTarget');
+      sessionStorage.removeItem("scrollTarget");
       setTimeout(() => {
         const target = document.querySelector(scrollTarget);
         if (target) {
           target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+            behavior: "smooth",
+            block: "start",
           });
           history.replaceState(null, null, scrollTarget);
         }
       }, 300); // Small delay to ensure page is fully loaded
     }
   }, 300);
-  
+
   // Re-apply smooth scrolling when footer is loaded
   setTimeout(() => {
     applySmoothScroll();
   }, 500);
 
   // Add scroll effect to header (now works with #navbar)
-  window.addEventListener('scroll', function () {
-    const header = document.querySelector('#navbar header');
+  window.addEventListener("scroll", function () {
+    const header = document.querySelector("#navbar header");
     if (header) {
       if (window.scrollY > 100) {
-        header.style.background = 'rgba(255,255,255,0.55)';
-        header.style.backdropFilter = 'blur(18px) saturate(180%)';
-        header.style.webkitBackdropFilter = 'blur(18px) saturate(180%)';
-        header.style.boxShadow = '0 2px 24px 0 rgba(80,80,80,0.07)';
-        header.style.borderBottom = '1.5px solid rgba(255,215,0,0.13)';
+        header.style.background = "rgba(255,255,255,0.55)";
+        header.style.backdropFilter = "blur(18px) saturate(180%)";
+        header.style.webkitBackdropFilter = "blur(18px) saturate(180%)";
+        header.style.boxShadow = "0 2px 24px 0 rgba(80,80,80,0.07)";
+        header.style.borderBottom = "1.5px solid rgba(255,215,0,0.13)";
       } else {
-        header.style.background = 'rgba(255,255,255,0.85)';
-        header.style.backdropFilter = 'blur(8px) saturate(120%)';
-        header.style.webkitBackdropFilter = 'blur(8px) saturate(120%)';
-        header.style.boxShadow = 'none';
-        header.style.borderBottom = '1.5px solid rgba(255,215,0,0.09)';
+        header.style.background = "rgba(255,255,255,0.85)";
+        header.style.backdropFilter = "blur(8px) saturate(120%)";
+        header.style.webkitBackdropFilter = "blur(8px) saturate(120%)";
+        header.style.boxShadow = "none";
+        header.style.borderBottom = "1.5px solid rgba(255,215,0,0.09)";
       }
     }
   });
@@ -226,31 +242,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Animate elements on scroll
   const observerOptions = {
     threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
+    rootMargin: "0px 0px -100px 0px",
   };
 
   const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
       }
     });
   }, observerOptions);
 
-  document.querySelectorAll('.feature-card, .pricing-card, .why-section').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    observer.observe(el);
-  });
+  document
+    .querySelectorAll(".feature-card, .pricing-card, .why-section")
+    .forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(30px)";
+      el.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+      observer.observe(el);
+    });
 
   // Add parallax effect to particles
-  window.addEventListener('scroll', function () {
+  window.addEventListener("scroll", function () {
     const scrolled = window.pageYOffset;
-    const particles = document.querySelectorAll('.animate-float');
+    const particles = document.querySelectorAll(".animate-float");
     particles.forEach((particle, index) => {
-      const speed = 0.5 + (index * 0.1);
+      const speed = 0.5 + index * 0.1;
       particle.style.transform = `translateY(${scrolled * speed}px)`;
     });
   });
