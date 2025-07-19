@@ -97,26 +97,7 @@ class ApplicationDownload {
     alert(message);
   }
 
-  async getDriveLinkFromAPI() {
-    try {
-      const response = await fetch(
-        "https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net/appsettings/APKLink",
-        {
-          method: "GET",
-          headers: {
-            accept: "text/plain",
-            Authorization:
-              "Bearer e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac",
-          },
-        },
-      );
-      if (!response.ok) throw new Error("Failed to fetch APK link");
-      return await response.json();
-    } catch (err) {
-      console.error("Error fetching APK link:", err);
-      return "";
-    }
-  }
+
 
   async handleDownload(button, loading) {
     // Show loading state
@@ -125,7 +106,7 @@ class ApplicationDownload {
     loading.style.display = "block";
 
     // Fetch the latest drive link from API
-    const apiResult = await this.getDriveLinkFromAPI();
+    const apiResult = await partnerService.getDriveLinkFromAPI();
     this.driveLink = apiResult?.data?.value || "";
     this.driveFileId =
       (this.driveLink.match(/\/file\/d\/([\w-]+)/) || [])[1] || "";

@@ -2,6 +2,16 @@ import ApiService from "./base-api.js";
 import CONFIG from "../config/config.js";
 
 class PartnerService extends ApiService {
+  async getDriveLinkFromAPI() {
+    try {
+      const response = await this.get(CONFIG.ENDPOINTS.APK_LINK);
+      if (!response.success) throw new Error("Failed to fetch APK link");
+      return response;
+    } catch (err) {
+      console.error("Error fetching APK link:", err);
+      return "";
+    }
+  }
   async getPartnerLocations() {
     try {
       const response = await this.get(CONFIG.ENDPOINTS.PARTNER_LOCATIONS);

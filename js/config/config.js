@@ -37,6 +37,7 @@ const CONFIG = {
     OTP_VERIFICATION: '/account/otp-verification',
     CHECK_EMAIL: '/account/check-email',
     PARTNER_SIGNUP: '/account/partner-signup',
+    APK_LINK: '/appsettings/APKLink'
   },
 
   // Environment
