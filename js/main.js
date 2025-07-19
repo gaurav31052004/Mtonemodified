@@ -22,9 +22,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initialize application download logic if on application page
   if (
     window.location.pathname.includes("/application/index.html") ||
-    window.location.pathname.endsWith(
-      "/application/" || window.location.pathname.endsWith("/application"),
-    )
+    window.location.pathname.endsWith("/application/") ||
+    window.location.pathname.endsWith("/application")
   ) {
     new ApplicationDownload();
   }
