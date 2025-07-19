@@ -35,7 +35,8 @@ const CONFIG = {
   ENDPOINTS: {
     PARTNER_LOCATIONS: '/master-details?masterName=PartnerLocation',
     OTP_VERIFICATION: '/account/otp-verification',
-    CHECK_EMAIL: '/account/check-email'
+    CHECK_EMAIL: '/account/check-email',
+    PARTNER_SIGNUP: '/account/partner-signup',
   },
 
   // Environment

@@ -1,41 +1,70 @@
-import ApiService from './base-api.js';
-import CONFIG from '../config/config.js';
+import ApiService from "./base-api.js";
+import CONFIG from "../config/config.js";
 
 class PartnerService extends ApiService {
   async getPartnerLocations() {
     try {
       const response = await this.get(CONFIG.ENDPOINTS.PARTNER_LOCATIONS);
-      
+
       if (response.success && response.data) {
         // Parse description JSON for each partner
-        const partners = response.data.map(partner => {
+        const partners = response.data.map((partner) => {
           try {
             const description = JSON.parse(partner.description);
             return {
               id: partner.id,
               masterDetailName: partner.masterDetailName,
-              ...description
+              ...description,
             };
           } catch (e) {
-            console.error('Error parsing partner description:', e);
+            console.error("Error parsing partner description:", e);
             return {
               id: partner.id,
               name: partner.masterDetailName,
-              imageUrl: '',
-              iconUrl: '',
-              domain: '',
-              loginRoute: '',
-              colorScheme: CONFIG.UI.DEFAULT_COLORS
+              imageUrl: "",
+              iconUrl: "",
+              domain: "",
+              loginRoute: "",
+              colorScheme: CONFIG.UI.DEFAULT_COLORS,
             };
           }
         });
-        
+
         return partners;
       }
-      
-      throw new Error(response.message || 'Failed to fetch partner locations');
+
+      throw new Error(response.message || "Failed to fetch partner locations");
     } catch (error) {
-      console.error('Error fetching partner locations:', error);
+      console.error("Error fetching partner locations:", error);
+      throw error;
+    }
+  }
+
+  async partnerSignup(name, email, phone, location, partnerZone) {
+    try {
+      const payload = {
+        name,
+        email,
+        phone,
+        location,
+        partnerZone,
+      };
+      const response = await this.post(
+        `${CONFIG.ENDPOINTS.PARTNER_SIGNUP}`,
+        payload,
+      );
+
+      return response.success
+        ? {
+            success: true,
+            message: "Partner signup successful",
+          }
+        : {
+            success: false,
+            message: response.message || "Failed to signup partner",
+          };
+    } catch (error) {
+      console.error("Error during partner signup:", error);
       throw error;
     }
   }
@@ -43,28 +72,33 @@ class PartnerService extends ApiService {
   // Authentication methods
   async checkEmail(email) {
     try {
-      const response = await this.get(`${CONFIG.ENDPOINTS.CHECK_EMAIL}?email=${encodeURIComponent(email)}`);
-      
+      const response = await this.get(
+        `${CONFIG.ENDPOINTS.CHECK_EMAIL}?email=${encodeURIComponent(email)}`,
+      );
+
       if (response.success && response.data) {
         return {
           success: true,
           data: response.data,
-          message: response.message
+          message: response.message,
         };
       }
-      
-      throw new Error(response.message || 'Email not found');
+
+      throw new Error(response.message || "Email not found");
     } catch (error) {
-      console.error('Error checking email:', error);
-      
+      console.error("Error checking email:", error);
+
       // Handle 404 specifically for email not found
       if (error.status === 404) {
-        const emailNotFoundError = new Error(error.apiResponse?.message || 'Email address not found. Please check your email or contact your administrator.');
-        emailNotFoundError.code = 'EMAIL_NOT_FOUND';
+        const emailNotFoundError = new Error(
+          error.apiResponse?.message ||
+            "Email address not found. Please check your email or contact your administrator.",
+        );
+        emailNotFoundError.code = "EMAIL_NOT_FOUND";
         emailNotFoundError.status = 404;
         throw emailNotFoundError;
       }
-      
+
       // If the error already has the API response message, use it
       if (error.apiResponse && error.apiResponse.message) {
         const apiError = new Error(error.apiResponse.message);
@@ -72,7 +106,7 @@ class PartnerService extends ApiService {
         apiError.apiResponse = error.apiResponse;
         throw apiError;
       }
-      
+
       throw error;
     }
   }
@@ -81,17 +115,17 @@ class PartnerService extends ApiService {
     try {
       const response = await this.post(CONFIG.ENDPOINTS.OTP_VERIFICATION, {
         email,
-        domain
+        domain,
       });
-      
+
       if (response.success) {
         return response;
       }
-      
-      throw new Error(response.message || 'Failed to send OTP');
+
+      throw new Error(response.message || "Failed to send OTP");
     } catch (error) {
-      console.error('Error sending OTP:', error);
-      
+      console.error("Error sending OTP:", error);
+
       // If the error already has the API response message, use it
       if (error.apiResponse && error.apiResponse.message) {
         const apiError = new Error(error.apiResponse.message);
@@ -99,7 +133,7 @@ class PartnerService extends ApiService {
         apiError.apiResponse = error.apiResponse;
         throw apiError;
       }
-      
+
       throw error;
     }
   }
@@ -109,25 +143,25 @@ class PartnerService extends ApiService {
       const response = await this.post(CONFIG.ENDPOINTS.OTP_VERIFICATION, {
         email,
         otp,
-        domain
+        domain,
       });
-      
+
       if (response.success && response.data) {
         return {
           success: true,
           token: response.data,
-          message: response.message
+          message: response.message,
         };
       }
-      
+
       // If API returns an error response, throw with message and status
-      const error = new Error(response.message || 'Failed to verify OTP');
+      const error = new Error(response.message || "Failed to verify OTP");
       error.status = response.httpStatus || 400;
       error.apiResponse = response;
       throw error;
     } catch (error) {
-      console.error('Error verifying OTP:', error);
-      
+      console.error("Error verifying OTP:", error);
+
       // If the error already has the API response message, use it
       if (error.apiResponse && error.apiResponse.message) {
         const apiError = new Error(error.apiResponse.message);
@@ -135,14 +169,14 @@ class PartnerService extends ApiService {
         apiError.apiResponse = error.apiResponse;
         throw apiError;
       }
-      
+
       // If error is not an instance of Error, wrap it
       if (!(error instanceof Error)) {
-        const wrapped = new Error('Failed to verify OTP');
+        const wrapped = new Error("Failed to verify OTP");
         wrapped.original = error;
         throw wrapped;
       }
-      
+
       throw error;
     }
   }

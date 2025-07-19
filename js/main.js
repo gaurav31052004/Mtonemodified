@@ -2,7 +2,7 @@ import { loadNavbar } from './components/navbar.js';
 import { loadFooter } from './components/footer.js';
 import { initUtils } from './components/utils.js';
 import PricingToggle from './components/pricing.js';
-
+import ApplicationDownload from './components/application.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize common utilities
@@ -12,8 +12,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadFooter();
   
   // Initialize pricing toggle component
-  new PricingToggle();
+  if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+    new PricingToggle();
+  }
 
+  // Initialize application download logic if on application page
+  if (window.location.pathname.includes('/application/index.html') || window.location.pathname.endsWith('/application/')) {
+    new ApplicationDownload();
+  }
   // Function to apply smooth scroll to all relevant links
   const applySmoothScroll = () => {
     // Enhanced smooth scroll handler for all links
