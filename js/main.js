@@ -3,13 +3,22 @@ import { loadFooter } from "./components/footer.js";
 import { initUtils } from "./components/utils.js";
 import PricingToggle from "./components/pricing.js";
 import ApplicationDownload from "./components/application.js";
+import { setupYoutubeEmbed } from "./components/youtube-embed.js";
+import { addFloatingWhatsappButton } from "./components/whatsapp-float.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Setup YouTube embed in Why MT One section
+  if (document.getElementById("yt-video-container")) {
+    setupYoutubeEmbed();
+  }
   // Initialize common utilities
   initUtils();
 
   loadNavbar();
   loadFooter();
+
+  // Add floating WhatsApp button
+  addFloatingWhatsappButton();
 
   // Initialize pricing toggle component
   if (

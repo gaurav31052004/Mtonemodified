@@ -12,6 +12,16 @@ class PartnerService extends ApiService {
       return "";
     }
   }
+  async getYoutubeLinkFromAPI() {
+    try {
+      const response = await this.get(CONFIG.ENDPOINTS.YOUTUBE_LINK);
+      if (!response.success) throw new Error("Failed to fetch APK link");
+      return response;
+    } catch (err) {
+      console.error("Error fetching APK link:", err);
+      return "";
+    }
+  }
   async getPartnerLocations() {
     try {
       const response = await this.get(CONFIG.ENDPOINTS.PARTNER_LOCATIONS);

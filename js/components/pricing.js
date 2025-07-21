@@ -73,18 +73,18 @@ class PricingToggle {
     getPricingData() {
         return {
             monthly: {
-                lite: {
-                    price: 29,
+                free: {
+                    price: 0,
                     features: [
                         'Up to 1,000 leads',
                         'Basic CRM features',
                         'Email support',
                         'Mobile app access'
                     ],
-                    description: 'Just using this for yourself? Lite is the way to go for the free platform.'
+                    description: 'Start your 7 days FREE trial. No credit card required.'
                 },
                 pro: {
-                    price: 79,
+                    price: 699,
                     features: [
                         'Up to 10,000 leads',
                         'Advanced CRM features',
@@ -93,10 +93,10 @@ class PricingToggle {
                         'Automated workflows',
                         'Advanced analytics'
                     ],
-                    description: 'Perfect for growing teams who need advanced features and priority support.'
+                    description: 'Unlock advanced CRM features, automation, and premium support for growing teams.'
                 },
-                team: {
-                    price: 119,
+                custom: {
+                    price: null,
                     features: [
                         'Unlimited leads',
                         'Full CRM suite',
@@ -107,22 +107,22 @@ class PricingToggle {
                         'Team collaboration',
                         'Custom integrations'
                     ],
-                    description: 'Built for teams that need unlimited access and premium support.'
+                    description: 'Need something tailored for your enterprise? Get in touch for a custom solution and pricing.'
                 }
             },
             yearly: {
-                lite: {
-                    price: 278, // $29 * 12 * 0.8 (20% discount)
+                free: {
+                    price: 0,
                     features: [
                         'Up to 1,000 leads',
                         'Basic CRM features',
                         'Email support',
                         'Mobile app access'
                     ],
-                    description: 'Just using this for yourself? Lite is the way to go for the free platform.'
+                    description: 'Start your 7 days FREE trial. No credit card required.'
                 },
                 pro: {
-                    price: 758, // $79 * 12 * 0.8 (20% discount)
+                    price: 6710, // ₹699 * 12 * 0.8 (20% discount)
                     features: [
                         'Up to 10,000 leads',
                         'Advanced CRM features',
@@ -131,10 +131,10 @@ class PricingToggle {
                         'Automated workflows',
                         'Advanced analytics'
                     ],
-                    description: 'Perfect for growing teams who need advanced features and priority support.'
+                    description: 'Unlock advanced CRM features, automation, and premium support for growing teams.'
                 },
-                team: {
-                    price: 1142, // $119 * 12 * 0.8 (20% discount)
+                custom: {
+                    price: null,
                     features: [
                         'Unlimited leads',
                         'Full CRM suite',
@@ -145,7 +145,7 @@ class PricingToggle {
                         'Team collaboration',
                         'Custom integrations'
                     ],
-                    description: 'Built for teams that need unlimited access and premium support.'
+                    description: 'Need something tailored for your enterprise? Get in touch for a custom solution and pricing.'
                 }
             }
         };
@@ -155,47 +155,48 @@ class PricingToggle {
         const pricingData = this.getPricingData();
         const currentData = this.isYearly ? pricingData.yearly : pricingData.monthly;
         const period = this.isYearly ? 'year' : 'month';
-        
-        // Update Lite Plan
-        this.updateCard('lite', currentData.lite, period);
-        
+        // Update FREE Trial Plan
+        this.updateCard('free', currentData.free, period);
         // Update Pro Plan
         this.updateCard('pro', currentData.pro, period);
-        
-        // Update Team Plan
-        this.updateCard('team', currentData.team, period);
+        // Update Custom Plan
+        this.updateCard('custom', currentData.custom, period);
     }
 
     updateCard(planType, data, period) {
         const card = document.querySelector(`[data-plan="${planType}"]`);
         if (!card) return;
-        
         // Update price
         const priceElement = card.querySelector('.text-3xl');
         if (priceElement) {
-            priceElement.textContent = `$${data.price}`;
+            if (data.price === 0) {
+                priceElement.textContent = '₹0';
+            } else if (data.price === null) {
+                priceElement.textContent = 'Contact Us';
+            } else {
+                priceElement.textContent = `₹${data.price.toLocaleString()}`;
+            }
         }
-        
         // Update period
         const periodElement = card.querySelector('.text-gray-600');
         if (periodElement && periodElement.textContent.includes('/')) {
-            periodElement.textContent = `/${period}`;
+            if (data.price === null) {
+                periodElement.textContent = '';
+            } else {
+                periodElement.textContent = `/${period}`;
+            }
         }
-        
         // Update description
         const descriptionElement = card.querySelector('.text-sm.text-gray-600');
         if (descriptionElement) {
             descriptionElement.textContent = data.description;
         }
-        
         // Update features
         const featureElements = card.querySelectorAll('.space-y-3 .flex.items-center');
-        
         // Hide all features first
         featureElements.forEach(element => {
             element.style.display = 'none';
         });
-        
         // Show and update only the features we have data for
         data.features.forEach((feature, index) => {
             if (featureElements[index]) {

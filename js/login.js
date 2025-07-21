@@ -61,7 +61,6 @@ class LoginModule extends BaseLoginModule {
                    class="w-8 h-8 object-contain mr-3 rounded-lg">
               <div class="flex-1">
                 <h3 class="text-sm font-semibold text-gray-800 mb-0.5">${partner.masterDetailName}</h3>
-                <p class="text-gray-600 text-xs">${partner.domain}</p>
               </div>
             </div>
           `;

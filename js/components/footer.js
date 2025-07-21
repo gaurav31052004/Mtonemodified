@@ -5,13 +5,13 @@ export function loadFooter() {
     { href: "/terms", label: "Terms of Use" },
     { href: "/privacy", label: "Privacy Policy" },
     { href: "/index.html#pricing", label: "Pricing Plans" },
-    { href: "/services", label: "Our Services" },
+    { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
-    { href: "/careers", label: "Careers" },
     { href: "/faq", label: "FAQs" }
   ];
+  const mapsUrl = "https://www.google.com/maps/search/C-116,+1st+Floor,+Office+ON,+C+Block,+Sector+2,+Noida,+Uttar+Pradesh+201301/@28.5842373,77.3125928,17z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D";
   const footer = `
-    <footer class="bg-black px-4 md:px-8 py-12 pt-16 border-t border-gold/20" style="color: #e5e7eb;">
+    <footer class="bg-black px-4 md:px-8 py-12 pt-16 border-t border-gold/20 text-gray-200">
       <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Logo -->
         <div class="flex justify-center sm:justify-start items-start">
@@ -22,15 +22,19 @@ export function loadFooter() {
         <!-- Address -->
         <div class="text-center sm:text-left">
           <h3 class="text-white mb-4 text-xl font-semibold">Address</h3>
-          <p class="mb-4 text-sm md:text-base" style="color: #e5e7eb;">C-116, 1st Floor, near SBI,<br/>C Block, Sector 2,<br/>Noida, Uttar Pradesh 201301</p>
-          <h4 class="text-white text-base font-semibold mb-1">Total Free Customer Care</h4>
-          <p style="color: #e5e7eb;">+91 123 456 789</p>
+          <a href="${mapsUrl}" target="_blank" rel="noopener" class="mb-2 text-sm md:text-base flex items-center justify-center sm:justify-start text-gray-200 hover:text-gold transition-colors duration-300">
+            <i class="fas fa-map-marker-alt mr-2"></i>C-116 GF, OfficeOn<br/>Sector 2, Noida<br/>Uttar Pradesh - 201301
+          </a>
+          <h4 class="text-white text-base font-semibold mb-1">Contact</h4>
+          <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-phone-alt mr-2"></i>+91 7303062845</p>
+          <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-phone-alt mr-2"></i>+91 9718361550</p>
+          <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-envelope mr-2"></i>info@mtone.in</p>
         </div>
         <!-- Quick Links -->
         <div class="text-center sm:text-left">
           <h3 class="text-white mb-4 text-xl font-semibold">Quick Links</h3>
           <ul class="space-y-2">
-            ${quickLinks.map(link => `<li><a href="${link.href}" class="hover:text-gold transition-colors duration-300 text-sm md:text-base" style="color: #e5e7eb;">${link.label}</a></li>`).join('')}
+            ${quickLinks.map(link => `<li><a href="${link.href}" class="text-gray-200 hover:text-gold transition-colors duration-300 text-sm md:text-base">${link.label}</a></li>`).join('')}
         </div>
         <!-- Apps -->
         <div class="text-center sm:text-left">
@@ -56,7 +60,7 @@ export function loadFooter() {
           <p class="text-sm md:text-base">&copy; 2025 MT One. All rights reserved.</p>
           <div class="flex items-center gap-2">
             <span class="text-xs md:text-sm">Powered by</span>
-            <img src="https://res.cloudinary.com/dw9pppaqv/image/upload/v1728119284/logo_ANSIT_kahid0.webp" alt="ANSIT Logo" class="h-4 md:h-6 w-auto" />
+            <img src="https://res.cloudinary.com/df1kus7ro/image/upload/f_auto,q_auto/v1747734482/MunaTech/paxz5a4hg5euaiweq4wh" alt="ANSIT Logo" class="h-10 md:h-16 w-auto" style="filter: brightness(0) invert(1);" />
           </div>
         </div>
       </div>
