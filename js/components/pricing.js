@@ -21,7 +21,7 @@ class PricingToggle {
             <div class="flex items-center space-x-4">
                 <span class="text-lg font-medium text-gray-700" id="monthly-label">Monthly</span>
                 <div class="relative">
-                    <button class="w-16 h-8 bg-gray-300 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gold/50" id="pricing-toggle">
+                    <button class="w-16 h-8 bg-gray-300 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gold/50" id="pricing-toggle" aria-label="Toggle pricing between monthly and yearly">
                         <div class="w-6 h-6 bg-white rounded-full shadow-sm transform transition-transform duration-300" id="toggle-slider"></div>
                     </button>
                 </div>
