@@ -207,6 +207,16 @@ class PricingToggle {
                 }
             }
         });
+
+        // Add navigation for free trial and pro plan buttons
+        const btn = card.querySelector('button');
+        if (btn) {
+            if (planType === 'free' || planType === 'pro') {
+                btn.onclick = () => {
+                    window.location.href = '/onboarding';
+                };
+            }
+        }
     }
 }
 

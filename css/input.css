@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold: #FFD700;
-  --color-orange: #FFA500;
+  --color-gold: #ffd700;
+  --color-orange: #ffa500;
 
-  --font-sans: 'Kumbh Sans', Tahoma, Geneva, Verdana, sans-serif;
+  --font-sans: "Kumbh Sans", Tahoma, Geneva, Verdana, sans-serif;
 
   --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
   --animate-float: float 6s ease-in-out infinite;
@@ -22,7 +22,8 @@
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0) rotate(0deg);
       opacity: 0.5;
     }
@@ -33,20 +34,85 @@
   }
 
   @keyframes dashboardFloat {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(-50%) rotate(0deg);
     }
     50% {
       transform: translateY(-60%) rotate(2deg);
     }
   }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
 
 @layer utilities {
   .gradient-text {
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
+
+/* Partner card styling */
+.partner-card {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* Partner zone container */
+#partner-zone-cards {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Text clamp utility for partner names */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.partner-card.selected {
+  @apply border-gold bg-gold-50 ring-gold shadow-lg ring-2 ring-opacity-50;
+}
+
+.partner-card.selected h3 {
+  @apply text-gold;
+}
+
+.partner-card.selected .absolute {
+  @apply border-gold bg-gold;
+}
+
+.partner-card.selected svg {
+  @apply opacity-100;
+}
+
+/* Smooth hover effects */
+.partner-card:hover:not(.selected) {
+  @apply border-gold-300 shadow-md;
+}
+
+.partner-card:focus {
+  @apply ring-gold outline-none ring-2 ring-opacity-50;
 }

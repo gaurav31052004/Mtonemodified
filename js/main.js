@@ -6,6 +6,9 @@ import ApplicationDownload from "./components/application.js";
 import { setupYoutubeEmbed } from "./components/youtube-embed.js";
 import { addFloatingWhatsappButton } from "./components/whatsapp-float.js";
 
+import SignupController from "./controllers/signup-controller.js";
+import ChoosePlan from "./components/choose-plan.js";
+
 document.addEventListener("DOMContentLoaded", async () => {
   // Setup YouTube embed in Why MT One section
   if (document.getElementById("yt-video-container")) {
@@ -35,6 +38,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.pathname.endsWith("/application")
   ) {
     new ApplicationDownload();
+  }
+
+  // Initialize signup controller only on onboarding page
+  if (
+    window.location.pathname.includes("/onboarding/index.html") ||
+    window.location.pathname.endsWith("/onboarding/") ||
+    window.location.pathname.endsWith("/onboarding")
+  ) {
+    new SignupController();
+  }
+
+  // Initialize choose plan logic only on choose-plan page
+  if (
+    window.location.pathname.includes("/choose-plan/index.html") ||
+    window.location.pathname.endsWith("/choose-plan/") ||
+    window.location.pathname.endsWith("/choose-plan")
+  ) {
+    new ChoosePlan();
   }
   // Function to apply smooth scroll to all relevant links
   const applySmoothScroll = () => {

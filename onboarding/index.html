@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="description"
+    content="Sign up for MT One CRM. Create your account and start managing your real estate business with next-gen tools.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | MT One</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/output.css">
+  <script src="../js/main.js" type="module" defer></script>
+</head>
+
+<body
+  class="font-sans bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-800 overflow-x-hidden min-h-screen">
+  <!-- Header -->
+  <div id="navbar"></div>
+
+  <!-- Signup Form Section -->
+  <div class="min-h-screen flex items-center justify-center p-4 md:p-8">
+    <div
+      class="bg-white/95 backdrop-blur-xl border border-gold/20 rounded-3xl p-6 md:p-8 w-full max-w-sm md:max-w-md lg:max-w-xl shadow-2xl relative overflow-hidden mt-24">
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold to-orange"></div>
+      <div class="text-center mt-6 mb-4">
+        <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">Create Your Account</h1>
+        <p class="text-gray-600 text-base">Sign up to get started with MT One</p>
+      </div>
+      <form id="signup-form" class="space-y-4">
+        <div>
+          <label for="name" class="block mb-2 font-semibold text-gray-800">Full Name</label>
+          <input type="text" id="name" name="name" required placeholder="Your Name"
+            class="w-full p-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:outline-none focus:border-gold">
+        </div>
+        <div>
+          <label for="email" class="block mb-2 font-semibold text-gray-800">Email Address</label>
+          <input type="email" id="email" name="email" required placeholder="your.email@domain.com"
+            class="w-full p-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:outline-none focus:border-gold">
+        </div>
+        <div>
+          <label for="phone" class="block mb-2 font-semibold text-gray-800">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" maxlength="10"
+            placeholder="Enter 10-digit phone number"
+            class="w-full p-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:outline-none focus:border-gold">
+        </div>
+        <div>
+          <label for="address" class="block mb-2 font-semibold text-gray-800">Address</label>
+          <input type="text" id="address" name="address" required placeholder="Your Address"
+            class="w-full p-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:outline-none focus:border-gold">
+        </div>
+        <div>
+          <label class="block mb-2 font-semibold text-gray-800">Partner Zone</label>
+          <div id="partner-zone-cards" class="w-full"></div>
+          <input type="hidden" id="partner-zone" name="partner-zone" required>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-gold to-orange hover:from-orange-600 hover:to-yellow-400 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">Sign
+          Up</button>
+      </form>
+      <div class="text-center mt-6 text-sm text-gray-600">
+        Already have an account? <a href="/login/" class="text-gold underline hover:text-orange">Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+</body>
+
+</html>

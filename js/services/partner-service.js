@@ -2,6 +2,41 @@ import ApiService from "./base-api.js";
 import CONFIG from "../config/config.js";
 
 class PartnerService extends ApiService {
+  async createOrder(plan, period) {
+    // Get partner details from localStorage
+    const details = JSON.parse(localStorage.getItem("partnerDetails") || "{}");
+    if (!details.name || !details.email || !details.phone || !details.address || !details.partnerZone || !details.userDetails?.id) {
+      throw new Error("Incomplete partner details. Please complete signup.");
+    }
+
+    // Set price based on plan and period
+    let amount = 699;
+    if (plan === "pro" && period === "yearly") amount = 6710;
+
+    // Prepare payload
+    const payload = {
+      amount,
+      userId: details.userDetails.id,
+      name: details.name,
+      email: details.email,
+      phone: details.phone,
+      address: details.address,
+      partnerZone: details.partnerZone
+    };
+
+    // Use endpoint from config
+    const endpoint = CONFIG.ENDPOINTS.CREATE_ORDER;
+    try {
+      const response = await this.post(endpoint, payload);
+      if (response && response.orderId) {
+        localStorage.setItem("orderId", response.orderId);
+      }
+      return response;
+    } catch (err) {
+      console.error("Error creating order:", err);
+      throw err;
+    }
+  }
   async getDriveLinkFromAPI() {
     try {
       const response = await this.get(CONFIG.ENDPOINTS.APK_LINK);
@@ -69,20 +104,13 @@ class PartnerService extends ApiService {
         location,
         partnerZone,
       };
+      
       const response = await this.post(
         `${CONFIG.ENDPOINTS.PARTNER_SIGNUP}`,
         payload,
       );
 
-      return response.success
-        ? {
-            success: true,
-            message: "Partner signup successful",
-          }
-        : {
-            success: false,
-            message: response.message || "Failed to signup partner",
-          };
+      return response;
     } catch (error) {
       console.error("Error during partner signup:", error);
       throw error;
