@@ -24,7 +24,7 @@ class ChoosePlan {
     }
     this.signupDetailsContainer.innerHTML = `
       <div class="bg-white/90 border border-gold/20 rounded-2xl shadow p-6 mb-8">
-        <h3 class="text-lg font-bold mb-4 text-gold">Your Signup Details</h3>
+        <h3 class="text-lg font-bold mb-4 text-gold">User Information</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-800 text-base">
           <div><span class="font-semibold">Name:</span> ${details.name}</div>
           <div><span class="font-semibold">Email:</span> ${details.email}</div>
@@ -40,51 +40,43 @@ class ChoosePlan {
     // Hide custom plan
     if (this.customCard) this.customCard.style.display = "none";
 
-    // Add period selection for Pro plan
+    // Add period selection for Pro plan - insert after the pricing section
+    const proPriceSection = this.proCard.querySelector('.mb-6');
     const proPeriodDiv = document.createElement("div");
-    proPeriodDiv.className = "flex items-center justify-center gap-4 mb-4";
+    proPeriodDiv.className = "flex items-center justify-center gap-6 mb-6";
     proPeriodDiv.innerHTML = `
-      <label class="flex items-center gap-2">
-        <input type="radio" name="pro-period" value="monthly" checked class="form-radio text-gold"> Monthly
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="pro-period" value="monthly" checked class="w-4 h-4 text-gold border-2 border-gold/30 focus:ring-gold focus:ring-2"> 
+        <span class="text-gray-700 font-medium">Monthly</span>
       </label>
-      <label class="flex items-center gap-2">
-        <input type="radio" name="pro-period" value="yearly" class="form-radio text-gold"> Yearly
+      <label class="flex items-center gap-2 cursor-pointer">
+        <input type="radio" name="pro-period" value="yearly" class="w-4 h-4 text-gold border-2 border-gold/30 focus:ring-gold focus:ring-2"> 
+        <span class="text-gray-700 font-medium">Yearly</span>
       </label>
     `;
-    this.proCard.querySelector(".text-center").insertBefore(
-      proPeriodDiv,
-      this.proCard.querySelector(".mb-4").nextSibling
-    );
+    
+    // Insert the period selection after the price section
+    proPriceSection.parentNode.insertBefore(proPeriodDiv, proPriceSection.nextSibling);
 
-    // Replace Pro button with Pay button
-    this.proBtn.textContent = "Pay";
+    // Update the Pro button text
+    this.proBtn.innerHTML = '💎 Pay Now';
 
-    // Dynamic price change logic for Pro plan
-    const priceDiv = this.proCard.querySelector(".mb-4");
-    // Clear and set up price elements for dynamic update
-    priceDiv.innerHTML = `
-      <span id="pro-price" class="text-3xl font-bold" style="color: #FFA500;">₹699</span>
-      <span id="pro-period-label" class="text-gray-600" style="color: #FFA500;">/month</span>
-      <span id="pro-yearly-price" class="text-3xl font-bold" style="color: #FFA500; display:none;">₹6710/year</span>
-    `;
-
+    // Set up dynamic pricing
     const monthlyRadio = proPeriodDiv.querySelector('input[value="monthly"]');
     const yearlyRadio = proPeriodDiv.querySelector('input[value="yearly"]');
-    const proPrice = priceDiv.querySelector('#pro-price');
-    const proPeriodLabel = priceDiv.querySelector('#pro-period-label');
-    const proYearlyPrice = priceDiv.querySelector('#pro-yearly-price');
+    const priceSpan = this.proCard.querySelector('.text-5xl');
+    const periodSpan = this.proCard.querySelector('.text-lg');
 
     function updatePrice() {
       if (yearlyRadio.checked) {
-        proPrice.style.display = 'none';
-        proPeriodLabel.style.display = 'none';
-        proYearlyPrice.style.display = 'block';
+        priceSpan.textContent = '₹6710';
+        periodSpan.textContent = '/year';
       } else {
-        proPrice.style.display = 'inline';
-        proPeriodLabel.style.display = 'inline';
-        proYearlyPrice.style.display = 'none';
+        priceSpan.textContent = '₹699';
+        periodSpan.textContent = '/month';
       }
     }
+    
     monthlyRadio.addEventListener('change', updatePrice);
     yearlyRadio.addEventListener('change', updatePrice);
     updatePrice();
@@ -99,7 +91,7 @@ class ChoosePlan {
     this.proBtn.addEventListener("click", async (e) => {
       e.preventDefault();
       this.proBtn.disabled = true;
-      this.proBtn.textContent = "Processing...";
+      this.proBtn.innerHTML = '⏳ Processing...';
       const period = document.querySelector('input[name="pro-period"]:checked').value;
       try {
         const response = await partnerService.createOrder("pro", period);
@@ -119,7 +111,7 @@ class ChoosePlan {
         alert("Error creating order: " + (err?.message || err));
       } finally {
         this.proBtn.disabled = false;
-        this.proBtn.textContent = "Pay";
+        this.proBtn.innerHTML = '💎 Pay Now';
       }
     });
 
