@@ -1,11 +1,18 @@
 import { adminAuthService } from './admin-service.js';
 import { AuthUtils, OTPTimerManager } from '../utils/auth-utils.js';
 
+
 class AdminAuthHandler {
   constructor() {
     this.currentStep = 'email-input';
     this.userEmail = null;
     this.otpTimerManager = new OTPTimerManager();
+    // Check for ?clearSession=true in search params
+    const params = new URLSearchParams(window.location.search);
+    this.disableAutoLogin = params.get('clearSession') === 'true';
+    if (this.disableAutoLogin) {
+      localStorage.clear();
+    }
   }
 
   init() {
@@ -13,6 +20,10 @@ class AdminAuthHandler {
   }
 
   checkExistingAuth() {
+    if (this.disableAutoLogin) {
+      // Do not autologin if clearSession is requested
+      return;
+    }
     if (adminAuthService.isAdminAuthenticated()) {
       const token = adminAuthService.getAuthToken();
       if (token) {

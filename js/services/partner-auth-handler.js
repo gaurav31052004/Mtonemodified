@@ -8,6 +8,13 @@ class AuthHandler {
     this.selectedPartner = null;
     this.userEmail = null;
     this.otpTimerManager = new OTPTimerManager();
+    // Check for ?clearSession=true in search params
+    const params = new URLSearchParams(window.location.search);
+    this.disableAutoLogin = params.get('clearSession') === 'true';
+    if (this.disableAutoLogin) {
+      StorageService.clearAll();
+      localStorage.clear();
+    }
   }
 
   init() {
@@ -15,6 +22,10 @@ class AuthHandler {
   }
 
   checkExistingAuth() {
+    if (this.disableAutoLogin) {
+      // Do not autologin if clearSession is requested
+      return;
+    }
     if (partnerService.isAuthenticated()) {
       const token = partnerService.getAuthToken();
       if (token) {
