@@ -70,7 +70,10 @@ class AuthHandler {
       const response = await partnerService.checkEmail(email);
 
       // Check if user type is Partner
-      if (response.data && response.data.userType !== "Partner") {
+      if (
+        !response.data ||
+        !["Partner", "TeamMember"].includes(response.data.userType)
+      ) {
         throw new Error("Access denied. Only partner users can login here.");
       }
 

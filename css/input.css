@@ -1,10 +1,26 @@
 @import "tailwindcss";
 
 @theme {
+  --color-gold-50: #fffbf0;
+  --color-gold-100: #fef3c7;
+  --color-gold-200: #fde68a;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+  --color-gold-700: #b45309;
+  --color-gold-800: #92400e;
+  --color-gold-900: #78350f;
   --color-gold: #ffd700;
   --color-orange: #ffa500;
 
   --font-sans: "Kumbh Sans", Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Add opacity values */
+  --opacity-50: 0.5;
+  --opacity-25: 0.25;
+  --opacity-75: 0.75;
+  --opacity-100: 1;
 
   --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
   --animate-float: float 6s ease-in-out infinite;
@@ -93,7 +109,7 @@
 }
 
 .partner-card.selected {
-  @apply border-gold bg-gold-50 ring-gold shadow-lg ring-2 ring-opacity-50;
+  @apply border-gold bg-gold-50 ring-gold shadow-lg ring-2;
 }
 
 .partner-card.selected h3 {
@@ -114,5 +130,5 @@
 }
 
 .partner-card:focus {
-  @apply ring-gold outline-none ring-2 ring-opacity-50;
+  @apply ring-gold outline-none ring-2;
 }

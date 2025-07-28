@@ -28,6 +28,7 @@ class ApplicationDownload {
           this.handleDownload(this.downloadBtn, this.loading);
         } else {
           this.signupModal.classList.remove("hidden");
+          this.signupModal.classList.add("flex");
         }
       });
     }

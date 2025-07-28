@@ -70,7 +70,6 @@ export default class SignupController {
                     "bg-gold-50",
                     "ring-2",
                     "ring-gold",
-                    "ring-opacity-50",
                     "shadow-lg",
                   );
                   const indicator = c.querySelector(".absolute.top-2.right-2");
@@ -88,7 +87,6 @@ export default class SignupController {
                 "bg-gold-50",
                 "ring-2",
                 "ring-gold",
-                "ring-opacity-50",
                 "shadow-lg",
               );
               const indicator = card.querySelector(".absolute.top-2.right-2");
@@ -386,7 +384,6 @@ export default class SignupController {
           "bg-gold-50",
           "ring-2",
           "ring-gold",
-          "ring-opacity-50",
           "shadow-lg",
         );
         const indicator = card.querySelector(".absolute.top-2.right-2");

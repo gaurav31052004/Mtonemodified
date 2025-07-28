@@ -31,14 +31,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     new PricingToggle();
   }
 
-  // Initialize application download logic if on application page
-  if (
-    window.location.pathname.includes("/application/index.html") ||
-    window.location.pathname.endsWith("/application/") ||
-    window.location.pathname.endsWith("/application")
-  ) {
-    new ApplicationDownload();
-  }
+// Combine both application page conditions
+const isApplicationPage = 
+  window.location.pathname.includes("/application/index.html") ||
+  window.location.pathname.endsWith("/application/") ||
+  window.location.pathname.endsWith("/application") ||
+  window.location.pathname.includes("/partners/application/index.html") ||
+  window.location.pathname.endsWith("/partners/application/") ||
+  window.location.pathname.endsWith("/partners/application");
+
+if (isApplicationPage) {
+  new ApplicationDownload();
+}
+
 
   // Initialize signup controller only on onboarding page
   if (
