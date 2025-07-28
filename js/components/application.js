@@ -10,44 +10,59 @@ class ApplicationDownload {
     this.closeSignupModal = document.getElementById("closeSignupModal");
     this.signupForm = document.getElementById("signupForm");
     this.loading = document.getElementById("loading");
-    this.signupKey = 'mtone_signup_done';
+    this.signupKey = "mtone_signup_done";
     // Hide modal if already signed up
-    if (localStorage.getItem('mtone_signup_done') === 'true' && this.signupModal) {
-      this.signupModal.classList.add('hidden');
+    if (
+      localStorage.getItem("mtone_signup_done") === "true" &&
+      this.signupModal
+    ) {
+      this.signupModal.classList.add("hidden");
     }
     this.init();
   }
 
   init() {
     // Open modal on download click
-    if (this.downloadBtn && this.signupModal) {
+    if (this.downloadBtn) {
       this.downloadBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        if (localStorage.getItem(this.signupKey) === 'true') {
+
+        // If no signup modal exists, allow direct download (partners page)
+        if (!this.signupModal) {
+          this.handleDownload(this.downloadBtn, this.loading);
+          return;
+        }
+
+        // If signup modal exists, check if user already signed up
+        if (localStorage.getItem(this.signupKey) === "true") {
           // Already signed up, go directly to download
           this.handleDownload(this.downloadBtn, this.loading);
         } else {
+          // Show signup modal
           this.signupModal.classList.remove("hidden");
           this.signupModal.classList.add("flex");
         }
       });
     }
 
-    // Close modal
+    // Close modal (only if modal exists)
     if (this.closeSignupModal && this.signupModal) {
       this.closeSignupModal.addEventListener("click", () => {
         this.signupModal.classList.add("hidden");
       });
     }
 
-    // Handle signup form submit
+    // Handle signup form submit (only if form exists)
     if (this.signupForm && this.loading && this.downloadBtn) {
       this.signupForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const submitBtn = this.signupForm.querySelector('button[type="submit"]');
+        const submitBtn = this.signupForm.querySelector(
+          'button[type="submit"]',
+        );
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = '<span class="loader inline-block w-5 h-5 border-2 border-gray-300 border-t-indigo-500 rounded-full animate-spin align-middle mr-2"></span>Submitting...';
+          submitBtn.innerHTML =
+            '<span class="loader inline-block w-5 h-5 border-2 border-gray-300 border-t-indigo-500 rounded-full animate-spin align-middle mr-2"></span>Submitting...';
         }
 
         // Get form values
@@ -64,29 +79,33 @@ class ApplicationDownload {
             email,
             phone,
             address,
-            partnerZone
+            partnerZone,
           );
           if (result.success) {
             // Mark signup as done in localStorage
-            localStorage.setItem(this.signupKey, 'true');
+            localStorage.setItem(this.signupKey, "true");
             this.signupModal.classList.add("hidden");
             if (submitBtn) {
               submitBtn.disabled = false;
-              submitBtn.innerHTML = 'Continue to Download';
+              submitBtn.innerHTML = "Continue to Download";
             }
             await this.handleDownload(this.downloadBtn, this.loading);
           } else {
-            this.showSignupError(result.message || "Signup failed. Please try again.");
+            this.showSignupError(
+              result.message || "Signup failed. Please try again.",
+            );
             if (submitBtn) {
               submitBtn.disabled = false;
-              submitBtn.innerHTML = 'Continue to Download';
+              submitBtn.innerHTML = "Continue to Download";
             }
           }
         } catch (err) {
-          this.showSignupError(err.message || "Signup failed. Please try again.");
+          this.showSignupError(
+            err.message || "Signup failed. Please try again.",
+          );
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Continue to Download';
+            submitBtn.innerHTML = "Continue to Download";
           }
         }
       });
@@ -97,8 +116,6 @@ class ApplicationDownload {
     // Show error in modal (simple alert for now, can be improved)
     alert(message);
   }
-
-
 
   async handleDownload(button, loading) {
     // Show loading state
