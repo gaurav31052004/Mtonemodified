@@ -2,10 +2,9 @@ import { loadNavbar } from "./components/navbar.js";
 import { loadFooter } from "./components/footer.js";
 import { initUtils } from "./components/utils.js";
 import PricingToggle from "./components/pricing.js";
-import ApplicationDownload from "./components/application.js";
 import { setupYoutubeEmbed } from "./components/youtube-embed.js";
 import { addFloatingWhatsappButton } from "./components/whatsapp-float.js";
-
+import ApplicationDownload from "./controllers/application.js";
 import SignupController from "./controllers/signup-controller.js";
 import ChoosePlan from "./components/choose-plan.js";
 

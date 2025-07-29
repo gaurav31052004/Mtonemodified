@@ -1,4 +1,4 @@
-import { BaseLoginModule } from "./components/base-login.js";
+import { BaseLoginModule } from "./base-login.js";
 
 export class EmailOTPLoginModule extends BaseLoginModule {
   constructor(authHandler, config = {}) {

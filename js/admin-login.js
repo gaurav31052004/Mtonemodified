@@ -1,5 +1,5 @@
-import { EmailOTPLoginModule } from "./email-otp-login.js";
-import AdminAuthHandler from "./components/admin-auth-handler.js";
+import { EmailOTPLoginModule } from "./controllers/email-otp-login.js";
+import AdminAuthHandler from "./controllers/admin-auth-handler.js";
 
 class AdminLoginModule extends EmailOTPLoginModule {
   constructor() {

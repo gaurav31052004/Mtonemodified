@@ -1,5 +1,5 @@
-import { EmailOTPLoginModule } from "./email-otp-login.js";
-import PartnerAuthHandler from "./components/partner-auth-handler.js";
+import { EmailOTPLoginModule } from "./controllers/email-otp-login.js";
+import PartnerAuthHandler from "./controllers/partner-auth-handler.js";
 
 class PartnerLoginModule extends EmailOTPLoginModule {
   constructor() {

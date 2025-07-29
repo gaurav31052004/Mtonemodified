@@ -1,4 +1,4 @@
-import { initUtils } from "./utils.js";
+import { initUtils } from "../components/utils.js";
 
 export class BaseLoginModule {
   constructor(authHandler, initialStep) {
