@@ -1,0 +1,42 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- prod-vanilla
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  ftpUsername: 'mtone-in\$mtone-in'
+  ftpPassword: 'rPT2kXBe2CKPY8lgiWLCfXba4TxR7m995KqcmJCbBpmipRZYNprwHYdKNDCx'
+  ftpHost: 'ftps://waws-prod-ma1-015.ftp.azurewebsites.windows.net/site/wwwroot'
+
+steps:
+  - task: NodeTool@0
+    displayName: 'Install Node.js 20.x'
+    inputs:
+      versionSpec: '20.x'
+
+  - script: |
+      npm install
+      npm run build
+    displayName: 'npm install & build'
+
+  - task: FtpUpload@2
+    displayName: 'Clean wwwroot & Deploy dist → site/wwwroot via FTPS'
+    inputs:
+      credentialsOption: 'inputs'
+      serverUrl: '$(ftpHost)'
+      username: '$(ftpUsername)'
+      password: '$(ftpPassword)'
+      implicitFTPS: true
+      rootDirectory: 'dist' # locally built folder
+      filePatterns: '**/*'            # upload all files
+      remoteDirectory: '/site/wwwroot' # target in App Service
+      clean: true                     # Clean remote directory before upload
+      cleanContents: true             # Clean contents of remote directory
+      preservePaths: true             # Preserve directory structure
+      trustSSL: true 
