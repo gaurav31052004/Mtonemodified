@@ -29,7 +29,7 @@ export class BaseLoginModule {
 
       // Perform any module-specific setup
       await this.performModuleSpecificSetup();
-      
+
       // Update initial display
       this.updateStepDisplay();
       this.updateStepIndicators();
@@ -144,6 +144,7 @@ export class BaseLoginModule {
       this.showError(error.message || "Failed to send OTP");
     } finally {
       this.setButtonLoading("send-otp-btn", false);
+      this.authHandler.hideLoading(); // ✅ Ensure authHandler's loading is stopped
     }
   }
 

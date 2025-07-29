@@ -3,8 +3,8 @@ const CONFIG = {
   // API Configuration
   API: {
     // BASE_URL: 'https://mtestatesapi-f0bthnfwbtbxcecu.southindia-01.azurewebsites.net',
-    BASE_URL: 'https://api.mtone.in',
-    // BASE_URL: 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net',
+    // BASE_URL: 'https://api.mtone.in',
+    BASE_URL: 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net',
     REDIRECT_URL: 'https://app.mtone.in/Redirecting',
     // REDIRECT_URL: 'https://devdncrfe.azurewebsites.net/Redirecting',
     DEFAULT_TOKEN: 'e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac',

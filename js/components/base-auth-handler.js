@@ -1,51 +1,56 @@
 import { AuthUtils, OTPTimerManager } from "../utils/auth-utils.js";
-import { partnerService } from "./partner-service.js";
-import { StorageService } from "./storage-service.js";
 
-class AuthHandler {
-  constructor() {
-    this.currentStep = "partner-selection";
-    this.selectedPartner = null;
+class BaseAuthHandler {
+  constructor(config = {}) {
+    this.currentStep = "email-input";
     this.userEmail = null;
     this.otpTimerManager = new OTPTimerManager();
+    this.config = config;
+    
     // Check for ?clearSession=true in search params
     const params = new URLSearchParams(window.location.search);
     this.disableAutoLogin = params.get('clearSession') === 'true';
+    
     if (this.disableAutoLogin) {
-      StorageService.clearAll();
-      localStorage.clear();
+      this.clearStorage();
     }
   }
 
+  // Abstract methods that must be implemented by subclasses
+  getAuthService() {
+    throw new Error("getAuthService() must be implemented by subclass");
+  }
+
+  async validateEmailAndUserType(email) {
+    throw new Error("validateEmailAndUserType() must be implemented by subclass");
+  }
+
+  redirectToApp(token) {
+    throw new Error("redirectToApp() must be implemented by subclass");
+  }
+
+  clearStorage() {
+    throw new Error("clearStorage() must be implemented by subclass");
+  }
+
+  // Common methods
   init() {
     this.checkExistingAuth();
   }
 
   checkExistingAuth() {
     if (this.disableAutoLogin) {
-      // Do not autologin if clearSession is requested
       return;
     }
-    if (partnerService.isAuthenticated()) {
-      const token = partnerService.getAuthToken();
+    
+    const authService = this.getAuthService();
+    if (authService.isAuthenticated()) {
+      const token = authService.getAuthToken();
       if (token) {
         this.redirectToApp(token);
         return;
       }
     }
-
-    // Check if partner is already selected
-    const selectedPartner = StorageService.getSelectedPartner();
-    if (selectedPartner) {
-      this.selectedPartner = selectedPartner;
-      this.showEmailInput();
-    }
-  }
-
-  selectPartner(partner) {
-    this.selectedPartner = partner;
-    StorageService.storeSelectedPartner(partner);
-    this.showEmailInput();
   }
 
   showEmailInput() {
@@ -61,24 +66,16 @@ class AuthHandler {
       throw new Error("Please enter a valid email address");
     }
 
-    if (!this.selectedPartner) {
-      throw new Error("Please select a partner location first");
-    }
-
     try {
-      // First validate email with backend
-      const response = await partnerService.checkEmail(email);
-
-      // Check if user type is Partner
-      if (
-        !response.data ||
-        !["Partner", "TeamMember"].includes(response.data.userType)
-      ) {
-        throw new Error("Access denied. Only partner users can login here.");
-      }
-
-      // If email is valid partner, send OTP
-      await partnerService.sendOTP(email, this.selectedPartner.domain);
+      // Validate email and user type (implementation varies by subclass)
+      await this.validateEmailAndUserType(email);
+      
+      this.showLoading('Sending OTP...');
+      
+      // Send OTP
+      const authService = this.getAuthService();
+      await authService.sendOTP(email);
+      
       this.userEmail = email;
       this.showOTPInput();
 
@@ -107,15 +104,12 @@ class AuthHandler {
     this.showLoading("Verifying OTP...");
 
     try {
-      const response = await partnerService.verifyOTP(
-        this.userEmail,
-        otp,
-        this.selectedPartner.domain,
-      );
+      const authService = this.getAuthService();
+      const response = await authService.verifyOTP(this.userEmail, otp);
 
       if (response.success) {
         // Store authentication data
-        partnerService.storeAuthData(response.token, this.userEmail);
+        authService.storeAuthData(response.token, this.userEmail);
 
         this.showSuccess("Login successful! Redirecting...");
 
@@ -136,16 +130,11 @@ class AuthHandler {
       this.currentStep = "email-input";
       this.stopOTPTimer();
       this.updateUI();
-    } else if (this.currentStep === "email-input") {
-      this.currentStep = "partner-selection";
-      StorageService.storeSelectedPartner(null);
-      this.selectedPartner = null;
-      this.updateUI();
     }
   }
 
   async handleResendOTP() {
-    if (!this.userEmail || !this.selectedPartner) {
+    if (!this.userEmail) {
       this.showError("Session expired. Please start again.");
       return;
     }
@@ -153,7 +142,8 @@ class AuthHandler {
     this.showLoading("Resending OTP...");
 
     try {
-      await partnerService.sendOTP(this.userEmail, this.selectedPartner.domain);
+      const authService = this.getAuthService();
+      await authService.sendOTP(this.userEmail);
       this.showSuccess("OTP resent successfully");
       this.startOTPTimer();
     } catch (error) {
@@ -164,20 +154,18 @@ class AuthHandler {
   }
 
   updateUI() {
-    const steps = ["partner-selection", "email-input", "otp-verification"];
+    const steps = ["email-input", "otp-verification"];
     AuthUtils.updateStepDisplay(this.currentStep, steps);
-  }
-
-  redirectToApp(token) {
-    partnerService.redirectToApp(token);
+    if (this.config.showBackButton) {
+      AuthUtils.updateBackButton(this.currentStep, 'email-input');
+    }
   }
 
   reset() {
-    this.currentStep = "partner-selection";
-    this.selectedPartner = null;
+    this.currentStep = "email-input";
     this.userEmail = null;
     this.stopOTPTimer();
-    StorageService.clearAll();
+    this.clearStorage();
     this.updateUI();
   }
 
@@ -189,25 +177,22 @@ class AuthHandler {
     this.otpTimerManager.stop();
   }
 
+  // UI methods - can be overridden by subclasses or UI modules
   showLoading(message) {
-    // This method is typically overridden by the UI module
     console.log("Loading:", message);
   }
 
   hideLoading() {
-    // This method is typically overridden by the UI module
     console.log("Loading hidden");
   }
 
   showSuccess(message) {
-    // This method is typically overridden by the UI module
     console.log("Success:", message);
   }
 
   showError(message) {
-    // This method is typically overridden by the UI module
     console.error("Error:", message);
   }
 }
 
-export default AuthHandler;
+export default BaseAuthHandler;
