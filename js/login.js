@@ -6,6 +6,7 @@ class PartnerLoginModule extends EmailOTPLoginModule {
     super(new PartnerAuthHandler(), {
       showBackButtonOnFirstStep: false
     });
+    this.init();
   }
 
   // Optional: Override any partner-specific behavior
@@ -14,11 +15,5 @@ class PartnerLoginModule extends EmailOTPLoginModule {
     console.log("Setting up partner login");
   }
 }
-
-// Initialize login page when DOM is ready
-document.addEventListener("DOMContentLoaded", async () => {
-  const loginModule = new PartnerLoginModule();
-  await loginModule.init();
-});
 
 export default PartnerLoginModule;

@@ -63,6 +63,12 @@ export function loadNavbar() {
   if (navbarContainer) {
     navbarContainer.innerHTML = navbar;
 
+    // Add active nav styles
+    addActiveNavStyles();
+
+    // Initialize active navigation highlighting
+    initializeActiveNav();
+
     // Add mobile menu toggle functionality
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -141,4 +147,121 @@ export function loadNavbar() {
       }
     }
   }
+}
+
+function addActiveNavStyles() {
+  // Add style for active nav underline
+  if (!document.getElementById("active-nav-style")) {
+    const style = document.createElement("style");
+    style.id = "active-nav-style";
+    style.innerHTML = `
+      #navbar a {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      #navbar a::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        width: 0;
+        height: 0.35em;
+        border-radius: 0.7em;
+        background: #FFA500;
+        transform: translateX(-50%);
+        transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      #navbar a.active-nav {
+        color: #FFA500 !important;
+      }
+      #navbar a.active-nav::after {
+        width: 2.5em;
+      }
+      #navbar a:hover::after {
+        width: 2em;
+        background: #FFD700;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
+function initializeActiveNav() {
+  const currentPath = window.location.pathname;
+  const navSelector = "#navbar a[href]";
+
+  // Helper to remove highlight from all nav items
+  function clearActiveNav() {
+    document.querySelectorAll(navSelector).forEach((a) => {
+      a.classList.remove("active-nav");
+    });
+  }
+
+  // Add highlight class to nav item
+  function setActiveNav(identifier) {
+    clearActiveNav();
+    let nav = null;
+    
+    if (identifier.startsWith('#')) {
+      // Find nav link for this section (hash)
+      nav = document.querySelector(`${navSelector}[href$="${identifier}"]`);
+    } else {
+      // Find nav link for this page (path)
+      nav = document.querySelector(`${navSelector}[href="${identifier}"]`) ||
+            document.querySelector(`${navSelector}[href$="${identifier}"]`);
+    }
+    
+    if (nav) {
+      nav.classList.add("active-nav");
+    }
+  }
+
+  // Check if we're on a specific page first
+  const isLoginPage = currentPath.includes('/login/') || 
+                     currentPath.endsWith('/login') || 
+                     currentPath.includes('/login/index.html');
+                     
+  const isHomePage = currentPath === '/' || currentPath === '/index.html';
+
+  if (isLoginPage) {
+    // Highlight login nav item
+    setActiveNav('/login/');
+  } else if (isHomePage) {
+    // For home page, set up section-based highlighting
+    setTimeout(() => {
+      const sectionIds = ["home", "about", "pricing"];
+
+      // Observe sections for intersection
+      const sectionElements = sectionIds
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+        
+      if (sectionElements.length) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            let mostVisible = null;
+            let maxRatio = 0;
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+                mostVisible = entry.target;
+                maxRatio = entry.intersectionRatio;
+              }
+            });
+            if (mostVisible) {
+              setActiveNav('#' + mostVisible.id);
+            }
+          },
+          {
+            threshold: [0.1, 0.3, 0.5],
+            rootMargin: "-80px 0px -50% 0px", // adjust for header height
+          },
+        );
+        sectionElements.forEach((section) => observer.observe(section));
+
+        // Set initial active state for home section
+        setActiveNav('#home');
+      }
+    }, 200);
+  }
+  // For other pages, no nav item will be highlighted by default
 }

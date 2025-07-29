@@ -6,6 +6,7 @@ class AdminLoginModule extends EmailOTPLoginModule {
     super(new AdminAuthHandler(), {
       showBackButtonOnFirstStep: false
     });
+    this.init();
   }
 
   // Optional: Override any admin-specific behavior
@@ -14,11 +15,5 @@ class AdminLoginModule extends EmailOTPLoginModule {
     console.log("Setting up admin login");
   }
 }
-
-// Initialize admin login page when DOM is ready
-document.addEventListener("DOMContentLoaded", async () => {
-  const adminLoginModule = new AdminLoginModule();
-  await adminLoginModule.init();
-});
 
 export default AdminLoginModule;
