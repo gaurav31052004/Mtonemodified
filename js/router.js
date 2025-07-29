@@ -26,10 +26,10 @@ export class Router {
 
     // Initialize application download pages
     if (this.isPath([
-      "/application/index.html",
+      "/application.html",
       "/application/",
       "/application",
-      "/partners/application/index.html", 
+      "/partners/application.html", 
       "/partners/application/",
       "/partners/application"
     ])) {
@@ -38,7 +38,7 @@ export class Router {
 
     // Initialize signup controller on onboarding page
     if (this.isPath([
-      "/onboarding/index.html",
+      "/onboarding.html",
       "/onboarding/",
       "/onboarding"
     ])) {
@@ -47,7 +47,7 @@ export class Router {
 
     // Initialize partner login
     if (this.isPath([
-      "/login/index.html",
+      "/login.html",
       "/login/",
       "/login"
     ])) {
@@ -56,7 +56,7 @@ export class Router {
 
     // Initialize admin login
     if (this.isPath([
-      "/admin/index.html",
+      "/admin.html",
       "/admin/",
       "/admin"
     ])) {
@@ -65,7 +65,7 @@ export class Router {
 
     // Initialize choose plan page
     if (this.isPath([
-      "/choose-plan/index.html",
+      "/choose-plan.html",
       "/choose-plan/",
       "/choose-plan"
     ])) {

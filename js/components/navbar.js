@@ -4,7 +4,7 @@ export function loadNavbar() {
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about' },
     { label: 'Pricing', href: '#pricing' },
-    { label: 'Login', href: '/login/' }
+    { label: 'Login', href: '/login' }
   ];
 
   // Determine if we're on the home page or a subpage

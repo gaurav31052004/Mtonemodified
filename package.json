@@ -1,17 +1,25 @@
 {
+  "type": "module",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
-    "parcel": "^2.15.4",
+    "@parcel/optimizer-htmlnano": "^2.15.4",
+    "@parcel/optimizer-terser": "^2.15.4",
+    "@tailwindcss/vite": "^4.1.11",
+    "fast-glob": "^3.3.3",
     "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.13"
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "svgo": "^3.3.2",
+    "vite": "^7.0.6"
   },
   "scripts": {
-    "dev": "parcel index.html about/index.html contact/index.html admin/index.html application/index.html choose-plan/index.html login/index.html onboarding/index.html partners/application/index.html privacy/index.html privacy-policy/index.html terms/index.html",
-    "build": "rm -rf dist && parcel build index.html about/index.html contact/index.html admin/index.html application/index.html choose-plan/index.html login/index.html onboarding/index.html partners/application/index.html privacy/index.html privacy-policy/index.html terms/index.html --dist-dir dist",
-    "clean": "rm -rf dist",
-    "build:css": "npx tailwindcss -i ./css/input.css -o ./css/output.css --watch"
+    "prebuild": "npx tailwindcss -i ./css/input.css -o ./css/output.css --minify",
+    "build:css": "npx tailwindcss -i ./css/input.css -o ./css/output.css --watch",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist"
   }
 }
