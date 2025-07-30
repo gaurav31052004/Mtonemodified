@@ -4,7 +4,7 @@ export function loadFooter() {
   const quickLinks = [
     { href: "/terms", label: "Terms of Use" },
     { href: "/privacy", label: "Privacy Policy" },
-    { href: "/index.html#pricing", label: "Pricing Plans" },
+    { href: "/#pricing", label: "Pricing Plans" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
     { href: "/faq", label: "FAQs" }
@@ -46,7 +46,7 @@ export function loadFooter() {
               <span class="block font-semibold text-sm">Apple Store</span>
             </span>
           </a>
-          <a href="#" class="flex items-center justify-center sm:justify-start hover:text-gold transition-colors duration-300">
+          <a href="https://play.google.com/store/apps/details?id=com.mtonema" class="flex items-center justify-center sm:justify-start hover:text-gold transition-colors duration-300">
             <i class="fab fa-google-play text-2xl mr-3"></i>
             <span>
               <span class="block text-xs" style="color: #e5e7eb;">Get in on</span>
@@ -60,7 +60,9 @@ export function loadFooter() {
           <p class="text-sm md:text-base">&copy; 2025 MT One. All rights reserved.</p>
           <div class="flex items-center gap-2">
             <span class="text-xs md:text-sm">Powered by</span>
-            <img src="https://res.cloudinary.com/df1kus7ro/image/upload/f_auto,q_auto/v1747734482/MunaTech/paxz5a4hg5euaiweq4wh" alt="ANSIT Logo" class="h-10 md:h-16 w-auto" style="filter: brightness(0) invert(1);" />
+            <a href="https://munatech.com" target="_blank" rel="noopener">
+              <img src="https://res.cloudinary.com/df1kus7ro/image/upload/f_auto,q_auto/v1747734482/MunaTech/paxz5a4hg5euaiweq4wh" alt="ANSIT Logo" class="h-10 md:h-16 w-auto" style="filter: brightness(0) invert(1);" />
+            </a>
           </div>
         </div>
       </div>

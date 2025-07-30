@@ -11,64 +11,46 @@ export class Router {
   }
 
   isPath(paths) {
-    return paths.some(path => 
-      this.currentPath.includes(path) || 
-      this.currentPath.endsWith(path.replace('/index.html', '/')) ||
-      this.currentPath.endsWith(path.replace('/index.html', ''))
-    );
+    return paths.some(path => {
+      // Remove trailing slash for comparison
+      const normalizedCurrentPath = this.currentPath.replace(/\/$/, '') || '/';
+      const normalizedPath = path.replace(/\/$/, '') || '/';
+      
+      return normalizedCurrentPath === normalizedPath;
+    });
   }
 
   initializePages() {
     // Initialize pricing toggle on home page
-    if (this.currentPath === "/" || this.currentPath === "/index.html") {
+    if (this.isPath(["/", "/index.html"])) {
       new PricingToggle();
     }
 
     // Initialize application download pages
     if (this.isPath([
-      "/application.html",
-      "/application/",
       "/application",
-      "/partners/application.html", 
-      "/partners/application/",
       "/partners/application"
     ])) {
       new ApplicationDownload();
     }
 
     // Initialize signup controller on onboarding page
-    if (this.isPath([
-      "/onboarding.html",
-      "/onboarding/",
-      "/onboarding"
-    ])) {
+    if (this.isPath(["/onboarding"])) {
       new SignupController();
     }
 
     // Initialize partner login
-    if (this.isPath([
-      "/login.html",
-      "/login/",
-      "/login"
-    ])) {
+    if (this.isPath(["/login"])) {
       new PartnerLoginModule();
     }
 
     // Initialize admin login
-    if (this.isPath([
-      "/admin.html",
-      "/admin/",
-      "/admin"
-    ])) {
+    if (this.isPath(["/admin"])) {
       new AdminLoginModule();
     }
 
     // Initialize choose plan page
-    if (this.isPath([
-      "/choose-plan.html",
-      "/choose-plan/",
-      "/choose-plan"
-    ])) {
+    if (this.isPath(["/choose-plan"])) {
       new ChoosePlan();
     }
   }

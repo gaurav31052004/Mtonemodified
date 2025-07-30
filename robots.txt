@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://mtone.in/sitemap.xml
 
 # Disallow admin areas
 Disallow: /admin/

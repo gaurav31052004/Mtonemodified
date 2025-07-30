@@ -9,8 +9,8 @@ import glob from "fast-glob";
 function discoverHtmlFiles() {
   const htmlFiles = glob.sync(
     [
-      "./*.html", // Root level HTML files
-      "./**/*.html", // Nested HTML files
+      "./index.html", // Root level index.html
+      "./pages/**/*.html", // HTML files inside pages folder
     ],
     {
       ignore: ["node_modules/**", "dist/**", ".git/**", "coverage/**"],
@@ -32,8 +32,11 @@ function createInputObject() {
     let key;
     if (file === "./index.html") {
       key = "main";
+    } else if (file.startsWith("./pages/")) {
+      // For pages folder files, remove ./pages/ prefix and .html extension
+      key = file.replace("./pages/", "").replace(".html", "").replace(/\//g, "-");
     } else {
-      // Remove ./ prefix and .html extension, replace / with -
+      // Fallback for other files
       key = file.replace("./", "").replace(".html", "").replace(/\//g, "-");
     }
 
@@ -54,13 +57,10 @@ function extractRoutes() {
       return; // Skip index.html as it's the root
     }
 
-    // Convert file path to route
-    let route = file.replace("./", "").replace(".html", "");
-
-    // Handle nested files
-    if (route.includes("/")) {
-      routes.push(route);
-    } else {
+    if (file.startsWith("./pages/")) {
+      // Convert pages/filename.html to just filename for the route
+      // This handles both flat files and nested folders
+      let route = file.replace("./pages/", "").replace(".html", "");
       routes.push(route);
     }
   });
@@ -71,7 +71,17 @@ function extractRoutes() {
 
 // Function to generate web.config content
 function generateWebConfig(routes) {
-  const routePattern = routes.length > 0 ? routes.join("|") : "admin";
+  if (routes.length === 0) {
+    console.warn("⚠️ No routes found, using default pattern");
+    return generateDefaultWebConfig();
+  }
+
+  // Separate single-level routes from nested routes for better pattern matching
+  const singleRoutes = routes.filter(route => !route.includes('/'));
+  const nestedRoutes = routes.filter(route => route.includes('/'));
+  
+  const singleRoutePattern = singleRoutes.length > 0 ? singleRoutes.join("|") : "";
+  const nestedRoutePattern = nestedRoutes.length > 0 ? nestedRoutes.map(route => route.replace('/', '\\/')).join("|") : "";
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <configuration>
@@ -90,29 +100,35 @@ function generateWebConfig(routes) {
           <action type="None" />
         </rule>
 
-        <!-- Remove trailing slash redirects for HTML file routes -->
-        <rule name="Remove trailing slash for routes" stopProcessing="true">
-          <match url="^(${routePattern})/$" />
+        ${nestedRoutes.length > 0 ? `<!-- Remove trailing slash redirects for nested routes -->
+        <rule name="Remove trailing slash for nested routes" stopProcessing="true">
+          <match url="^(${nestedRoutePattern})/$" />
           <action type="Redirect" url="{R:1}" redirectType="Permanent" />
         </rule>
 
-        <!-- Serve HTML files for route requests (without trailing slash) -->
-        <rule name="Serve HTML for routes" stopProcessing="true">
-          <match url="^(${routePattern})$" />
+        <!-- Serve HTML files for nested routes -->
+        <rule name="Serve HTML for nested routes" stopProcessing="true">
+          <match url="^(${nestedRoutePattern})$" />
           <conditions>
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
           </conditions>
-          <action type="Rewrite" url="{R:1}.html" />
+          <action type="Rewrite" url="pages/{R:1}.html" />
+        </rule>` : ''}
+
+        ${singleRoutes.length > 0 ? `<!-- Remove trailing slash redirects for single-level routes -->
+        <rule name="Remove trailing slash for single routes" stopProcessing="true">
+          <match url="^(${singleRoutePattern})/$" />
+          <action type="Redirect" url="{R:1}" redirectType="Permanent" />
         </rule>
 
-        <!-- Handle nested routes (like partners/application) -->
-        <rule name="Handle nested routes" stopProcessing="true">
-          <match url="^(partners/application)$" />
+        <!-- Serve HTML files for single-level routes -->
+        <rule name="Serve HTML for single routes" stopProcessing="true">
+          <match url="^(${singleRoutePattern})$" />
           <conditions>
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
           </conditions>
-          <action type="Rewrite" url="{R:1}.html" />
-        </rule>
+          <action type="Rewrite" url="pages/{R:1}.html" />
+        </rule>` : ''}
 
         <!-- Handle static assets -->
         <rule name="Static Assets" stopProcessing="true">
@@ -120,7 +136,7 @@ function generateWebConfig(routes) {
           <action type="None" />
         </rule>
 
-        <!-- Fallback to root index.html (but exclude robots.txt and sitemap.xml) -->
+        <!-- Fallback to root index.html -->
         <rule name="Fallback to root index" stopProcessing="true">
           <match url=".*" />
           <conditions logicalGrouping="MatchAll">
@@ -190,6 +206,58 @@ function generateWebConfig(routes) {
 </configuration>`;
 }
 
+// Function to generate default web.config when no routes found
+function generateDefaultWebConfig() {
+  return `<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <!-- Serve robots.txt directly -->
+        <rule name="Robots.txt" stopProcessing="true">
+          <match url="^robots\.txt$" />
+          <action type="None" />
+        </rule>
+
+        <!-- Serve sitemap.xml directly -->
+        <rule name="Sitemap" stopProcessing="true">
+          <match url="^sitemap\.xml$" />
+          <action type="None" />
+        </rule>
+
+        <!-- Handle static assets -->
+        <rule name="Static Assets" stopProcessing="true">
+          <match url="^(css|js|images|assets|fonts|media)/.*" />
+          <action type="None" />
+        </rule>
+
+        <!-- Fallback to root index.html -->
+        <rule name="Fallback to root index" stopProcessing="true">
+          <match url=".*" />
+          <conditions logicalGrouping="MatchAll">
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+            <add input="{REQUEST_URI}" pattern="^/(css|js|images|assets|fonts|media)/.*" negate="true" />
+            <add input="{REQUEST_URI}" pattern="^/robots\.txt$" negate="true" />
+            <add input="{REQUEST_URI}" pattern="^/sitemap\.xml$" negate="true" />
+            <add input="{REQUEST_URI}" pattern="^/favicon\.ico$" negate="true" />
+          </conditions>
+          <action type="Rewrite" url="/index.html" />
+        </rule>
+      </rules>
+    </rewrite>
+
+    <!-- Default documents -->
+    <defaultDocument>
+      <files>
+        <clear />
+        <add value="index.html" />
+      </files>
+    </defaultDocument>
+  </system.webServer>
+</configuration>`;
+}
+
 // Plugin to generate web.config automatically
 function webConfigGeneratorPlugin() {
   return {
@@ -246,9 +314,9 @@ function devServerMiddleware() {
             return;
           }
           
-          // Check if this is a route without trailing slash that should serve HTML
+          // Check if this is a route without trailing slash that should serve HTML from pages folder
           if (url === `/${route}`) {
-            req.url = `/${route}.html`;
+            req.url = `/pages/${route}.html`;
             break;
           }
         }
