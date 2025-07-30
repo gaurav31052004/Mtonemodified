@@ -130,7 +130,7 @@ function generateWebConfig(routes) {
           <action type="Rewrite" url="pages/{R:1}.html" />
         </rule>` : ''}
 
-        <!-- Handle static assets -->
+        <!-- Handle static assets from root directory -->
         <rule name="Static Assets" stopProcessing="true">
           <match url="^(css|js|images|assets|fonts|media)/.*" />
           <action type="None" />
