@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import { readdirSync, statSync, writeFileSync } from "fs";
+import { readdirSync, statSync, writeFileSync, copyFileSync } from "fs";
 import { join, extname, relative } from "path";
 import tailwindcss from "@tailwindcss/vite";
 import glob from "fast-glob";
@@ -90,19 +90,15 @@ function generateWebConfig(routes) {
           <action type="None" />
         </rule>
 
-        <!-- Handle trailing slash redirects for HTML file routes -->
-        <rule name="Add trailing slash for directories" stopProcessing="true">
-          <match url="^(${routePattern})$" />
-          <conditions>
-            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
-            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
-          </conditions>
-          <action type="Redirect" url="{R:1}/" redirectType="Permanent" />
+        <!-- Remove trailing slash redirects for HTML file routes -->
+        <rule name="Remove trailing slash for routes" stopProcessing="true">
+          <match url="^(${routePattern})/$" />
+          <action type="Redirect" url="{R:1}" redirectType="Permanent" />
         </rule>
 
-        <!-- Serve HTML files for route requests -->
+        <!-- Serve HTML files for route requests (without trailing slash) -->
         <rule name="Serve HTML for routes" stopProcessing="true">
-          <match url="^(${routePattern})/?$" />
+          <match url="^(${routePattern})$" />
           <conditions>
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
           </conditions>
@@ -111,7 +107,7 @@ function generateWebConfig(routes) {
 
         <!-- Handle nested routes (like partners/application) -->
         <rule name="Handle nested routes" stopProcessing="true">
-          <match url="^(partners/application)/?$" />
+          <match url="^(partners/application)$" />
           <conditions>
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
           </conditions>
@@ -238,24 +234,26 @@ function devServerMiddleware() {
     configureServer(server) {
       const routes = extractRoutes();
 
-      routes.forEach((route) => {
-        // Handle routes without trailing slash
-        server.middlewares.use(`/${route}`, (req, res, next) => {
-          if (req.url === `/${route}`) {
-            res.writeHead(301, { Location: `/${route}/` });
+      // Add a general middleware to handle all route redirects and rewrites
+      server.middlewares.use((req, res, next) => {
+        const url = req.url;
+        
+        // Check if this is a route with trailing slash that should be redirected
+        for (const route of routes) {
+          if (url === `/${route}/`) {
+            res.writeHead(301, { Location: `/${route}` });
             res.end();
             return;
           }
-          next();
-        });
-
-        // Handle routes with trailing slash
-        server.middlewares.use(`/${route}/`, (req, res, next) => {
-          if (req.url === `/${route}/`) {
+          
+          // Check if this is a route without trailing slash that should serve HTML
+          if (url === `/${route}`) {
             req.url = `/${route}.html`;
+            break;
           }
-          next();
-        });
+        }
+        
+        next();
       });
     },
   };

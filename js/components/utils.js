@@ -19,7 +19,7 @@ export function addFontAwesome() {
  * Dynamically add favicon to <head>
  */
 export function addFavicon() {
-  const faviconUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/v1750484712/MT1_LOGO_ORIGINAL_1_1_iqx9yf.png";
+  const faviconUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/v1750484712/MT1_LOGO_ORIGINAL_1_1_iqx9yf.webp";
   let link = document.querySelector('link[rel~="icon"]');
   if (!link) {
     link = document.createElement('link');
