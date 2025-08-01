@@ -5,9 +5,7 @@ Allow: /
 Sitemap: https://mtone.in/sitemap.xml
 
 # Disallow admin areas
-Disallow: /admin/
-Disallow: /login/
-Disallow: /onboarding/
+Disallow: /admin
 
 # Allow important pages
 Allow: /
@@ -18,6 +16,9 @@ Allow: /application/
 Allow: /privacy/
 Allow: /privacy-policy/
 Allow: /terms/
+Allow: /onboarding
+Allow: /login
+Allow: /faq
 
 # Crawl delay (optional)
 Crawl-delay: 1
