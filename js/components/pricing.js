@@ -1,12 +1,16 @@
+import { partnerService } from "../services/partner-service.js";
+
 class PricingToggle {
     constructor() {
         this.isYearly = false;
+        this.plans = [];
         this.init();
     }
 
-    init() {
+    async init() {
         this.createToggle();
         this.bindEvents();
+        await this.loadPlans();
         this.renderPricingCards();
     }
 
@@ -45,6 +49,16 @@ class PricingToggle {
         });
     }
 
+    async loadPlans() {
+        try {
+            this.plans = await partnerService.getPlans();
+        } catch (error) {
+            console.error("Failed to load plans:", error);
+            // Fallback to empty array if API fails
+            this.plans = [];
+        }
+    }
+
     updateToggleUI() {
         const toggle = document.getElementById('pricing-toggle');
         const slider = document.getElementById('toggle-slider');
@@ -71,82 +85,50 @@ class PricingToggle {
     }
 
     getPricingData() {
+        // Filter plans by billing cycle
+        const monthlyPlans = this.plans.filter(plan => plan.billingCycle === 'Monthly');
+        const yearlyPlans = this.plans.filter(plan => plan.billingCycle === 'Yearly');
+        
+        // Create trial plan (always free)
+        const trialPlan = {
+            id: 'free',
+            planName: 'FREE Trial',
+            price: 0,
+            features: [
+                'Up to 1,000 leads',
+                'Basic CRM features',
+                'Email support',
+                'Mobile app access'
+            ],
+            description: 'Start your 7 days FREE trial. No credit card required.',
+            billingCycle: 'Monthly'
+        };
+
+        // Create custom plan (always contact us)
+        const customPlan = {
+            id: 'custom',
+            planName: 'Custom Plan',
+            price: null,
+            features: [
+                'Unlimited leads',
+                'Full CRM suite',
+                '24/7 phone support',
+                'Custom integrations'
+            ],
+            description: 'Need something tailored for your enterprise? Get in touch for a custom solution and pricing.',
+            billingCycle: 'Custom'
+        };
+
         return {
             monthly: {
-                free: {
-                    price: 0,
-                    features: [
-                        'Up to 1,000 leads',
-                        'Basic CRM features',
-                        'Email support',
-                        'Mobile app access'
-                    ],
-                    description: 'Start your 7 days FREE trial. No credit card required.'
-                },
-                pro: {
-                    price: 699,
-                    features: [
-                        'Up to 10,000 leads',
-                        'Advanced CRM features',
-                        'Priority email support',
-                        'Mobile app access',
-                        'Automated workflows',
-                        'Advanced analytics'
-                    ],
-                    description: 'Unlock advanced CRM features, automation, and premium support for growing teams.'
-                },
-                custom: {
-                    price: null,
-                    features: [
-                        'Unlimited leads',
-                        'Full CRM suite',
-                        '24/7 phone support',
-                        'Mobile app access',
-                        'Automated workflows',
-                        'Advanced analytics',
-                        'Team collaboration',
-                        'Custom integrations'
-                    ],
-                    description: 'Need something tailored for your enterprise? Get in touch for a custom solution and pricing.'
-                }
+                free: trialPlan,
+                plans: monthlyPlans,
+                custom: customPlan
             },
             yearly: {
-                free: {
-                    price: 0,
-                    features: [
-                        'Up to 1,000 leads',
-                        'Basic CRM features',
-                        'Email support',
-                        'Mobile app access'
-                    ],
-                    description: 'Start your 7 days FREE trial. No credit card required.'
-                },
-                pro: {
-                    price: 6710, // ₹699 * 12 * 0.8 (20% discount)
-                    features: [
-                        'Up to 10,000 leads',
-                        'Advanced CRM features',
-                        'Priority email support',
-                        'Mobile app access',
-                        'Automated workflows',
-                        'Advanced analytics'
-                    ],
-                    description: 'Unlock advanced CRM features, automation, and premium support for growing teams.'
-                },
-                custom: {
-                    price: null,
-                    features: [
-                        'Unlimited leads',
-                        'Full CRM suite',
-                        '24/7 phone support',
-                        'Mobile app access',
-                        'Automated workflows',
-                        'Advanced analytics',
-                        'Team collaboration',
-                        'Custom integrations'
-                    ],
-                    description: 'Need something tailored for your enterprise? Get in touch for a custom solution and pricing.'
-                }
+                free: trialPlan,
+                plans: yearlyPlans,
+                custom: customPlan
             }
         };
     }
@@ -155,68 +137,128 @@ class PricingToggle {
         const pricingData = this.getPricingData();
         const currentData = this.isYearly ? pricingData.yearly : pricingData.monthly;
         const period = this.isYearly ? 'year' : 'month';
-        // Update FREE Trial Plan
-        this.updateCard('free', currentData.free, period);
-        // Update Pro Plan
-        this.updateCard('pro', currentData.pro, period);
-        // Update Custom Plan
-        this.updateCard('custom', currentData.custom, period);
+        
+        // Clear existing cards
+        const pricingContainer = document.getElementById('pricing-cards');
+        if (!pricingContainer) return;
+        
+        pricingContainer.innerHTML = '';
+        
+        // Always show free trial first
+        this.createPricingCard('free', currentData.free, period, pricingContainer);
+        
+        // Show API plans
+        currentData.plans.forEach(plan => {
+            this.createPricingCard(plan.id, plan, period, pricingContainer);
+        });
+        
+        // Always show custom plan last
+        this.createPricingCard('custom', currentData.custom, period, pricingContainer);
     }
 
-    updateCard(planType, data, period) {
-        const card = document.querySelector(`[data-plan="${planType}"]`);
-        if (!card) return;
-        // Update price
-        const priceElement = card.querySelector('.text-3xl');
-        if (priceElement) {
-            if (data.price === 0) {
-                priceElement.textContent = '₹0';
-            } else if (data.price === null) {
-                priceElement.textContent = 'Contact Us';
-            } else {
-                priceElement.textContent = `₹${data.price.toLocaleString()}`;
-            }
+    createPricingCard(planId, planData, period, container) {
+        const isPopular = planData.planName && planData.planName.toLowerCase().includes('pro');
+        const priceInRupees = planData.price ? (planData.price / 100).toLocaleString('en-IN') : null;
+        
+        // Generate features based on plan data
+        let features = planData.features || [];
+        if (!planData.features && planData.maxUsers) {
+            features = [
+                `Up to ${planData.maxUsers} users`,
+                'Advanced CRM features',
+                'Priority support',
+                'Mobile app access'
+            ];
         }
-        // Update period
-        const periodElement = card.querySelector('.text-gray-600');
-        if (periodElement && periodElement.textContent.includes('/')) {
-            if (data.price === null) {
-                periodElement.textContent = '';
-            } else {
-                periodElement.textContent = `/${period}`;
-            }
-        }
-        // Update description
-        const descriptionElement = card.querySelector('.text-sm.text-gray-600');
-        if (descriptionElement) {
-            descriptionElement.textContent = data.description;
-        }
-        // Update features
-        const featureElements = card.querySelectorAll('.space-y-3 .flex.items-center');
-        // Hide all features first
-        featureElements.forEach(element => {
-            element.style.display = 'none';
-        });
-        // Show and update only the features we have data for
-        data.features.forEach((feature, index) => {
-            if (featureElements[index]) {
-                const textElement = featureElements[index].querySelector('.text-sm.text-gray-700');
-                if (textElement) {
-                    textElement.textContent = feature;
-                    featureElements[index].style.display = 'flex';
-                }
-            }
-        });
+        
+        const cardDiv = document.createElement('div');
+        cardDiv.className = `bg-gradient-to-br ${planId === 'free' ? 'from-white to-gray-50/80' : 'from-white to-orange-50/80'} rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur-sm relative hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 min-h-[500px] w-full max-w-xs mx-auto group ${isPopular ? 'border-2 border-gold/40' : 'border border-gold/20'}`;
+        cardDiv.setAttribute('data-plan', planId);
+        
+        cardDiv.innerHTML = `
+            ${isPopular ? `
+                <div class="absolute top-6 left-6">
+                    <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg animate-pulse" style="color: #fff; background: linear-gradient(135deg, #FFD700, #FFA500);">⭐ MOST POPULAR</span>
+                </div>
+                <div class="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-gold to-orange-400 rounded-full flex items-center justify-center shadow-lg">
+                    <span class="text-white font-bold text-sm">PRO</span>
+                </div>
+            ` : planId === 'free' ? `
+                <div class="absolute top-6 left-6">
+                    <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">🎯 FREE Trial</span>
+                </div>
+            ` : `
+                <div class="absolute top-6 left-6">
+                    <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">💼 ${planData.planName.toUpperCase()}</span>
+                </div>
+            `}
+            
+            <div class="text-center mb-8 mt-12">
+                <div class="mb-6">
+                    <div class="flex items-baseline justify-center">
+                        <span class="text-5xl font-extrabold ${planId === 'free' ? 'bg-gradient-to-r from-gold to-yellow-600 bg-clip-text text-transparent' : 'text-gray-900'}">
+                            ${planData.price === 0 ? '₹0' : 
+                              planData.price === null ? 'Contact Us' : 
+                              `₹${priceInRupees}`}
+                        </span>
+                        ${planData.price !== null && planData.price !== 0 ? `<span class="text-lg text-gray-600 ml-2">/${period}</span>` : planData.price === 0 ? `<span class="text-lg text-gray-500 ml-2">/month</span>` : ''}
+                    </div>
+                    ${planId === 'free' ? `
+                        <div class="mt-2">
+                            <span class="text-sm text-green-600 font-semibold bg-green-50 px-3 py-1 rounded-full">✨ No Credit Card Required</span>
+                        </div>
+                    ` : planData.durationDays ? `
+                        <div class="mt-2">
+                            <span class="text-sm text-gray-500">${planData.durationDays} days access</span>
+                        </div>
+                    ` : ''}
+                </div>
+                <p class="text-base text-gray-600 mb-8 leading-relaxed">${planData.description || 'Plan description'}</p>
+                <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
+                    planId === 'free' 
+                        ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
+                        : isPopular 
+                            ? 'bg-gradient-to-r from-orange-400 to-gold hover:from-gold hover:to-orange-500' 
+                            : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+                }">
+                    ${planId === 'free' ? '🚀 Start FREE Trial' : 
+                      planId === 'custom' ? '📞 Contact Sales' : 
+                      `💎 Get ${planData.planName}`}
+                </button>
+            </div>
 
-        // Add navigation for free trial and pro plan buttons
-        const btn = card.querySelector('button');
-        if (btn) {
-            if (planType === 'free' || planType === 'pro') {
-                btn.onclick = () => {
+            <div class="space-y-4">
+                ${features.map((feature, index) => {
+                    const colors = ['green', 'blue', 'purple', 'orange', 'indigo', 'pink'];
+                    const color = colors[index % colors.length];
+                    return `
+                        <div class="flex items-center bg-${color}-50 p-3 rounded-xl">
+                            <div class="w-6 h-6 bg-${color}-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white text-xs">✓</span>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">${feature}</span>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+
+        // Add click handler for button
+        const button = cardDiv.querySelector('button');
+        if (button) {
+            if (planId === 'free' || (planData.id && planData.id !== 'custom')) {
+                button.onclick = () => {
                     window.location.href = '/onboarding';
+                };
+            } else if (planId === 'custom') {
+                button.onclick = () => {
+                    // Handle custom plan contact
+                    window.location.href = 'mailto:contact@mtone.in?subject=Custom Plan Inquiry';
                 };
             }
         }
+
+        container.appendChild(cardDiv);
     }
 }
 

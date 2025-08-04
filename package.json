@@ -1,7 +1,6 @@
 {
   "type": "module",
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.11",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
@@ -15,8 +14,6 @@
     "vite": "^7.0.6"
   },
   "scripts": {
-    "prebuild": "npx tailwindcss -i ./css/input.css -o ./css/output.css --minify",
-    "build:css": "npx tailwindcss -i ./css/input.css -o ./css/output.css --watch",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

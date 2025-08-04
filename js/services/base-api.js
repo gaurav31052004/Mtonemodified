@@ -6,7 +6,7 @@ class ApiService {
     this.defaultHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${CONFIG.API.DEFAULT_TOKEN}`
+      'Authorization': `Bearer ${CONFIG.API.JWT}`
     };
   }
 
@@ -58,7 +58,7 @@ class ApiService {
     const url = queryString ? `${endpoint}?${queryString}` : endpoint;
     
     return this.request(url, {
-      method: 'GET'
+      method: 'GET',
     });
   }
 

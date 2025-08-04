@@ -140,8 +140,10 @@ export default class SignupController {
     const name = this.form.name.value.trim();
     const email = this.form.email.value.trim();
     const phone = this.form.phone.value.trim();
-    const address = this.form.address.value.trim();
     const partnerZone = this.form["partner-zone"].value;
+    
+    // Use partner zone name as address
+    const address = partnerZone;
 
     // Validate required fields
     if (!name) {
@@ -171,12 +173,6 @@ export default class SignupController {
     if (!this.isValidPhone(phone)) {
       this.showError("Please enter a valid 10-digit phone number.");
       this.focusField("phone");
-      return;
-    }
-
-    if (!address) {
-      this.showError("Please enter your address.");
-      this.focusField("address");
       return;
     }
 

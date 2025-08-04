@@ -2,26 +2,19 @@ import ApiService from "./base-api.js";
 import CONFIG from "../config/config.js";
 
 class PartnerService extends ApiService {
-  async createOrder(plan, period) {
+  async createOrder(planId) {
     // Get partner details from localStorage
     const details = JSON.parse(localStorage.getItem("partnerDetails") || "{}");
     if (!details.name || !details.email || !details.phone || !details.address || !details.partnerZone || !details.userDetails?.id) {
       throw new Error("Incomplete partner details. Please complete signup.");
     }
 
-    // Set price based on plan and period
-    let amount = 699;
-    if (plan === "pro" && period === "yearly") amount = 6710;
-
-    // Prepare payload
+    // Prepare payload with plan ID
     const payload = {
-      amount,
+      planId: planId,
       userId: details.userDetails.id,
-      name: details.name,
-      email: details.email,
       phone: details.phone,
-      address: details.address,
-      partnerZone: details.partnerZone
+      customerId: "",
     };
 
     // Use endpoint from config
@@ -35,6 +28,19 @@ class PartnerService extends ApiService {
     } catch (err) {
       console.error("Error creating order:", err);
       throw err;
+    }
+  }
+
+  async getPlans() {
+    try {
+      const response = await this.get(CONFIG.ENDPOINTS.PAYMENT_PLANS);
+      if (response.success && response.data) {
+        return response.data;
+      }
+      throw new Error(response.message || "Failed to fetch plans");
+    } catch (error) {
+      console.error("Error fetching plans:", error);
+      throw error;
     }
   }
   async getDriveLinkFromAPI() {

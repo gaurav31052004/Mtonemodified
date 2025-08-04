@@ -4,15 +4,15 @@ class ChoosePlan {
   constructor() {
     this.signupDetailsContainer = document.getElementById("signup-details");
     this.trialBtn = document.querySelector('[data-plan="free"] button');
-    this.proBtn = document.querySelector('[data-plan="pro"] button');
-    this.proCard = document.querySelector('[data-plan="pro"]');
-    this.customCard = document.querySelector('[data-plan="custom"]');
+    this.pricingCards = document.getElementById("pricing-cards");
+    this.plans = [];
     this.init();
   }
 
-  init() {
+  async init() {
     this.showSignupDetails();
-    this.setupPlanSelection();
+    await this.loadPlans();
+    this.setupTrialPlan();
   }
 
   showSignupDetails() {
@@ -36,85 +36,161 @@ class ChoosePlan {
     `;
   }
 
-  setupPlanSelection() {
-    // Hide custom plan
-    if (this.customCard) this.customCard.style.display = "none";
-
-    // Add period selection for Pro plan - insert after the pricing section
-    const proPriceSection = this.proCard.querySelector('.mb-6');
-    const proPeriodDiv = document.createElement("div");
-    proPeriodDiv.className = "flex items-center justify-center gap-6 mb-6";
-    proPeriodDiv.innerHTML = `
-      <label class="flex items-center gap-2 cursor-pointer">
-        <input type="radio" name="pro-period" value="monthly" checked class="w-4 h-4 text-gold border-2 border-gold/30 focus:ring-gold focus:ring-2"> 
-        <span class="text-gray-700 font-medium">Monthly</span>
-      </label>
-      <label class="flex items-center gap-2 cursor-pointer">
-        <input type="radio" name="pro-period" value="yearly" class="w-4 h-4 text-gold border-2 border-gold/30 focus:ring-gold focus:ring-2"> 
-        <span class="text-gray-700 font-medium">Yearly</span>
-      </label>
-    `;
-    
-    // Insert the period selection after the price section
-    proPriceSection.parentNode.insertBefore(proPeriodDiv, proPriceSection.nextSibling);
-
-    // Update the Pro button text
-    this.proBtn.innerHTML = '💎 Pay Now';
-
-    // Set up dynamic pricing
-    const monthlyRadio = proPeriodDiv.querySelector('input[value="monthly"]');
-    const yearlyRadio = proPeriodDiv.querySelector('input[value="yearly"]');
-    const priceSpan = this.proCard.querySelector('.text-5xl');
-    const periodSpan = this.proCard.querySelector('.text-lg');
-
-    function updatePrice() {
-      if (yearlyRadio.checked) {
-        priceSpan.textContent = '₹6710';
-        periodSpan.textContent = '/year';
-      } else {
-        priceSpan.textContent = '₹699';
-        periodSpan.textContent = '/month';
-      }
+  async loadPlans() {
+    try {
+      this.plans = await partnerService.getPlans();
+      this.renderPaidPlans();
+    } catch (error) {
+      console.error("Failed to load plans:", error);
+      this.showPlanError();
     }
+  }
+
+  renderPaidPlans() {
+    // Find the trial plan card
+    const trialCard = this.pricingCards.querySelector('[data-plan="free"]');
     
-    monthlyRadio.addEventListener('change', updatePrice);
-    yearlyRadio.addEventListener('change', updatePrice);
-    updatePrice();
+    // Remove existing paid plan cards
+    const existingPaidCards = this.pricingCards.querySelectorAll('[data-plan]:not([data-plan="free"])');
+    existingPaidCards.forEach(card => card.remove());
 
-    // Trial button logic
-    this.trialBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.href = "/login/";
+    // Add paid plans from API
+    this.plans.forEach(plan => {
+      if (plan.isTrial) return; // Skip trial plans from API
+      
+      const planCard = this.createPlanCard(plan);
+      this.pricingCards.appendChild(planCard);
     });
+  }
 
-    // Pro pay button logic
-    this.proBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      this.proBtn.disabled = true;
-      this.proBtn.innerHTML = '⏳ Processing...';
-      const period = document.querySelector('input[name="pro-period"]:checked').value;
-      try {
-        const response = await partnerService.createOrder("pro", period);
-        console.log("CreateOrder API response:", response);
-        if (!response) {
-          alert("No response from order API.");
-        } else if (!response.id) {
-          alert("Order ID missing in response. Full response: " + JSON.stringify(response));
-        } else if (!response.keyId) {
-          alert("Razorpay keyId missing in response. Full response: " + JSON.stringify(response));
-        } else {
-          await this.loadRazorpayScript();
-          this.openRazorpayCheckout(response.id, response.keyId);
-        }
-      } catch (err) {
-        console.error("Error during payment flow:", err);
-        alert("Error creating order: " + (err?.message || err));
-      } finally {
-        this.proBtn.disabled = false;
-        this.proBtn.innerHTML = '💎 Pay Now';
+  createPlanCard(plan) {
+    const isPopular = plan.planName.toLowerCase().includes('pro');
+    const priceInRupees = (plan.price / 100).toLocaleString('en-IN');
+    const billingText = plan.billingCycle.toLowerCase();
+    
+    const cardDiv = document.createElement('div');
+    cardDiv.className = `bg-gradient-to-br from-white to-orange-50/80 rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur-sm relative hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 min-h-[500px] w-full max-w-xs mx-auto group ${isPopular ? 'border-2 border-gold/40' : 'border border-gold/20'}`;
+    cardDiv.setAttribute('data-plan', plan.id);
+    
+    cardDiv.innerHTML = `
+      ${isPopular ? `
+        <div class="absolute top-6 left-6">
+          <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg animate-pulse" style="color: #fff; background: linear-gradient(135deg, #FFD700, #FFA500);">⭐ MOST POPULAR</span>
+        </div>
+        <div class="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-gold to-orange-400 rounded-full flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold text-sm">PRO</span>
+        </div>
+      ` : `
+        <div class="absolute top-6 left-6">
+          <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">💼 ${plan.planName.toUpperCase()}</span>
+        </div>
+      `}
+      
+      <div class="text-center mb-8 mt-12">
+        <div class="mb-6">
+          <div class="flex items-baseline justify-center">
+            <span class="text-5xl font-extrabold text-gold-500">₹${priceInRupees}</span>
+            <span class="text-lg text-gray-600 ml-2">/${billingText}</span>
+          </div>
+          <div class="mt-2">
+            <span class="text-sm text-gray-500">${plan.durationDays} days access</span>
+          </div>
+        </div>
+        <p class="text-base text-gray-600 mb-8 leading-relaxed">${plan.description}</p>
+        <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl bg-gradient-to-r from-orange-400 to-gold hover:from-gold hover:to-orange-500'" 
+                data-plan-id="${plan.id}" data-plan-name="${plan.planName}">
+          💎 Get ${plan.planName}
+        </button>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="flex items-center bg-green-50 p-3 rounded-xl">
+          <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+            <span class="text-white text-xs">✓</span>
+          </div>
+          <span class="text-sm font-medium text-gray-700">Up to ${plan.maxUsers} users</span>
+        </div>
+        <div class="flex items-center bg-blue-50 p-3 rounded-xl">
+          <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+            <span class="text-white text-xs">✓</span>
+          </div>
+          <span class="text-sm font-medium text-gray-700">Advanced CRM features</span>
+        </div>
+        <div class="flex items-center bg-purple-50 p-3 rounded-xl">
+          <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+            <span class="text-white text-xs">✓</span>
+          </div>
+          <span class="text-sm font-medium text-gray-700">Priority support</span>
+        </div>
+        <div class="flex items-center bg-orange-50 p-3 rounded-xl">
+          <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+            <span class="text-white text-xs">✓</span>
+          </div>
+          <span class="text-sm font-medium text-gray-700">Mobile app access</span>
+        </div>
+      </div>
+    `;
+
+    // Add click handler for the button
+    const button = cardDiv.querySelector('button');
+    button.addEventListener('click', (e) => this.handlePaidPlanClick(e, plan));
+
+    return cardDiv;
+  }
+
+  async handlePaidPlanClick(e, plan) {
+    e.preventDefault();
+    const button = e.target;
+    const originalText = button.innerHTML;
+    
+    button.disabled = true;
+    button.innerHTML = '⏳ Processing...';
+    
+    try {
+      const response = await partnerService.createOrder(plan.id);
+      console.log("CreateOrder API response:", response);
+      
+      if (!response) {
+        alert("No response from order API.");
+      } else if (!response.data.razorpayOrderId) {
+        alert("Order ID missing in response. Full response: " + JSON.stringify(response));
+      } else if (!response.data.keyId) {
+        alert("Razorpay keyId missing in response. Full response: " + JSON.stringify(response));
+      } else {
+        await this.loadRazorpayScript();
+        this.openRazorpayCheckout(response.data.razorpayOrderId, response.data.keyId, plan);
       }
-    });
+    } catch (err) {
+      console.error("Error during payment flow:", err);
+      alert("Error creating order: " + (err?.message || err));
+    } finally {
+      button.disabled = false;
+      button.innerHTML = originalText;
+    }
+  }
 
+  showPlanError() {
+    // Remove existing paid plan cards and show error
+    const existingPaidCards = this.pricingCards.querySelectorAll('[data-plan]:not([data-plan="free"])');
+    existingPaidCards.forEach(card => card.remove());
+    
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'bg-red-50 border border-red-200 text-red-700 rounded-xl p-6 max-w-sm mx-auto';
+    errorDiv.innerHTML = `
+      <h3 class="font-bold mb-2">Unable to Load Plans</h3>
+      <p class="text-sm">Failed to fetch available plans. Please refresh the page or try again later.</p>
+    `;
+    this.pricingCards.appendChild(errorDiv);
+  }
+
+  setupTrialPlan() {
+    // Setup trial button logic
+    if (this.trialBtn) {
+      this.trialBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "/login/";
+      });
+    }
   }
 
   async loadRazorpayScript() {
@@ -130,17 +206,18 @@ class ChoosePlan {
     return Promise.resolve();
   }
 
-  openRazorpayCheckout(orderId, keyId) {
+  openRazorpayCheckout(orderId, keyId, plan) {
     const options = {
       key: keyId,
       order_id: orderId,
       name: "MT One",
-      description: "Pro Plan Payment",
+      image: "https://res.cloudinary.com/df1kus7ro/image/upload/v1751618884/mt1-logo_uitfvk.webp",
+      description: `${plan.planName} Payment`,
       handler: function (response) {
         console.log("Payment response:", response);
         
         // alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
-        window.location.href = "/login/";
+        window.location.href = "/login";
       },
       theme: {
         color: "#FFD700",

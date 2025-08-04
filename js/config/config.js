@@ -3,12 +3,14 @@ const CONFIG = {
   // API Configuration
   API: {
     // Production
-    BASE_URL: 'https://api.mtone.in',
-    REDIRECT_URL: 'https://app.mtone.in/Redirecting',
+    // BASE_URL: 'https://api.mtone.in',
+    // REDIRECT_URL: 'https://app.mtone.in/Redirecting',
 
     // Development
-    // BASE_URL: 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net',
-    // REDIRECT_URL: 'https://devdncrfe.azurewebsites.net/Redirecting',
+    BASE_URL: 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net',
+    // BASE_URL: 'https://localhost:7075',
+    REDIRECT_URL: 'https://devdncrfe.azurewebsites.net/Redirecting',
+    JWT: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjE5NiIsIkVtYWlsIjoiYW5zaXRkZWVsaXAyMzlAZ21haWwuY29tIiwiUm9sZSI6IkFkbWluIiwic3RhdHVzIjoiMTEyIiwibmJmIjoxNzU0MDQyMzY2LCJleHAiOjE3ODU1NzgzNjYsImlhdCI6MTc1NDA0MjM2Nn0.GFf77etW7ZBBc5l_MQec2Tk09gBGlsPRkcel5jbHLwc',
 
     DEFAULT_TOKEN: 'e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac',
     TIMEOUT: 30000, // 30 seconds
@@ -43,7 +45,8 @@ const CONFIG = {
     PARTNER_SIGNUP: '/account/partner-signup',
     APK_LINK: '/appsettings/APKLink',
     YOUTUBE_LINK: '/appsettings/YoutubePlaceholderLink',
-    CREATE_ORDER: '/api/Payment/createorder',
+    CREATE_ORDER: '/payment/orders/create',
+    PAYMENT_PLANS: '/payment/plans',
   },
 
   // Environment
