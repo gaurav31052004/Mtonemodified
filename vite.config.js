@@ -305,18 +305,20 @@ function devServerMiddleware() {
       // Add a general middleware to handle all route redirects and rewrites
       server.middlewares.use((req, res, next) => {
         const url = req.url;
+        const [pathname, queryString] = url.split('?');
+        const queryParams = queryString ? `?${queryString}` : '';
         
         // Check if this is a route with trailing slash that should be redirected
         for (const route of routes) {
-          if (url === `/${route}/`) {
-            res.writeHead(301, { Location: `/${route}` });
+          if (pathname === `/${route}/`) {
+            res.writeHead(301, { Location: `/${route}${queryParams}` });
             res.end();
             return;
           }
           
           // Check if this is a route without trailing slash that should serve HTML from pages folder
-          if (url === `/${route}`) {
-            req.url = `/pages/${route}.html`;
+          if (pathname === `/${route}`) {
+            req.url = `/pages/${route}.html${queryParams}`;
             break;
           }
         }
@@ -327,17 +329,28 @@ function devServerMiddleware() {
   };
 }
 
-export default defineConfig({
-  plugins: [tailwindcss(), webConfigGeneratorPlugin(), devServerMiddleware()],
-  root: ".",
-  build: {
-    rollupOptions: {
-      input: createInputObject(),
+export default defineConfig(({ mode, command }) => {
+  // Use the mode to determine if this is a production build
+  const isProduction = mode === 'production';
+  
+  console.log(`🔧 Vite Config - Mode: ${mode}, Command: ${command}, Production: ${isProduction}`);
+  
+  return {
+    plugins: [tailwindcss(), webConfigGeneratorPlugin(), devServerMiddleware()],
+    root: ".",
+    build: {
+      rollupOptions: {
+        input: createInputObject(),
+      },
     },
-  },
-  server: {
-    open: true,
-    port: 3000,
-  },
-  appType: "mpa", // Multi-page application
+    server: {
+      open: true,
+      port: 3000,
+    },
+    appType: "mpa", // Multi-page application
+    define: {
+      // Make the mode available to client-side code
+      'import.meta.env.NODE_ENV': JSON.stringify(mode),
+    },
+  };
 });

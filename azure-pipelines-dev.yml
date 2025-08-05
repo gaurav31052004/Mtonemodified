@@ -4,15 +4,15 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- prod-vanilla
+- dev-vanilla
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
-  ftpUsername: 'mtone-in\$mtone-in'
-  ftpPassword: 'rPT2kXBe2CKPY8lgiWLCfXba4TxR7m995KqcmJCbBpmipRZYNprwHYdKNDCx'
-  ftpHost: 'ftps://waws-prod-ma1-015.ftp.azurewebsites.windows.net/site/wwwroot'
+  ftpUsername: 'devdncr\$devdncr'
+  ftpPassword: 'o4F7Gpe1xBKYynnP8PSq1QpTSl7ppBHsT7c7f4t73QvnqmyiGGWtjKJGWPTq'
+  ftpHost: 'ftps://waws-prod-dm1-225.ftp.azurewebsites.windows.net/site/wwwroot'
 
 steps:
   - task: NodeTool@0
@@ -22,7 +22,7 @@ steps:
 
   - script: |
       npm install
-      npm run build:prod
+      npm run build
     displayName: 'npm install & build'
 
   - task: FtpUpload@2

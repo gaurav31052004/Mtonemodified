@@ -1,3 +1,5 @@
+import { environment } from "./environment-selector.js";
+
 // Environment Configuration
 const CONFIG = {
   // API Configuration
@@ -7,9 +9,15 @@ const CONFIG = {
     // REDIRECT_URL: 'https://app.mtone.in/Redirecting',
 
     // Development
-    BASE_URL: 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net',
+    // BASE_URL: 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net',
     // BASE_URL: 'https://localhost:7075',
-    REDIRECT_URL: 'https://devdncrfe.azurewebsites.net/Redirecting',
+    // REDIRECT_URL: 'https://devdncrfe.azurewebsites.net/Redirecting',
+    // REDIRECT_URL: 'http://localhost:4200/Redirecting',
+
+    BASE_URL: environment.API_URL,
+    REDIRECT_URL: environment.REDIRECT_URL,
+    environment: environment.environment,
+
     JWT: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjE5NiIsIkVtYWlsIjoiYW5zaXRkZWVsaXAyMzlAZ21haWwuY29tIiwiUm9sZSI6IkFkbWluIiwic3RhdHVzIjoiMTEyIiwibmJmIjoxNzU0MDQyMzY2LCJleHAiOjE3ODU1NzgzNjYsImlhdCI6MTc1NDA0MjM2Nn0.GFf77etW7ZBBc5l_MQec2Tk09gBGlsPRkcel5jbHLwc',
 
     DEFAULT_TOKEN: 'e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac',
@@ -50,10 +58,10 @@ const CONFIG = {
   },
 
   // Environment
-  ENVIRONMENT: 'production', // 'development' | 'staging' | 'production'
+  ENVIRONMENT: environment.environment, // Will be 'development' or 'production' based on build
   
-  // Debug mode
-  DEBUG: false
+  // Debug mode - enable in development
+  DEBUG: environment.environment === 'development'
 };
 
 // Utility function to get full API URL
