@@ -1,4 +1,4 @@
-import { environment } from "./environment-selector.js";
+import { environment } from "@/environment";
 
 // Environment Configuration
 const CONFIG = {

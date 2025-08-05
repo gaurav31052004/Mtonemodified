@@ -335,9 +335,21 @@ export default defineConfig(({ mode, command }) => {
   
   console.log(`🔧 Vite Config - Mode: ${mode}, Command: ${command}, Production: ${isProduction}`);
   
+  // Set up alias for environment file based on mode
+  const environmentFile = isProduction 
+    ? resolve(__dirname, 'js/config/environment.prod.js')
+    : resolve(__dirname, 'js/config/environment.js');
+  
+  console.log(`🌍 Using environment file: ${environmentFile}`);
+  
   return {
     plugins: [tailwindcss(), webConfigGeneratorPlugin(), devServerMiddleware()],
     root: ".",
+    resolve: {
+      alias: {
+        '@/environment': environmentFile
+      }
+    },
     build: {
       rollupOptions: {
         input: createInputObject(),
@@ -348,9 +360,5 @@ export default defineConfig(({ mode, command }) => {
       port: 3000,
     },
     appType: "mpa", // Multi-page application
-    define: {
-      // Make the mode available to client-side code
-      'import.meta.env.NODE_ENV': JSON.stringify(mode),
-    },
   };
 });
