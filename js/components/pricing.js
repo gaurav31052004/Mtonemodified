@@ -25,7 +25,7 @@ class PricingToggle {
             <div class="flex items-center space-x-4">
                 <span class="text-lg font-medium text-gray-700" id="monthly-label">Monthly</span>
                 <div class="relative">
-                    <button class="w-16 h-8 bg-gray-300 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gold/50" id="pricing-toggle" aria-label="Toggle pricing between monthly and yearly">
+                    <button class="w-16 h-8 bg-blue-300 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gold/50 cursor-pointer" id="pricing-toggle" aria-label="Toggle pricing between monthly and yearly">
                         <div class="w-6 h-6 bg-white rounded-full shadow-sm transform transition-transform duration-300" id="toggle-slider"></div>
                     </button>
                 </div>
@@ -67,7 +67,7 @@ class PricingToggle {
         
         if (this.isYearly) {
             toggle.classList.add('bg-gold');
-            toggle.classList.remove('bg-gray-300');
+            toggle.classList.remove('bg-blue-300');
             slider.style.transform = 'translateX(32px)';
             monthlyLabel.classList.add('text-gray-500');
             monthlyLabel.classList.remove('text-gray-700');
@@ -75,7 +75,7 @@ class PricingToggle {
             yearlyLabel.classList.remove('text-gray-700');
         } else {
             toggle.classList.remove('bg-gold');
-            toggle.classList.add('bg-gray-300');
+            toggle.classList.add('bg-blue-300');
             slider.style.transform = 'translateX(0)';
             monthlyLabel.classList.remove('text-gray-500');
             monthlyLabel.classList.add('text-gray-700');
@@ -98,25 +98,32 @@ class PricingToggle {
                 'Up to 1,000 leads',
                 'Basic CRM features',
                 'Email support',
-                'Mobile app access'
+                'Mobile app access',
+                '7 days trial period'
             ],
             description: 'Start your 7 days FREE trial. No credit card required.',
-            billingCycle: 'Monthly'
+            billingCycle: 'Monthly',
+            durationDays: 7,
+            maxUsers: 1,
+            isTrial: true
         };
 
         // Create custom plan (always contact us)
         const customPlan = {
             id: 'custom',
-            planName: 'Custom Plan',
+            planName: 'Enterprise Plan',
             price: null,
             features: [
                 'Unlimited leads',
                 'Full CRM suite',
                 '24/7 phone support',
-                'Custom integrations'
+                'Custom integrations',
+                'Dedicated account manager',
+                'Custom reporting'
             ],
             description: 'Need something tailored for your enterprise? Get in touch for a custom solution and pricing.',
-            billingCycle: 'Custom'
+            billingCycle: 'Custom',
+            maxUsers: 'Unlimited'
         };
 
         return {
@@ -157,18 +164,35 @@ class PricingToggle {
     }
 
     createPricingCard(planId, planData, period, container) {
-        const isPopular = planData.planName && planData.planName.toLowerCase().includes('pro');
+        const isPopular = planData.planName && (planData.planName.toLowerCase().includes('pro') || planData.planName.toLowerCase().includes('premium'));
         const priceInRupees = planData.price ? (planData.price / 100).toLocaleString('en-IN') : null;
+        
+        // Determine button color based on billing cycle
+        const isYearlyPlan = planData.billingCycle === 'Yearly';
+        const buttonColorClass = isYearlyPlan 
+            ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
+            : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700';
         
         // Generate features based on plan data
         let features = planData.features || [];
         if (!planData.features && planData.maxUsers) {
+            // Generate features based on plan characteristics
             features = [
-                `Up to ${planData.maxUsers} users`,
+                `Up to ${planData.maxUsers === 'Unlimited' ? 'unlimited' : planData.maxUsers} users`,
                 'Advanced CRM features',
-                'Priority support',
-                'Mobile app access'
+                'Lead management system',
+                'Mobile app access',
+                'Email & SMS campaigns'
             ];
+            
+            // Add premium features for higher-tier plans
+            if (planData.price && planData.price > 200000) { // Above ₹2000
+                features.push('Priority support', 'Advanced analytics', 'Custom integrations');
+            } else if (planData.price && planData.price > 100000) { // Above ₹1000
+                features.push('Email support', 'Basic analytics');
+            } else {
+                features.push('Basic support');
+            }
         }
         
         const cardDiv = document.createElement('div');
@@ -187,6 +211,10 @@ class PricingToggle {
                 <div class="absolute top-6 left-6">
                     <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">🎯 FREE Trial</span>
                 </div>
+            ` : planId === 'custom' ? `
+                <div class="absolute top-6 left-6">
+                    <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">💼 ENTERPRISE</span>
+                </div>
             ` : `
                 <div class="absolute top-6 left-6">
                     <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">💼 ${planData.planName.toUpperCase()}</span>
@@ -201,7 +229,7 @@ class PricingToggle {
                               planData.price === null ? 'Contact Us' : 
                               `₹${priceInRupees}`}
                         </span>
-                        ${planData.price !== null && planData.price !== 0 ? `<span class="text-lg text-gray-600 ml-2">/${period}</span>` : planData.price === 0 ? `<span class="text-lg text-gray-500 ml-2">/month</span>` : ''}
+                        ${planData.price !== null && planData.price !== 0 ? `<span class="text-lg text-gray-600 ml-2">/${period}</span>` : planData.price === 0 ? `<span class="text-lg text-gray-500 ml-2">/trial</span>` : ''}
                     </div>
                     ${planId === 'free' ? `
                         <div class="mt-2">
@@ -214,13 +242,13 @@ class PricingToggle {
                     ` : ''}
                 </div>
                 <p class="text-base text-gray-600 mb-8 leading-relaxed">${planData.description || 'Plan description'}</p>
-                <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
+                <button class="w-full text-white cursor-pointer font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
                     planId === 'free' 
                         ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
-                        : isPopular 
-                            ? 'bg-gradient-to-r from-orange-400 to-gold hover:from-gold hover:to-orange-500' 
-                            : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
-                }">
+                        : planId === 'custom'
+                            ? 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700'
+                            : buttonColorClass
+                }" data-plan-id="${planData.id || planId}">
                     ${planId === 'free' ? '🚀 Start FREE Trial' : 
                       planId === 'custom' ? '📞 Contact Sales' : 
                       `💎 Get ${planData.planName}`}
@@ -228,7 +256,7 @@ class PricingToggle {
             </div>
 
             <div class="space-y-4">
-                ${features.map((feature, index) => {
+                ${features.slice(0, 6).map((feature, index) => {
                     const colors = ['green', 'blue', 'purple', 'orange', 'indigo', 'pink'];
                     const color = colors[index % colors.length];
                     return `
@@ -248,12 +276,16 @@ class PricingToggle {
         if (button) {
             if (planId === 'free' || (planData.id && planData.id !== 'custom')) {
                 button.onclick = () => {
+                    // Store selected plan data for checkout
+                    if (planData.id && planData.id !== 'free') {
+                        localStorage.setItem('selectedPlan', JSON.stringify(planData));
+                    }
                     window.location.href = '/onboarding';
                 };
             } else if (planId === 'custom') {
                 button.onclick = () => {
                     // Handle custom plan contact
-                    window.location.href = 'mailto:contact@mtone.in?subject=Custom Plan Inquiry';
+                    window.location.href = 'mailto:contact@mtone.in?subject=Enterprise Plan Inquiry';
                 };
             }
         }

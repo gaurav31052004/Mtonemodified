@@ -6,13 +6,17 @@ class ChoosePlan {
     this.trialBtn = document.querySelector('[data-plan="free"] button');
     this.pricingCards = document.getElementById("pricing-cards");
     this.plans = [];
+    this.isYearly = false;
     this.init();
   }
 
   async init() {
     this.showSignupDetails();
+    this.createToggle();
+    this.bindToggleEvents();
     await this.loadPlans();
     this.setupTrialPlan();
+    this.renderPlans();
   }
 
   showSignupDetails() {
@@ -36,17 +40,87 @@ class ChoosePlan {
     `;
   }
 
-  async loadPlans() {
-    try {
-      this.plans = await partnerService.getPlans();
-      this.renderPaidPlans();
-    } catch (error) {
-      console.error("Failed to load plans:", error);
-      this.showPlanError();
+  createToggle() {
+    // Find the signup-details container
+    const signupDetailsContainer = document.getElementById('signup-details');
+    
+    // Create toggle container
+    const toggleContainer = document.createElement('div');
+    toggleContainer.className = 'flex items-center justify-center mb-12';
+    toggleContainer.innerHTML = `
+      <div class="flex items-center space-x-4">
+        <span class="text-lg font-medium text-gray-700" id="monthly-label">Monthly</span>
+        <div class="relative">
+          <button class="w-16 h-8 bg-blue-300 rounded-full p-1 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gold/50 cursor-pointer" id="pricing-toggle" aria-label="Toggle pricing between monthly and yearly">
+            <div class="w-6 h-6 bg-white rounded-full shadow-sm transform transition-transform duration-300" id="toggle-slider"></div>
+          </button>
+        </div>
+        <span class="text-lg font-medium text-gray-700" id="yearly-label">Yearly</span>
+        <span class="ml-2 px-3 py-1 text-sm font-semibold text-green-700 bg-green-100 rounded-full">Save 20%</span>
+      </div>
+    `;
+    
+    // Insert toggle after the signup details container
+    signupDetailsContainer.insertAdjacentElement('afterend', toggleContainer);
+  }
+
+  bindToggleEvents() {
+    const toggle = document.getElementById('pricing-toggle');
+    const slider = document.getElementById('toggle-slider');
+    
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        this.isYearly = !this.isYearly;
+        this.updateToggleUI();
+        this.renderPlans();
+      });
     }
   }
 
-  renderPaidPlans() {
+  updateToggleUI() {
+    const toggle = document.getElementById('pricing-toggle');
+    const slider = document.getElementById('toggle-slider');
+    const monthlyLabel = document.getElementById('monthly-label');
+    const yearlyLabel = document.getElementById('yearly-label');
+    
+    if (this.isYearly) {
+      toggle.classList.add('bg-gold');
+      toggle.classList.remove('bg-blue-300');
+      slider.style.transform = 'translateX(32px)';
+      monthlyLabel.classList.add('text-gray-500');
+      monthlyLabel.classList.remove('text-gray-700');
+      yearlyLabel.classList.add('text-gray-900', 'font-semibold');
+      yearlyLabel.classList.remove('text-gray-700');
+    } else {
+      toggle.classList.remove('bg-gold');
+      toggle.classList.add('bg-blue-300');
+      slider.style.transform = 'translateX(0)';
+      monthlyLabel.classList.remove('text-gray-500');
+      monthlyLabel.classList.add('text-gray-700');
+      yearlyLabel.classList.remove('text-gray-900', 'font-semibold');
+      yearlyLabel.classList.add('text-gray-700');
+    }
+  }
+
+  async loadPlans() {
+    try {
+      this.plans = await partnerService.getPlans();
+    } catch (error) {
+      console.error("Failed to load plans:", error);
+      this.plans = [];
+    }
+  }
+
+  renderPlans() {
+    // Filter plans by billing cycle
+    const currentPlans = this.isYearly 
+      ? this.plans.filter(plan => plan.billingCycle === 'Yearly')
+      : this.plans.filter(plan => plan.billingCycle === 'Monthly');
+    
+    this.renderPaidPlans(currentPlans);
+  }
+
+  renderPaidPlans(plansToRender = []) {
     // Find the trial plan card
     const trialCard = this.pricingCards.querySelector('[data-plan="free"]');
     
@@ -54,8 +128,13 @@ class ChoosePlan {
     const existingPaidCards = this.pricingCards.querySelectorAll('[data-plan]:not([data-plan="free"])');
     existingPaidCards.forEach(card => card.remove());
 
+    if (plansToRender.length === 0) {
+      this.showNoPlanMessage();
+      return;
+    }
+
     // Add paid plans from API
-    this.plans.forEach(plan => {
+    plansToRender.forEach(plan => {
       if (plan.isTrial) return; // Skip trial plans from API
       
       const planCard = this.createPlanCard(plan);
@@ -63,10 +142,28 @@ class ChoosePlan {
     });
   }
 
+  showNoPlanMessage() {
+    const billingType = this.isYearly ? 'yearly' : 'monthly';
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'bg-blue-50 border border-blue-200 text-blue-700 rounded-xl p-6 max-w-sm mx-auto';
+    messageDiv.innerHTML = `
+      <h3 class="font-bold mb-2">No ${billingType} plans available</h3>
+      <p class="text-sm">Try switching to ${this.isYearly ? 'monthly' : 'yearly'} plans to see available options.</p>
+    `;
+    this.pricingCards.appendChild(messageDiv);
+  }
+
   createPlanCard(plan) {
-    const isPopular = plan.planName.toLowerCase().includes('pro');
+    const isPopular = plan.planName.toLowerCase().includes('pro') || plan.planName.toLowerCase().includes('premium');
     const priceInRupees = (plan.price / 100).toLocaleString('en-IN');
     const billingText = plan.billingCycle.toLowerCase();
+    const period = plan.billingCycle === 'Yearly' ? 'year' : 'month';
+    
+    // Determine button color based on billing cycle
+    const isYearlyPlan = plan.billingCycle === 'Yearly';
+    const buttonColorClass = isYearlyPlan 
+      ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
+      : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700';
     
     const cardDiv = document.createElement('div');
     cardDiv.className = `bg-gradient-to-br from-white to-orange-50/80 rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur-sm relative hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 min-h-[500px] w-full max-w-xs mx-auto group ${isPopular ? 'border-2 border-gold/40' : 'border border-gold/20'}`;
@@ -89,15 +186,15 @@ class ChoosePlan {
       <div class="text-center mb-8 mt-12">
         <div class="mb-6">
           <div class="flex items-baseline justify-center">
-            <span class="text-5xl font-extrabold text-gold-500">₹${priceInRupees}</span>
-            <span class="text-lg text-gray-600 ml-2">/${billingText}</span>
+            <span class="text-5xl font-extrabold text-gray-900">₹${priceInRupees}</span>
+            <span class="text-lg text-gray-600 ml-2">/${period}</span>
           </div>
           <div class="mt-2">
             <span class="text-sm text-gray-500">${plan.durationDays} days access</span>
           </div>
         </div>
         <p class="text-base text-gray-600 mb-8 leading-relaxed">${plan.description}</p>
-        <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl bg-gradient-to-r from-orange-400 to-gold hover:from-gold hover:to-orange-500'" 
+        <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${buttonColorClass}" 
                 data-plan-id="${plan.id}" data-plan-name="${plan.planName}">
           💎 Get ${plan.planName}
         </button>

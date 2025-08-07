@@ -36,14 +36,15 @@ export default class SignupController {
           "gap-3",
           "w-full",
           "mt-2",
+          "p-3",
         );
         this.partnerZoneCardsContainer.innerHTML = partners
           .map(
             (partner) => `
-        <div class="partner-card relative flex flex-col items-center justify-center p-3 border-2 border-gray-200 rounded-2xl cursor-pointer transition-all duration-300 bg-white hover:border-gold hover:shadow-md min-h-[100px] group overflow-hidden" 
+        <div class="partner-card relative flex flex-col items-center justify-center p-3 border border-gray-200 rounded-2xl cursor-pointer transition-all duration-300 bg-white hover:border-gold hover:shadow-md min-h-[100px] group overflow-hidden" 
           data-id="${partner.masterDetailName}" data-name="${partner.masterDetailName}">
           <!-- Selection indicator -->
-          <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-gray-300 bg-white transition-all duration-200 group-hover:border-gold hidden z-10">
+          <div class="absolute top-2 left-2 w-4 h-4 rounded-full border-2 border-gray-300 bg-white transition-all duration-200 group-hover:border-gold hidden z-10">
             <!-- Checkmark icon -->
             <svg class="absolute inset-0 w-2.5 h-2.5 m-auto text-white opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
@@ -67,35 +68,27 @@ export default class SignupController {
                 .forEach((c) => {
                   c.classList.remove(
                     "border-gold",
-                    "bg-gold-50",
-                    "ring-2",
-                    "ring-gold",
-                    "shadow-lg",
+                    "shadow-md",
                   );
-                  const indicator = c.querySelector(".absolute.top-2.right-2");
+                  const indicator = c.querySelector(".absolute.top-2.left-2");
                   indicator.classList.add("hidden");
                   indicator.classList.remove("border-gold", "bg-gold");
                   const svg = indicator.querySelector("svg");
                   svg.classList.add("opacity-0");
                   svg.classList.remove("opacity-100");
-                  c.querySelector("h3").classList.remove("text-gold");
                 });
 
               // Add selection to clicked card
               card.classList.add(
                 "border-gold",
-                "bg-gold-50",
-                "ring-2",
-                "ring-gold",
-                "shadow-lg",
+                "shadow-md",
               );
-              const indicator = card.querySelector(".absolute.top-2.right-2");
+              const indicator = card.querySelector(".absolute.top-2.left-2");
               indicator.classList.remove("hidden");
               indicator.classList.add("border-gold", "bg-gold");
               const svg = indicator.querySelector("svg");
               svg.classList.remove("opacity-0");
               svg.classList.add("opacity-100");
-              card.querySelector("h3").classList.add("text-gold");
 
               // Set hidden input value
               this.partnerZoneInput.value = card.dataset.id;
@@ -377,12 +370,9 @@ export default class SignupController {
       .forEach((card) => {
         card.classList.remove(
           "border-gold",
-          "bg-gold-50",
-          "ring-2",
-          "ring-gold",
-          "shadow-lg",
+          "shadow-md",
         );
-        const indicator = card.querySelector(".absolute.top-2.right-2");
+        const indicator = card.querySelector(".absolute.top-2.left-2");
         if (indicator) {
           indicator.classList.add("hidden");
           indicator.classList.remove("border-gold", "bg-gold");
@@ -391,10 +381,6 @@ export default class SignupController {
             svg.classList.add("opacity-0");
             svg.classList.remove("opacity-100");
           }
-        }
-        const h3 = card.querySelector("h3");
-        if (h3) {
-          h3.classList.remove("text-gold");
         }
       });
   }
