@@ -85,7 +85,7 @@ export default class SignupController {
               );
               const indicator = card.querySelector(".absolute.top-2.left-2");
               indicator.classList.remove("hidden");
-              indicator.classList.add("border-gold", "bg-gold");
+              indicator.classList.add("border-gold", "bg-yellow-400");
               const svg = indicator.querySelector("svg");
               svg.classList.remove("opacity-0");
               svg.classList.add("opacity-100");
