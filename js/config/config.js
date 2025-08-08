@@ -55,6 +55,7 @@ const CONFIG = {
     YOUTUBE_LINK: '/appsettings/YoutubePlaceholderLink',
     CREATE_ORDER: '/payment/orders/create',
     PAYMENT_PLANS: '/payment/plans',
+    CONTACT: '/properties/GetInTouch'
   },
 
   // Environment

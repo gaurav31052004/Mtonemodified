@@ -2,6 +2,15 @@ import ApiService from "./base-api.js";
 import CONFIG from "../config/config.js";
 
 class PartnerService extends ApiService {
+  async sendContactMessage(payload) {
+    try {
+      const response = await this.post(CONFIG.ENDPOINTS.CONTACT, payload);
+      return response;
+    } catch (error) {
+      console.error("Error sending contact message:", error);
+      throw error;
+    }
+  }
   async createOrder(planId) {
     // Get partner details from localStorage
     const details = JSON.parse(localStorage.getItem("partnerDetails") || "{}");

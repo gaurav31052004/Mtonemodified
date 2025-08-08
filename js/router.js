@@ -1,4 +1,5 @@
 import ApplicationDownload from "./controllers/application.js";
+import ContactController from "./controllers/contact-controller.js";
 import SignupController from "./controllers/signup-controller.js";
 import ChoosePlan from "./components/choose-plan.js";
 import PartnerLoginModule from "./login.js";
@@ -53,5 +54,10 @@ export class Router {
     if (this.isPath(["/choose-plan"])) {
       new ChoosePlan();
     }
+
+      // Initialize contact page
+      if (this.isPath(["/contact"])) {
+        new ContactController();
+      }
   }
 }
