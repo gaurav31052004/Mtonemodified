@@ -1,6 +1,3 @@
-// ContactController.js
-// Handles contact form submission logic for contact page
-import CONFIG from "../config/config.js";
 import { partnerService } from "../services/partner-service.js";
 
 export default class ContactController {
