@@ -194,7 +194,7 @@ class ChoosePlan {
           </div>
         </div>
         <p class="text-base text-gray-600 mb-8 leading-relaxed">${plan.description}</p>
-        <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${buttonColorClass}" 
+        <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer ${buttonColorClass}" 
                 data-plan-id="${plan.id}" data-plan-name="${plan.planName}">
           💎 Get ${plan.planName}
         </button>
