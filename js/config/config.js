@@ -18,8 +18,6 @@ const CONFIG = {
     REDIRECT_URL: environment.REDIRECT_URL,
     environment: environment.environment,
 
-    JWT: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6IjE5NiIsIkVtYWlsIjoiYW5zaXRkZWVsaXAyMzlAZ21haWwuY29tIiwiUm9sZSI6IkFkbWluIiwic3RhdHVzIjoiMTEyIiwibmJmIjoxNzU0MDQyMzY2LCJleHAiOjE3ODU1NzgzNjYsImlhdCI6MTc1NDA0MjM2Nn0.GFf77etW7ZBBc5l_MQec2Tk09gBGlsPRkcel5jbHLwc',
-
     DEFAULT_TOKEN: 'e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac',
     TIMEOUT: 30000, // 30 seconds
   },

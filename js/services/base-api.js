@@ -6,7 +6,7 @@ class ApiService {
     this.defaultHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${CONFIG.API.JWT}`
+      'Authorization': `Bearer ${CONFIG.API.DEFAULT_TOKEN}`
     };
   }
 
