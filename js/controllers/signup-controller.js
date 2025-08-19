@@ -144,6 +144,11 @@ export default class SignupController {
       this.focusField("name");
       return;
     }
+    if (name.length < 3 || name.length > 50) {
+      this.showError("Name must be between 3 and 50 characters.");
+      this.focusField("name");
+      return;
+    }
 
     if (!email) {
       this.showError("Please enter your email address.");
