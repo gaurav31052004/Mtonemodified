@@ -4,8 +4,6 @@ export function loadFooter() {
   const quickLinks = [
     { href: "/terms-conditions", label: "Terms of Use" },
     { href: "/privacypolicy", label: "Privacy Policy" },
-    { href: "/cancellation-refund", label: "Cancellation & Refund" },
-    { href: "/shipping", label: "Shipping & Delivery" },
     { href: "/#pricing", label: "Pricing Plans" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },

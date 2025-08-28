@@ -16,8 +16,6 @@ Allow: /application
 Allow: /privacypolicy
 Allow: /privacy-policy
 Allow: /terms-conditions
-Allow: /cancellation-refund
-Allow: /shipping
 Allow: /onboarding
 Allow: /login
 Allow: /faq
