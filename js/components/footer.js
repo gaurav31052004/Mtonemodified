@@ -2,8 +2,10 @@ export function loadFooter() {
   const logoUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/v1751968938/9438b57c07c91f432d2653d34eaca599de386f5b_g1znof.webp";
   // All quick links in an array
   const quickLinks = [
-    { href: "/terms", label: "Terms of Use" },
-    { href: "/privacy", label: "Privacy Policy" },
+    { href: "/terms-conditions", label: "Terms of Use" },
+    { href: "/privacypolicy", label: "Privacy Policy" },
+    { href: "/cancellation-refund", label: "Cancellation & Refund" },
+    { href: "/shipping", label: "Shipping & Delivery" },
     { href: "/#pricing", label: "Pricing Plans" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },

@@ -9,13 +9,15 @@ Disallow: /admin
 
 # Allow important pages
 Allow: /
-Allow: /about/
-Allow: /contact/
-Allow: /choose-plan/
-Allow: /application/
-Allow: /privacy/
-Allow: /privacy-policy/
-Allow: /terms/
+Allow: /about
+Allow: /contact
+Allow: /choose-plan
+Allow: /application
+Allow: /privacypolicy
+Allow: /privacy-policy
+Allow: /terms-conditions
+Allow: /cancellation-refund
+Allow: /shipping
 Allow: /onboarding
 Allow: /login
 Allow: /faq
