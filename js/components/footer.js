@@ -27,7 +27,6 @@ export function loadFooter() {
           </a>
           <h4 class="text-white text-base font-semibold mb-1">Contact</h4>
           <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-phone-alt mr-2"></i>+91 7303062845</p>
-          <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-phone-alt mr-2"></i>+91 9718361550</p>
           <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-envelope mr-2"></i>info@mtone.in</p>
         </div>
         <!-- Quick Links -->
