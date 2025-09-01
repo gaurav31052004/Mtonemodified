@@ -1,4 +1,87 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-gold-50: #fffbf0;
+  --color-gold-100: #fef3c7;
+  --color-gold-200: #fde68a;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+  --color-gold-700: #b45309;
+  --color-gold-800: #92400e;
+  --color-gold-900: #78350f;
+  --color-gold: #ffd700;
+  --color-orange: #ffa500;
+
+  --font-sans: "Kumbh Sans", Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Add opacity values */
+  --opacity-50: 0.5;
+  --opacity-25: 0.25;
+  --opacity-75: 0.75;
+  --opacity-100: 1;
+
+  --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-dashboard-float: dashboardFloat 6s ease-in-out infinite;
+
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes dashboardFloat {
+    0%,
+    100% {
+      transform: translateY(-50%) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-60%) rotate(2deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
 
 /* Ensure no horizontal overflow on any device */
 html, body {
@@ -9,4 +92,55 @@ html, body {
 /* Ensure all containers respect viewport width */
 * {
   box-sizing: border-box;
+}
+
+/* Partner card styling */
+.partner-card {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* Partner zone container */
+#partner-zone-cards {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Text clamp utility for partner names */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.partner-card.selected {
+  @apply border-gold bg-gold-50 ring-gold shadow-lg ring-2;
+}
+
+.partner-card.selected h3 {
+  @apply text-gold;
+}
+
+.partner-card.selected .absolute {
+  @apply border-gold bg-gold;
+}
+
+.partner-card.selected svg {
+  @apply opacity-100;
+}
+
+/* Smooth hover effects */
+.partner-card:hover:not(.selected) {
+  @apply border-gold-300 shadow-md;
+}
+
+.partner-card:focus {
+  @apply ring-gold outline-none ring-2;
 }

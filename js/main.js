@@ -6,8 +6,12 @@ import { addFloatingWhatsappButton } from "./components/whatsapp-float.js";
 import { Router } from "./router.js";
 import { UIEffects } from "./utils/ui-effects.js";
 import { SmoothScroll } from "./utils/smooth-scroll.js";
+import { NavigationUtils } from "./utils/navigation-utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Initialize navigation utilities for global access
+  NavigationUtils.initialize();
+
   // Setup YouTube embed if container exists
   if (document.getElementById("yt-video-container")) {
     setupYoutubeEmbed();

@@ -7,8 +7,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us | MT One</title>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/input.css">
   <script type="module" src="../js/main.js" defer></script>
+  <style>
+    .hover\:shadow-3xl:hover {
+      box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.3);
+    }
+
+    .hover\:scale-102:hover {
+      transform: scale(1.02);
+    }
+
+    /* Custom gradient classes */
+    .from-blue-25 { --tw-gradient-from: rgb(239 246 255); }
+    .from-emerald-25 { --tw-gradient-from: rgb(236 253 245); }
+    .from-purple-25 { --tw-gradient-from: rgb(250 245 255); }
+    .from-orange-25 { --tw-gradient-from: rgb(255 247 237); }
+    .via-blue-25 { --tw-gradient-via: rgb(239 246 255); }
+    .via-emerald-25 { --tw-gradient-via: rgb(236 253 245); }
+    .via-purple-25 { --tw-gradient-via: rgb(250 245 255); }
+    .via-orange-25 { --tw-gradient-via: rgb(255 247 237); }
+  </style>
 </head>
 
 <body class="font-sans bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-800 overflow-x-hidden">
@@ -16,28 +34,211 @@
   <div id="navbar"></div>
 
   <!-- Main Content -->
-  <main class="pt-40 pb-24 px-4 md:px-0 min-h-screen flex items-start justify-center">
-    <section
-      class="max-w-3xl w-full bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/10 p-10 md:p-16">
-      <h1 class="text-3xl md:text-5xl font-extrabold text-gold mb-8 text-center">About MT One</h1>
-      <p class="text-gray-600 mb-6 text-lg text-center">Empowering Real Estate Teams for the Future</p>
-      <div class="space-y-8 text-gray-700 text-base md:text-lg leading-relaxed">
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">Our Mission</h2>
-          <p>At MT One, our mission is to revolutionize the real estate industry by providing modern, intuitive, and powerful CRM tools that help teams manage leads, listings, and client relationships with ease.</p>
+  <main class="min-h-screen">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-purple-700 via-indigo-700 to-purple-600 py-32 mt-36 px-4 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-purple-700/50 to-indigo-700/50"></div>
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-300 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute top-3/4 right-1/4 w-64 h-64 bg-indigo-300 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+      <div class="max-w-6xl mx-auto text-center relative z-10">
+        <h1 class="text-6xl md:text-8xl font-black mb-8 tracking-tight bg-gradient-to-r from-white via-purple-200 to-indigo-200 bg-clip-text text-transparent transform transition-all duration-1000 ease-out animate-fade-in-down">
+          About Us
+        </h1>
+        <p class="text-2xl md:text-3xl text-purple-100 font-light max-w-5xl mx-auto leading-relaxed transform transition-all duration-1000 ease-out animate-fade-in-up">
+          Reimagine Real Estate Success - The AI-Powered CRM Built for Growth
+        </p>
+      </div>
+    </section>
+
+    <!-- Who We Are Section -->
+    <section class="max-w-6xl mx-auto mb-20 px-4 pt-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Who We Are</h2>
+      <div class="space-y-6 text-gray-700 text-lg leading-relaxed max-w-4xl mx-auto">
+        <p class="transform transition-all duration-500 hover:text-gray-900">
+          At MT One, we are redefining the future of real estate through the power of AI-driven technology. Our comprehensive CRM solution — a seamless blend of mobile and web applications — is built to empower consultants, agents, and agencies worldwide.
+        </p>
+        <p class="transform transition-all duration-500 hover:text-gray-900">
+          We understand the challenges of managing leads, tracking follow-ups, and juggling multiple platforms. That's why we created MT One — an intelligent, all-in-one system that brings everything together in one place. Trusted by thousands of real estate professionals across India, MT One helps you stay productive on-the-go or at your desk.
+        </p>
+      </div>
+    </section>
+
+    <!-- Mission & Vision Grid -->
+    <section class="max-w-6xl mx-auto mb-20 px-4">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Mission -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-3xl p-8 md:p-10 shadow-xl transform transition-all duration-500 hover:scale-102 hover:shadow-2xl">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-bullseye text-white text-lg"></i>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-bold text-blue-600">Our Mission</h3>
+          </div>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            To empower real estate professionals with innovative, AI-powered tools that simplify operations, strengthen client engagement, and accelerate sales growth — enabling them to focus on building meaningful relationships and closing more deals.
+          </p>
         </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">Our Vision</h2>
-          <p>We envision a world where real estate professionals can focus on building relationships and closing deals, while our technology takes care of the rest—streamlining workflows, automating follow-ups, and delivering actionable insights.</p>
+
+        <!-- Vision -->
+        <div class="bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-100 rounded-3xl p-8 md:p-10 shadow-xl transform transition-all duration-500 hover:scale-102 hover:shadow-2xl">
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-rocket text-white text-lg"></i>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-bold text-purple-600">Our Vision</h3>
+          </div>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            To become the world's most trusted real estate technology partner, transforming how agencies, consultants, and agents operate by offering smart, scalable, and future-ready CRM solutions that fuel sustainable growth.
+          </p>
         </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">Who We Are</h2>
-          <p>MT One is built by a passionate team of real estate experts, software engineers, and designers who understand the unique challenges of the industry. We are committed to continuous innovation and customer success.</p>
+      </div>
+    </section>
+
+    <!-- Why Choose MT One -->
+    <section class="max-w-6xl mx-auto mb-20 px-4">
+      <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100 transform transition-all duration-500 hover:shadow-3xl">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">Why Choose MT One</h2>
+        <div class="text-center mb-12">
+          <i class="fas fa-star text-3xl text-yellow-500 mb-2 transform transition-transform duration-300 hover:scale-125"></i>
+          <p class="text-xl text-gray-600 font-semibold">The AI-Powered Edge</p>
+          <p class="text-gray-600 mt-2">MT One helps you do more, sell faster, and grow smarter — giving you the competitive advantage you need.</p>
         </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">Contact Us</h2>
-          <p>Have questions or want to learn more? Reach out to us at <a href="mailto:info@mtone.in" class="text-gold underline">info@mtone.in</a>.</p>
+        
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-tachometer-alt text-white text-xl"></i>
+            </div>
+            <h4 class="font-bold text-emerald-600 text-lg mb-3">All-in-One Dashboard</h4>
+            <p class="text-gray-600">Manage leads, property listings, teams, groups, and follow-ups in a single, intuitive platform.</p>
+          </div>
+          
+          <div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-red-50 border border-orange-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-users text-white text-xl"></i>
+            </div>
+            <h4 class="font-bold text-orange-600 text-lg mb-3">Smarter Lead Engagement</h4>
+            <p class="text-gray-600">Connect instantly via WhatsApp, calls, emails, or SMS — and never miss an opportunity again.</p>
+          </div>
+          
+          <div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-robot text-white text-xl"></i>
+            </div>
+            <h4 class="font-bold text-blue-600 text-lg mb-3">AI-Driven Automation</h4>
+            <p class="text-gray-600">Let MT One handle repetitive tasks while you focus on high-value client interactions.</p>
+          </div>
+          
+          <div class="group text-center p-6 rounded-2xl bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="w-16 h-16 bg-violet-500 rounded-full flex items-center justify-center mx-auto mb-4 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-shield-alt text-white text-xl"></i>
+            </div>
+            <h4 class="font-bold text-violet-600 text-lg mb-3">Secure & Reliable</h4>
+            <p class="text-gray-600">Your data remains private, protected, and always under your control.</p>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Built for Every Professional -->
+    <section class="bg-gradient-to-br from-slate-50 to-gray-100 py-20 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Built for Every Real Estate Professional</h2>
+        <p class="text-xl text-gray-700 text-center mb-12">Whether you're a solo consultant or managing a large-scale agency, MT One adapts to your needs.</p>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="group bg-white p-8 rounded-2xl shadow-lg text-center border border-gray-100 transform transition-all duration-500 hover:scale-102 hover:shadow-2xl">
+            <div class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-mobile-alt text-white text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-gray-900 text-xl mb-3">Mobile-First Design</h4>
+            <p class="text-gray-600">Optimized for on-the-go productivity with intuitive mobile interfaces.</p>
+          </div>
+          
+          <div class="group bg-white p-8 rounded-2xl shadow-lg text-center border border-gray-100 transform transition-all duration-500 hover:scale-102 hover:shadow-2xl">
+            <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-desktop text-white text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-gray-900 text-xl mb-3">Powerful Desktop Platform</h4>
+            <p class="text-gray-600">Comprehensive tools for managing complex real estate workflows.</p>
+          </div>
+          
+          <div class="group bg-white p-8 rounded-2xl shadow-lg text-center border border-gray-100 transform transition-all duration-500 hover:scale-102 hover:shadow-2xl">
+            <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6 transform transition-all duration-300 hover:scale-110">
+              <i class="fas fa-medal text-white text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-gray-900 text-xl mb-3">Trusted by Thousands</h4>
+            <p class="text-gray-600">Join thousands of successful realtors across India.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What Makes Us Different -->
+    <section class="max-w-6xl mx-auto mb-20 px-4 py-12">
+      <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-100 transform transition-all duration-500 hover:shadow-3xl">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">What Makes MT One Different</h2>
+        
+        <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div class="group bg-gradient-to-br from-blue-50 via-blue-25 to-white p-6 rounded-3xl shadow-lg border border-blue-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="flex items-center mb-6">
+              <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mr-6 transform transition-all duration-300 hover:scale-110">
+                <i class="fas fa-link text-white text-xl"></i>
+              </div>
+              <h4 class="font-bold text-blue-600 text-xl">Seamless Integrations</h4>
+            </div>
+            <p class="text-gray-700 leading-relaxed">Connect with the apps and portals you already use for generating and nurturing leads.</p>
+          </div>
+          
+          <div class="group bg-gradient-to-br from-emerald-50 via-emerald-25 to-white p-6 rounded-3xl shadow-lg border border-emerald-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="flex items-center mb-6">
+              <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mr-6 transform transition-all duration-300 hover:scale-110">
+                <i class="fas fa-chart-line text-white text-xl"></i>
+              </div>
+              <h4 class="font-bold text-emerald-600 text-xl">Unified Dashboard</h4>
+            </div>
+            <p class="text-gray-700 leading-relaxed">Say goodbye to scattered spreadsheets. Instantly access, organize, and manage leads in one place.</p>
+          </div>
+          
+          <div class="group bg-gradient-to-br from-purple-50 via-purple-25 to-white p-6 rounded-3xl shadow-lg border border-purple-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="flex items-center mb-6">
+              <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-500 rounded-2xl flex items-center justify-center mr-6 transform transition-all duration-300 hover:scale-110">
+                <i class="fas fa-bell text-white text-xl"></i>
+              </div>
+              <h4 class="font-bold text-purple-600 text-xl">High-Impact Follow-Ups</h4>
+            </div>
+            <p class="text-gray-700 leading-relaxed">Automate reminders, personalize outreach, and reach clients faster across multiple channels.</p>
+          </div>
+          
+          <div class="group bg-gradient-to-br from-orange-50 via-orange-25 to-white p-6 rounded-3xl shadow-lg border border-orange-100 transform transition-all duration-500 hover:scale-102 hover:shadow-xl">
+            <div class="flex items-center mb-6">
+              <div class="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mr-6 transform transition-all duration-300 hover:scale-110">
+                <i class="fas fa-images text-white text-xl"></i>
+              </div>
+              <h4 class="font-bold text-orange-600 text-xl">Media-Rich Property Sharing</h4>
+            </div>
+            <p class="text-gray-700 leading-relaxed">Share stunning photos, videos, and brochures with a single click to win client trust and close deals faster.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-600 py-20 px-4 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-purple-700/70 to-indigo-700/70"></div>
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-300 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-indigo-300 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 transform transition-all duration-700">Ready to transform your real estate business?</h2>
+        <p class="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">Join thousands of consultants and agencies growing with MT One</p>
+        <a href="/onboarding" class="group inline-flex items-center px-10 py-4 bg-white text-purple-600 font-bold text-lg rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-xl">
+          Get Started Today
+          <i class="fas fa-arrow-right ml-3 transform transition-transform duration-300 group-hover:translate-x-2"></i>
+        </a>
       </div>
     </section>
   </main>

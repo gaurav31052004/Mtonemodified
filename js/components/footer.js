@@ -38,14 +38,14 @@ export function loadFooter() {
         <!-- Apps -->
         <div class="text-center sm:text-left">
           <h3 class="text-white mb-4 text-xl font-semibold">Apps</h3>
-          <a href="#" class="flex items-center justify-center sm:justify-start mb-4 hover:text-gold transition-colors duration-300">
+          <a href="#" onclick="openAppStore('app-store')" class="flex items-center justify-center sm:justify-start mb-4 hover:text-gold transition-colors duration-300 cursor-pointer">
             <i class="fab fa-apple text-2xl mr-3"></i>
             <span>
               <span class="block text-xs" style="color: #e5e7eb;">Download on the</span>
               <span class="block font-semibold text-sm">Apple Store</span>
             </span>
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.mtonema" class="flex items-center justify-center sm:justify-start hover:text-gold transition-colors duration-300">
+          <a href="#" onclick="openAppStore('google-play')" class="flex items-center justify-center sm:justify-start hover:text-gold transition-colors duration-300 cursor-pointer">
             <i class="fab fa-google-play text-2xl mr-3"></i>
             <span>
               <span class="block text-xs" style="color: #e5e7eb;">Get in on</span>
