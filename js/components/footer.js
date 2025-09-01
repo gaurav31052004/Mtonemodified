@@ -14,38 +14,38 @@ export function loadFooter() {
     <footer class="bg-black px-4 md:px-8 py-12 pt-16 border-t border-gold/20 text-gray-200">
       <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Logo -->
-        <div class="flex justify-center sm:justify-start items-start">
+        <div class="flex justify-start md:justify-center items-start">
           <a href="/index.html">
             <img src="${logoUrl}" alt="mtone.in logo" class="h-24 md:h-36 w-auto" />
           </a>
         </div>
         <!-- Address -->
-        <div class="text-center sm:text-left">
+        <div class="text-left md:text-center">
           <h3 class="text-white mb-4 text-xl font-semibold">Address</h3>
-          <a href="${mapsUrl}" target="_blank" rel="noopener" class="mb-2 text-sm md:text-base flex items-center justify-center sm:justify-start text-gray-200 hover:text-gold transition-colors duration-300">
+          <a href="${mapsUrl}" target="_blank" rel="noopener" class="mb-2 text-sm md:text-base flex items-start justify-start md:justify-center text-gray-200 hover:text-gold transition-colors duration-300">
             <i class="fas fa-map-marker-alt mr-2"></i>C-116 GF, OfficeOn<br/>Sector 2, Noida<br/>Uttar Pradesh - 201301
           </a>
           <h4 class="text-white text-base font-semibold mb-1">Contact</h4>
-          <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-phone-alt mr-2"></i>+91 7303062845</p>
-          <p class="mb-1 flex items-center justify-center sm:justify-start" style="color: #e5e7eb;"><i class="fas fa-envelope mr-2"></i>info@mtone.in</p>
+          <p class="mb-1 flex items-start justify-start md:justify-center" style="color: #e5e7eb;"><i class="fas fa-phone-alt mr-2"></i>+91 7303062845</p>
+          <p class="mb-1 flex items-start justify-start md:justify-center" style="color: #e5e7eb;"><i class="fas fa-envelope mr-2"></i>info@mtone.in</p>
         </div>
         <!-- Quick Links -->
-        <div class="text-center sm:text-left">
+        <div class="text-left md:text-center">
           <h3 class="text-white mb-4 text-xl font-semibold">Quick Links</h3>
           <ul class="space-y-2">
             ${quickLinks.map(link => `<li><a href="${link.href}" class="text-gray-200 hover:text-gold transition-colors duration-300 text-sm md:text-base">${link.label}</a></li>`).join('')}
         </div>
         <!-- Apps -->
-        <div class="text-center sm:text-left">
+        <div class="text-left md:text-center">
           <h3 class="text-white mb-4 text-xl font-semibold">Apps</h3>
-          <a href="#" class="flex items-center justify-center sm:justify-start mb-4 hover:text-gold transition-colors duration-300">
+          <a href="#" onclick="openAppStore('app-store')" class="flex items-start justify-start md:justify-center mb-4 hover:text-gold transition-colors duration-300 cursor-pointer">
             <i class="fab fa-apple text-2xl mr-3"></i>
             <span>
               <span class="block text-xs" style="color: #e5e7eb;">Download on the</span>
               <span class="block font-semibold text-sm">Apple Store</span>
             </span>
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.mtonema" class="flex items-center justify-center sm:justify-start hover:text-gold transition-colors duration-300">
+          <a href="#" onclick="openAppStore('google-play')" class="flex items-start justify-start md:justify-center hover:text-gold transition-colors duration-300 cursor-pointer">
             <i class="fab fa-google-play text-2xl mr-3"></i>
             <span>
               <span class="block text-xs" style="color: #e5e7eb;">Get in on</span>

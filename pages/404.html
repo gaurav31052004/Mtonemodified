@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | MT One</title>
+    <meta name="description" content="The page you're looking for doesn't exist. Navigate back to MT One homepage.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-blue-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav id="navbar"></nav>
+
+    <!-- 404 Content -->
+    <main class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-20 md:pb-24">
+        <div class="max-w-lg w-full text-center">
+            <!-- Animated 404 -->
+            <div class="mb-8">
+                <h1 class="text-9xl font-bold text-purple-600 mb-4 animate-pulse">404</h1>
+                <div class="relative">
+                    <i class="fas fa-search text-6xl text-purple-400 opacity-50 animate-bounce"></i>
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 animate-ping">
+                        <i class="fas fa-question text-2xl text-red-500"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Page Not Found</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    Oops! The page you're looking for seems to have wandered off into the digital void. 
+                    Don't worry, it happens to the best of us!
+                </p>
+                <p class="text-sm text-gray-500 mb-8">
+                    The requested URL was not found on this server.
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+                <button 
+                    onclick="window.history.back()" 
+                    class="w-full sm:w-auto px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-300 flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-arrow-left"></i>
+                    Go Back
+                </button>
+                <a 
+                    href="/" 
+                    class="w-full sm:w-auto px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-300 flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-home"></i>
+                    Home Page
+                </a>
+            </div>
+
+            <!-- Helpful Links -->
+            <div class="mt-12 pt-8 border-t border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Popular Pages</h3>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <a href="/about" class="text-purple-600 hover:text-purple-800 transition-colors">
+                        <i class="fas fa-info-circle mr-2"></i>About Us
+                    </a>
+                    <a href="/contact" class="text-purple-600 hover:text-purple-800 transition-colors">
+                        <i class="fas fa-envelope mr-2"></i>Contact
+                    </a>
+                    <a href="/choose-plan" class="text-purple-600 hover:text-purple-800 transition-colors">
+                        <i class="fas fa-star mr-2"></i>Pricing
+                    </a>
+                    <a href="/faq" class="text-purple-600 hover:text-purple-800 transition-colors">
+                        <i class="fas fa-question-circle mr-2"></i>FAQ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer"></footer>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/main.js"></script>
+    
+    <!-- Additional 404 specific styling -->
+    <style>
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float-gentle {
+            animation: float-gentle 3s ease-in-out infinite;
+        }
+        
+        /* Add some fun hover effects */
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+    </style>
+</body>
+</html>

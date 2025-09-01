@@ -10,6 +10,7 @@ class PricingToggle {
     async init() {
         this.createToggle();
         this.bindEvents();
+        this.showLoader();
         await this.loadPlans();
         this.renderPricingCards();
     }
@@ -47,6 +48,18 @@ class PricingToggle {
             this.updateToggleUI();
             this.renderPricingCards();
         });
+    }
+
+    showLoader() {
+        const container = document.getElementById('pricing-cards');
+        if (container) {
+            container.innerHTML = `
+                <div class="col-span-full flex justify-center items-center py-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gold"></div>
+                    <span class="ml-4 text-gray-600">Loading plans...</span>
+                </div>
+            `;
+        }
     }
 
     async loadPlans() {
@@ -257,11 +270,19 @@ class PricingToggle {
 
             <div class="space-y-4">
                 ${features.slice(0, 6).map((feature, index) => {
-                    const colors = ['green', 'blue', 'purple', 'orange', 'indigo', 'pink'];
-                    const color = colors[index % colors.length];
+                    const colorClasses = [
+                        'bg-green-50', 'bg-green-500',
+                        'bg-blue-50', 'bg-blue-500', 
+                        'bg-purple-50', 'bg-purple-500',
+                        'bg-orange-50', 'bg-orange-500',
+                        'bg-indigo-50', 'bg-indigo-500',
+                        'bg-pink-50', 'bg-pink-500'
+                    ];
+                    const bgClass = colorClasses[(index * 2) % colorClasses.length];
+                    const iconClass = colorClasses[(index * 2 + 1) % colorClasses.length];
                     return `
-                        <div class="flex items-center bg-${color}-50 p-3 rounded-xl">
-                            <div class="w-6 h-6 bg-${color}-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <div class="flex items-center ${bgClass} p-3 rounded-xl">
+                            <div class="w-6 h-6 ${iconClass} rounded-full flex items-center justify-center mr-4 flex-shrink-0">
                                 <span class="text-white text-xs">✓</span>
                             </div>
                             <span class="text-sm font-medium text-gray-700">${feature}</span>

@@ -1,10 +1,11 @@
 export function loadNavbar() {
   // Define navigation links in an array for easy editing
   const navLinks = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Login", href: "/login" },
+    { label: "HOME", href: "#home" },
+    { label: "ABOUT", href: "#about" },
+    { label: "PRICING", href: "#pricing" },
+    { label: "LOGIN", href: "/login" },
+    { label: "SIGNUP", href: "/onboarding" },
   ];
 
   // Determine if we're on the home page or a subpage
@@ -364,10 +365,17 @@ function initializeActiveNav() {
     currentPath.endsWith("/login") ||
     currentPath.includes("/login/index.html");
 
+  const isOnboardingPage =
+    currentPath.includes("/onboarding/") ||
+    currentPath.endsWith("/onboarding") ||
+    currentPath.includes("/onboarding/index.html");
+
   const isHomePage = currentPath === "/" || currentPath === "/index.html";
 
   if (isLoginPage) {
-    setActiveNav("/login/");
+    setActiveNav("/login");
+  } else if (isOnboardingPage) {
+    setActiveNav("/onboarding");
   } else if (isHomePage) {
     // Setup scroll detection for home page
     let scrollTimer = null;

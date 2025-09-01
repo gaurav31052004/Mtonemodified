@@ -4,63 +4,60 @@ import { environment } from "@/environment";
 const CONFIG = {
   // API Configuration
   API: {
-    // Production
-    // BASE_URL: 'https://api.mtone.in',
-    // REDIRECT_URL: 'https://app.mtone.in/Redirecting',
-
-    // Development
-    // BASE_URL: 'https://dncrnewapi-bmbfb6f6awd8b0bd.westindia-01.azurewebsites.net',
-    // BASE_URL: 'https://localhost:7075',
-    // REDIRECT_URL: 'https://devdncrfe.azurewebsites.net/Redirecting',
-    // REDIRECT_URL: 'http://localhost:4200/Redirecting',
-
     BASE_URL: environment.API_URL,
     REDIRECT_URL: environment.REDIRECT_URL,
     environment: environment.environment,
 
-    DEFAULT_TOKEN: 'e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac',
+    DEFAULT_TOKEN:
+      "e74e1523bfaf582757ca621fd6166361a1df604b3c6369383f313fba83baceac",
     TIMEOUT: 30000, // 30 seconds
   },
 
   // Storage Keys
   STORAGE_KEYS: {
-    PARTNER_DATA: 'mt_partner_data',
-    USER_TOKEN: 'mt_user_token',
-    USER_EMAIL: 'mt_user_email',
-    SELECTED_PARTNER: 'mt_selected_partner'
+    PARTNER_DATA: "mt_partner_data",
+    USER_TOKEN: "mt_user_token",
+    USER_EMAIL: "mt_user_email",
+    SELECTED_PARTNER: "mt_selected_partner",
   },
 
   // UI Configuration
   UI: {
     DEFAULT_COLORS: {
-      PRIMARY: '#FFA500',
-      SECONDARY: '#FFD700',
-      BACKGROUND: '#ffffff',
-      TEXT: '#000000'
+      PRIMARY: "#FFA500",
+      SECONDARY: "#FFD700",
+      BACKGROUND: "#ffffff",
+      TEXT: "#000000",
     },
     ANIMATION_DURATION: 300,
     OTP_LENGTH: 6,
-    OTP_EXPIRY_TIME: 300000 // 5 minutes
+    OTP_EXPIRY_TIME: 300000, // 5 minutes
+  },
+
+  // App Store Links
+  APP_LINKS: {
+    GOOGLE_PLAY: "https://play.google.com/store/apps/details?id=com.mtonema",
+    APP_STORE: "https://apps.apple.com/app/mt-one/id123456789", // Placeholder - update when available
   },
 
   // API Endpoints
   ENDPOINTS: {
-    PARTNER_LOCATIONS: '/master-details?masterName=PartnerLocation',
-    OTP_VERIFICATION: '/account/otp-verification',
-    CHECK_EMAIL: '/account/check-email',
-    PARTNER_SIGNUP: '/account/partner-signup',
-    APK_LINK: '/appsettings/APKLink',
-    YOUTUBE_LINK: '/appsettings/YoutubePlaceholderLink',
-    CREATE_ORDER: '/payment/orders/create',
-    PAYMENT_PLANS: '/payment/plans',
-    CONTACT: '/properties/GetInTouch'
+    PARTNER_LOCATIONS: "/master-details?masterName=PartnerLocation",
+    OTP_VERIFICATION: "/account/otp-verification",
+    CHECK_EMAIL: "/account/check-email",
+    PARTNER_SIGNUP: "/account/partner-signup",
+    APK_LINK: "/appsettings/APKLink",
+    YOUTUBE_LINK: "/appsettings/YoutubePlaceholderLink",
+    CREATE_ORDER: "/payment/orders/create",
+    PAYMENT_PLANS: "/payment/plans",
+    CONTACT: "/properties/GetInTouch",
   },
 
   // Environment
   ENVIRONMENT: environment.environment, // Will be 'development' or 'production' based on build
-  
+
   // Debug mode - enable in development
-  DEBUG: environment.environment === 'development'
+  DEBUG: environment.environment === "development",
 };
 
 // Utility function to get full API URL

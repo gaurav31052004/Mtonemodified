@@ -3,7 +3,6 @@ import { partnerService } from "../services/partner-service.js";
 class ChoosePlan {
   constructor() {
     this.signupDetailsContainer = document.getElementById("signup-details");
-    this.trialBtn = document.querySelector('[data-plan="free"] button');
     this.pricingCards = document.getElementById("pricing-cards");
     this.plans = [];
     this.isYearly = false;
@@ -14,16 +13,16 @@ class ChoosePlan {
     this.showSignupDetails();
     this.createToggle();
     this.bindToggleEvents();
+    this.showLoader();
     await this.loadPlans();
-    this.setupTrialPlan();
+    this.createFreeTrialPlan();
     this.renderPlans();
   }
 
   showSignupDetails() {
     const details = JSON.parse(localStorage.getItem("partnerDetails") || "{}");
     if (!details.name) {
-      this.signupDetailsContainer.innerHTML =
-        '<div class="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 mb-8">No signup details found. Please complete signup first.</div>';
+      window.location.href = "/onboarding";
       return;
     }
     this.signupDetailsContainer.innerHTML = `
@@ -77,6 +76,18 @@ class ChoosePlan {
     }
   }
 
+  showLoader() {
+    const container = document.getElementById('pricing-cards');
+    if (container) {
+      container.innerHTML = `
+        <div class="col-span-full flex justify-center items-center py-12">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gold"></div>
+          <span class="ml-4 text-gray-600">Loading plans...</span>
+        </div>
+      `;
+    }
+  }
+
   updateToggleUI() {
     const toggle = document.getElementById('pricing-toggle');
     const slider = document.getElementById('toggle-slider');
@@ -111,32 +122,47 @@ class ChoosePlan {
     }
   }
 
+  createFreeTrialPlan() {
+    const freeTrialPlan = {
+      id: 'free',
+      planName: 'FREE Trial',
+      price: 0,
+      features: [
+        'Up to 1,000 leads',
+        'Basic CRM features',
+        'Email support',
+        'Mobile app access',
+        '7 days trial period'
+      ],
+      description: 'Start your 7 days FREE trial. No credit card required.',
+      billingCycle: 'Monthly',
+      durationDays: 7,
+      maxUsers: 1,
+      isTrial: true
+    };
+    this.plans.unshift(freeTrialPlan);
+  }
+
   renderPlans() {
     // Filter plans by billing cycle
     const currentPlans = this.isYearly 
-      ? this.plans.filter(plan => plan.billingCycle === 'Yearly')
-      : this.plans.filter(plan => plan.billingCycle === 'Monthly');
+      ? this.plans.filter(plan => plan.billingCycle === 'Yearly' || plan.isTrial)
+      : this.plans.filter(plan => plan.billingCycle === 'Monthly' || plan.isTrial);
     
-    this.renderPaidPlans(currentPlans);
+    this.renderAllPlans(currentPlans);
   }
 
-  renderPaidPlans(plansToRender = []) {
-    // Find the trial plan card
-    const trialCard = this.pricingCards.querySelector('[data-plan="free"]');
-    
-    // Remove existing paid plan cards
-    const existingPaidCards = this.pricingCards.querySelectorAll('[data-plan]:not([data-plan="free"])');
-    existingPaidCards.forEach(card => card.remove());
+  renderAllPlans(plansToRender = []) {
+    // Clear existing cards
+    this.pricingCards.innerHTML = '';
 
     if (plansToRender.length === 0) {
       this.showNoPlanMessage();
       return;
     }
 
-    // Add paid plans from API
+    // Add all plans
     plansToRender.forEach(plan => {
-      if (plan.isTrial) return; // Skip trial plans from API
-      
       const planCard = this.createPlanCard(plan);
       this.pricingCards.appendChild(planCard);
     });
@@ -161,9 +187,11 @@ class ChoosePlan {
     
     // Determine button color based on billing cycle
     const isYearlyPlan = plan.billingCycle === 'Yearly';
-    const buttonColorClass = isYearlyPlan 
+    const buttonColorClass = plan.isTrial 
       ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
-      : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700';
+      : isYearlyPlan 
+        ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
+        : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700';
     
     const cardDiv = document.createElement('div');
     cardDiv.className = `bg-gradient-to-br from-white to-orange-50/80 rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur-sm relative hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 min-h-[500px] w-full max-w-xs mx-auto group ${isPopular ? 'border-2 border-gold/40' : 'border border-gold/20'}`;
@@ -196,7 +224,7 @@ class ChoosePlan {
         <p class="text-base text-gray-600 mb-8 leading-relaxed">${plan.description}</p>
         <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer ${buttonColorClass}" 
                 data-plan-id="${plan.id}" data-plan-name="${plan.planName}">
-          💎 Get ${plan.planName}
+          ${plan.isTrial ? '🚀 Start FREE Trial' : `💎 Get ${plan.planName}`}
         </button>
       </div>
       
@@ -230,7 +258,14 @@ class ChoosePlan {
 
     // Add click handler for the button
     const button = cardDiv.querySelector('button');
-    button.addEventListener('click', (e) => this.handlePaidPlanClick(e, plan));
+    if (plan.isTrial) {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = "/login/";
+      });
+    } else {
+      button.addEventListener('click', (e) => this.handlePaidPlanClick(e, plan));
+    }
 
     return cardDiv;
   }
@@ -267,9 +302,8 @@ class ChoosePlan {
   }
 
   showPlanError() {
-    // Remove existing paid plan cards and show error
-    const existingPaidCards = this.pricingCards.querySelectorAll('[data-plan]:not([data-plan="free"])');
-    existingPaidCards.forEach(card => card.remove());
+    // Clear all existing cards and show error
+    this.pricingCards.innerHTML = '';
     
     const errorDiv = document.createElement('div');
     errorDiv.className = 'bg-red-50 border border-red-200 text-red-700 rounded-xl p-6 max-w-sm mx-auto';
@@ -278,16 +312,6 @@ class ChoosePlan {
       <p class="text-sm">Failed to fetch available plans. Please refresh the page or try again later.</p>
     `;
     this.pricingCards.appendChild(errorDiv);
-  }
-
-  setupTrialPlan() {
-    // Setup trial button logic
-    if (this.trialBtn) {
-      this.trialBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.location.href = "/login/";
-      });
-    }
   }
 
   async loadRazorpayScript() {

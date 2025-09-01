@@ -61,7 +61,11 @@ function extractRoutes() {
       // Convert pages/filename.html to just filename for the route
       // This handles both flat files and nested folders
       let route = file.replace("./pages/", "").replace(".html", "");
-      routes.push(route);
+      
+      // Exclude 404 page from valid routes
+      if (route !== "404") {
+        routes.push(route);
+      }
     }
   });
 
@@ -136,8 +140,8 @@ function generateWebConfig(routes) {
           <action type="None" />
         </rule>
 
-        <!-- Fallback to root index.html -->
-        <rule name="Fallback to root index" stopProcessing="true">
+        <!-- Fallback to 404 page for unmatched routes -->
+        <rule name="Handle 404" stopProcessing="true">
           <match url=".*" />
           <conditions logicalGrouping="MatchAll">
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
@@ -147,7 +151,7 @@ function generateWebConfig(routes) {
             <add input="{REQUEST_URI}" pattern="^/sitemap\.xml$" negate="true" />
             <add input="{REQUEST_URI}" pattern="^/favicon\.ico$" negate="true" />
           </conditions>
-          <action type="Rewrite" url="/index.html" />
+          <action type="Rewrite" url="/pages/404.html" />
         </rule>
       </rules>
     </rewrite>
@@ -186,8 +190,8 @@ function generateWebConfig(routes) {
     <!-- Error pages -->
     <httpErrors>
       <clear />
-      <error statusCode="404" path="/index.html" responseMode="ExecuteURL" />
-      <error statusCode="500" path="/index.html" responseMode="ExecuteURL" />
+      <error statusCode="404" path="/pages/404.html" responseMode="ExecuteURL" />
+      <error statusCode="500" path="/pages/404.html" responseMode="ExecuteURL" />
     </httpErrors>
 
     <!-- Default documents -->
@@ -231,8 +235,8 @@ function generateDefaultWebConfig() {
           <action type="None" />
         </rule>
 
-        <!-- Fallback to root index.html -->
-        <rule name="Fallback to root index" stopProcessing="true">
+        <!-- Fallback to 404 page for unmatched routes -->
+        <rule name="Handle 404" stopProcessing="true">
           <match url=".*" />
           <conditions logicalGrouping="MatchAll">
             <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
@@ -242,7 +246,7 @@ function generateDefaultWebConfig() {
             <add input="{REQUEST_URI}" pattern="^/sitemap\.xml$" negate="true" />
             <add input="{REQUEST_URI}" pattern="^/favicon\.ico$" negate="true" />
           </conditions>
-          <action type="Rewrite" url="/index.html" />
+          <action type="Rewrite" url="/pages/404.html" />
         </rule>
       </rules>
     </rewrite>
@@ -308,6 +312,16 @@ function devServerMiddleware() {
         const [pathname, queryString] = url.split('?');
         const queryParams = queryString ? `?${queryString}` : '';
         
+        // Skip processing for static assets, API calls, or files with extensions
+        if (pathname.includes('.') || pathname.startsWith('/api/') || pathname.startsWith('/@') || pathname.startsWith('/node_modules/')) {
+          return next();
+        }
+        
+        // Root path - serve index.html
+        if (pathname === '/') {
+          return next();
+        }
+        
         // Check if this is a route with trailing slash that should be redirected
         for (const route of routes) {
           if (pathname === `/${route}/`) {
@@ -315,14 +329,18 @@ function devServerMiddleware() {
             res.end();
             return;
           }
-          
-          // Check if this is a route without trailing slash that should serve HTML from pages folder
-          if (pathname === `/${route}`) {
-            req.url = `/pages/${route}.html${queryParams}`;
-            break;
-          }
         }
         
+        // Check if this is a valid route without trailing slash
+        const routeWithoutSlash = pathname.substring(1); // Remove leading slash
+        if (routes.includes(routeWithoutSlash)) {
+          req.url = `/pages/${routeWithoutSlash}.html${queryParams}`;
+          return next();
+        }
+        
+        // If no valid route found, serve 404 page
+        req.url = `/pages/404.html${queryParams}`;
+        res.statusCode = 404;
         next();
       });
     },

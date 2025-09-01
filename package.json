@@ -4,8 +4,6 @@
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
-    "@parcel/optimizer-htmlnano": "^2.15.4",
-    "@parcel/optimizer-terser": "^2.15.4",
     "@tailwindcss/vite": "^4.1.11",
     "fast-glob": "^3.3.3",
     "prettier": "^3.6.2",
