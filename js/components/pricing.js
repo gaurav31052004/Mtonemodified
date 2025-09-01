@@ -10,6 +10,7 @@ class PricingToggle {
     async init() {
         this.createToggle();
         this.bindEvents();
+        this.showLoader();
         await this.loadPlans();
         this.renderPricingCards();
     }
@@ -47,6 +48,18 @@ class PricingToggle {
             this.updateToggleUI();
             this.renderPricingCards();
         });
+    }
+
+    showLoader() {
+        const container = document.getElementById('pricing-cards');
+        if (container) {
+            container.innerHTML = `
+                <div class="col-span-full flex justify-center items-center py-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gold"></div>
+                    <span class="ml-4 text-gray-600">Loading plans...</span>
+                </div>
+            `;
+        }
     }
 
     async loadPlans() {
