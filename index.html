@@ -312,10 +312,15 @@
 	</section>
 
 	<!-- Mobile App Section -->
-	<section class="py-16 md:py-24 px-4 md:px-8 bg-gradient-to-br from-gray-50 to-white">
-		<div class="max-w-6xl mx-auto text-center">
+	<section class="py-16 md:py-24 px-4 md:px-8 bg-gradient-to-br from-gold via-yellow-600 to-gold relative overflow-hidden">
+		<div class="absolute inset-0 bg-gradient-to-r from-gold/50 to-yellow-600/50"></div>
+		<div class="absolute inset-0 opacity-10">
+			<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-gold rounded-full blur-3xl animate-pulse"></div>
+			<div class="absolute top-3/4 right-1/4 w-64 h-64 bg-yellow-600 rounded-full blur-3xl animate-pulse"></div>
+		</div>
+		<div class="max-w-6xl mx-auto text-center relative z-10">
 			<h2 class="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">
-				<span class="bg-gradient-to-r from-gold to-yellow-600 bg-clip-text text-transparent">MT One: Your AI-Powered Real Estate Assistant</span>
+				<span class="text-white bg-clip-text">MT One: Your AI-Powered Real Estate Assistant</span>
 			</h2>
 			<p class="text-xl md:text-2xl mb-12 text-gray-600 max-w-3xl mx-auto leading-relaxed">
 				Turn every interaction into an opportunity — engage Smarter, close Faster, grow Bigger 🚀
@@ -324,7 +329,7 @@
 			<!-- App Store Buttons -->
 			<div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
 				<a href="#" onclick="openAppStore('app-store')"
-					class="flex items-center gap-4 px-8 py-5 bg-gradient-to-r from-gray-900 to-black text-white rounded-2xl hover:from-black hover:to-gray-800 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg group relative overflow-hidden">
+					class="flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-gray-900 to-black text-white rounded-2xl hover:from-black hover:to-gray-800 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg group relative overflow-hidden">
 					<!-- Gradient overlay for extra shine -->
 					<div
 						class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -344,7 +349,7 @@
 				</a>
 
 				<a href="#" onclick="openAppStore('google-play')"
-					class="flex items-center gap-4 px-8 py-5 bg-gradient-to-r from-white to-gray-50 text-gray-800 border-2 border-gray-200 rounded-2xl hover:bg-gradient-to-r hover:from-gray-50 hover:to-white hover:border-gray-300 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg group relative overflow-hidden">
+					class="flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-white to-gray-50 text-gray-800 border-2 border-gray-200 rounded-2xl hover:bg-gradient-to-r hover:from-gray-50 hover:to-white hover:border-gray-300 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 shadow-lg group relative overflow-hidden">
 					<!-- Colorful gradient overlay -->
 					<div
 						class="absolute inset-0 bg-gradient-to-r from-green-500/5 via-blue-500/5 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -370,7 +375,7 @@
 					Download & Try FREE
 				</a> -->
 				<a href="#about"
-					class="px-8 py-4 text-lg font-semibold text-gray-800 bg-white border-2 border-gold/50 rounded-full hover:bg-gold/10 hover:border-gold transition-all duration-300">
+					class="px-8 py-4 text-lg font-semibold text-gray-800 bg-white rounded-full hover:bg-gray-200 hover:shadow-lg transition-all duration-300">
 					See How It Works
 				</a>
 			</div>
