@@ -33,7 +33,7 @@ class ChoosePlan {
           <div><span class="font-semibold">Email:</span> ${details.email}</div>
           <div><span class="font-semibold">Phone:</span> ${details.phone}</div>
           <div><span class="font-semibold">Address:</span> ${details.address}</div>
-          <div><span class="font-semibold">Partner Zone:</span> ${details.partnerZone}</div>
+          <div><span class="font-semibold">Agent/Builder Zone:</span> ${details.partnerZone}</div>
         </div>
       </div>
     `;

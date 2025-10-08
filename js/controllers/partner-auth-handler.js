@@ -23,7 +23,7 @@ class PartnerAuthHandler extends BaseAuthHandler {
       !response.data ||
       !this.config.userTypes.includes(response.data.userType)
     ) {
-      throw new Error("Access denied. Only partner users can login here.");
+      throw new Error("Access denied. Only agent/builder users can login here.");
     }
   }
 

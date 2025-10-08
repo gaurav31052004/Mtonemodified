@@ -175,7 +175,7 @@ export default class SignupController {
     }
 
     if (!partnerZone) {
-      this.showError("Please select a partner zone.");
+      this.showError("Please select a agent/builder zone.");
       return;
     }
 

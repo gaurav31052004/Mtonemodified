@@ -15,7 +15,7 @@ class PartnerService extends ApiService {
     // Get partner details from localStorage
     const details = JSON.parse(localStorage.getItem("partnerDetails") || "{}");
     if (!details.name || !details.email || !details.phone || !details.address || !details.partnerZone || !details.userDetails?.id) {
-      throw new Error("Incomplete partner details. Please complete signup.");
+      throw new Error("Incomplete agent/builder details. Please complete signup.");
     }
 
     // Prepare payload with plan ID
@@ -87,7 +87,7 @@ class PartnerService extends ApiService {
               ...description,
             };
           } catch (e) {
-            console.error("Error parsing partner description:", e);
+            console.error("Error parsing agent/builder description:", e);
             return {
               id: partner.id,
               name: partner.masterDetailName,
@@ -103,9 +103,9 @@ class PartnerService extends ApiService {
         return partners;
       }
 
-      throw new Error(response.message || "Failed to fetch partner locations");
+      throw new Error(response.message || "Failed to fetch agent/builder locations");
     } catch (error) {
-      console.error("Error fetching partner locations:", error);
+      console.error("Error fetching agent/builder locations:", error);
       throw error;
     }
   }
@@ -127,7 +127,7 @@ class PartnerService extends ApiService {
 
       return response;
     } catch (error) {
-      console.error("Error during partner signup:", error);
+      console.error("Error during agent/builder signup:", error);
       throw error;
     }
   }
