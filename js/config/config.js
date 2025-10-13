@@ -37,7 +37,7 @@ const CONFIG = {
   // App Store Links
   APP_LINKS: {
     GOOGLE_PLAY: "https://play.google.com/store/apps/details?id=com.mtonema",
-    APP_STORE: "https://apps.apple.com/app/mt-one/id123456789", // Placeholder - update when available
+    APP_STORE: "https://apps.apple.com/in/app/mt-one-real-estate-crm-app/id6752515915", // Placeholder - update when available
   },
 
   // API Endpoints
