@@ -1,5 +1,5 @@
 export function loadFooter() {
-  const logoUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/v1751968938/9438b57c07c91f432d2653d34eaca599de386f5b_g1znof.webp";
+  const logoUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/v1760445407/Group_108_abchap.png";
   // All quick links in an array
   const quickLinks = [
     { href: "/terms-conditions", label: "Terms of Use" },

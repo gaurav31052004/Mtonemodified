@@ -46,7 +46,7 @@ export function loadNavbar() {
     <header class="fixed top-0 left-0 right-0 z-50 px-3 py-3 md:px-8 md:py-4 bg-white/90 backdrop-blur-xl border-b border-gold/20">
       <nav class="flex justify-between items-center max-w-6xl mx-auto">
         <a href="/" class="flex items-center shrink-0 no-underline hover:no-underline" id="logo-link">
-          <img src="https://res.cloudinary.com/df1kus7ro/image/upload/v1751618884/mt1-logo_uitfvk.webp" alt="mtone.in logo" class="h-12 md:h-16 w-auto" />
+          <img src="https://res.cloudinary.com/df1kus7ro/image/upload/v1760446123/Group_107_2_cqvu6b.png" alt="mtone.in logo" class="h-12 md:h-16 w-auto" />
         </a>
         <!-- Desktop Menu -->
         <ul class="hidden md:flex gap-6 lg:gap-8 list-none">

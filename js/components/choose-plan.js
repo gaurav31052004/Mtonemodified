@@ -332,7 +332,7 @@ class ChoosePlan {
       key: keyId,
       order_id: orderId,
       name: "MT One",
-      image: "https://res.cloudinary.com/df1kus7ro/image/upload/v1751618884/mt1-logo_uitfvk.webp",
+      image: "https://res.cloudinary.com/df1kus7ro/image/upload/v1760445407/Group_105_ymmgvk.png",
       description: `${plan.planName} Payment`,
       handler: function (response) {
         console.log("Payment response:", response);
