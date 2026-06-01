@@ -2,70 +2,468 @@
 <html lang="en">
 
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <meta name="description" content="Read the terms and conditions for using MT One. Understand your rights and responsibilities as a user of our CRM platform.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms & Conditions | MT One</title>
   <link rel="stylesheet" href="../css/style.css">
+
+
+  <script>
+    function openDemoModal() {
+      const modal = document.getElementById('demoModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+      }
+    }
+    function closeDemoModal() {
+      const modal = document.getElementById('demoModal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    }
+  </script>
+
   <script type="module" src="../js/main.js" defer></script>
+
+  <style>
+  
+
+    .terms-main {
+      padding: 108px 0 100px;
+      min-height: 80vh;
+    }
+
+    .terms-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    
+    .terms-visual-col {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .terms-illustration-frame {
+      position: relative;
+      z-index: 2;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.08);
+      background-color: #fff;
+      max-width: 480px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .terms-illustration-frame:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 28px 65px rgba(0, 0, 0, 0.13);
+    }
+
+    .terms-illustration-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+  
+    .terms-accordion-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .terms-page-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 6px;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .terms-page-sub {
+      font-size: 0.9rem;
+   
+      margin-bottom: 36px;
+    }
+
+    .terms-accordion {
+      border-top: 1px solid #E5E7EB;
+    }
+
+    .ta-item {
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .ta-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      gap: 16px;
+    }
+
+    .ta-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1A1A1A;
+      transition: color 0.25s ease;
+      line-height: 1.4;
+    }
+
+    .ta-header:hover .ta-title,
+    .ta-item.active .ta-title {
+      color: #FFA000;
+    }
+
+    .ta-icon {
+      position: relative;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ta-line {
+      position: absolute;
+      background-color: #3B82F6;
+      border-radius: 2px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ta-line:first-child { width: 16px; height: 2px; }
+    .ta-line:last-child  { width: 2px;  height: 16px; }
+
+    .ta-item.active .ta-line:first-child { transform: rotate(45deg); }
+    .ta-item.active .ta-line:last-child  { transform: rotate(45deg); }
+
+    .ta-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ta-inner { padding: 0 0 22px 0; }
+
+    .ta-inner p {
+      font-size: 0.98rem;
+     
+      line-height: 1.75;
+    }
+
+    .ta-link {
+      color: #FFA000;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .ta-link:hover { color: #E68A00; }
+
+   
+    @media (max-width: 991px) {
+      .terms-main { padding: 65px 0 70px; }
+
+      .terms-container {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .terms-visual-col {
+        order: 1;
+        padding: 20px 0 40px;
+      }
+
+      .terms-accordion-col {
+        order: 2;
+      }
+
+      .terms-illustration-frame {
+        max-width: 380px;
+        margin: 0 auto;
+      }
+
+      .terms-page-title,
+      .terms-page-sub {
+        text-align: center;
+      }
+    }
+
+    
+    @media (max-width: 576px) {
+     .terms-main { padding: 100px 0 60px; }
+      .terms-container { padding: 0 16px; }
+      .terms-visual-col { padding: 10px 0 30px; }
+      .terms-illustration-frame { max-width: 100%; border-radius: 14px; }
+      .ta-title    { font-size: 1rem; }
+      .ta-inner p  { font-size: 0.93rem; }
+    }
+  </style>
 </head>
 
 <body class="font-sans bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-800 overflow-x-hidden">
-  <!-- Header -->
+
+ 
   <div id="navbar"></div>
 
-  <!-- Main Content -->
-  <main class="pt-40 pb-24 px-4 md:px-0 min-h-screen flex items-start justify-center">
-    <section
-      class="max-w-3xl w-full bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/10 p-10 md:p-16">
-      <h1 class="text-3xl md:text-5xl font-extrabold text-gold mb-8 text-center">Terms & Conditions</h1>
-      <p class="text-gray-600 mb-6 text-lg text-center">Last updated: July 7, 2025</p>
-      <div class="space-y-8 text-gray-700 text-base md:text-lg leading-relaxed">
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">1. Acceptance of Terms</h2>
-          <p>By accessing or using MT One, you agree to be bound by these Terms & Conditions. If you do not agree with
-            any part of these terms, please do not use our service.</p>
+ 
+  <main class="terms-main">
+    <section>
+      <div class="terms-container">
+
+        
+        <div class="terms-visual-col">
+          <div class="terms-illustration-frame">
+            <img
+              src="https://res.cloudinary.com/dhsnbu7e3/image/upload/q_auto/f_auto/v1779986405/ChatGPT_Image_May_25_2026_12_23_09_PM_2_mxijje.png"
+              alt="Terms and Conditions"
+              class="terms-illustration-img">
+          </div>
         </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">2. Use of Service</h2>
-          <p>You agree to use MT One only for lawful purposes and in accordance with all applicable laws and
-            regulations. You are responsible for maintaining the confidentiality of your account information.</p>
+
+        
+        <div class="terms-accordion-col">
+          <h1 class="terms-page-title">Terms &amp; Conditions</h1>
+          <p class="terms-page-sub">Last updated: July 7, 2025</p>
+
+          <div class="terms-accordion" id="terms-accordion">
+
+            <div class="ta-item active">
+              <button class="ta-header" aria-expanded="true" aria-controls="ta-c-1">
+                <span class="ta-title">1. Acceptance of Terms</span>
+                <span class="ta-icon" aria-hidden="true"><span class="ta-line"></span><span class="ta-line"></span></span>
+              </button>
+              <div class="ta-content" id="ta-c-1">
+                <div class="ta-inner">
+                  <p>By accessing or using MT One, you agree to be bound by these Terms &amp; Conditions. If you do not agree with any part of these terms, please do not use our service.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ta-item">
+              <button class="ta-header" aria-expanded="false" aria-controls="ta-c-2">
+                <span class="ta-title">2. Use of Service</span>
+                <span class="ta-icon" aria-hidden="true"><span class="ta-line"></span><span class="ta-line"></span></span>
+              </button>
+              <div class="ta-content" id="ta-c-2">
+                <div class="ta-inner">
+                  <p>You agree to use MT One only for lawful purposes and in accordance with these Terms. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree not to disrupt, modify, or interfere with the service, its associated servers, or network systems, nor attempt to gain unauthorized access to any part of the platform.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ta-item">
+              <button class="ta-header" aria-expanded="false" aria-controls="ta-c-3">
+                <span class="ta-title">3. Intellectual Property</span>
+                <span class="ta-icon" aria-hidden="true"><span class="ta-line"></span><span class="ta-line"></span></span>
+              </button>
+              <div class="ta-content" id="ta-c-3">
+                <div class="ta-inner">
+                  <p>All content, features, and functionality on MT One, including text, graphics, logos, icons, and software, are the exclusive property of MT One and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. You may not copy, reproduce, distribute, modify, create derivative works of, publicly display, or perform any of the content without our prior written consent.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ta-item">
+              <button class="ta-header" aria-expanded="false" aria-controls="ta-c-4">
+                <span class="ta-title">4. Termination</span>
+                <span class="ta-icon" aria-hidden="true"><span class="ta-line"></span><span class="ta-line"></span></span>
+              </button>
+              <div class="ta-content" id="ta-c-4">
+                <div class="ta-inner">
+                  <p>We reserve the right to terminate or suspend your access to MT One immediately, without prior notice or liability, for any reason whatsoever, including but not limited to your breach of these Terms &amp; Conditions. Upon termination, your right to use the service will cease immediately. If you wish to terminate your account, you may simply discontinue using the service or contact our support team.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ta-item">
+              <button class="ta-header" aria-expanded="false" aria-controls="ta-c-5">
+                <span class="ta-title">5. Limitation of Liability</span>
+                <span class="ta-icon" aria-hidden="true"><span class="ta-line"></span><span class="ta-line"></span></span>
+              </button>
+              <div class="ta-content" id="ta-c-5">
+                <div class="ta-inner">
+                  <p>In no event shall MT One, its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to, use of, or inability to access or use the service, even if we have been advised of the possibility of such damages.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ta-item">
+              <button class="ta-header" aria-expanded="false" aria-controls="ta-c-6">
+                <span class="ta-title">6. Changes to Terms</span>
+                <span class="ta-icon" aria-hidden="true"><span class="ta-line"></span><span class="ta-line"></span></span>
+              </button>
+              <div class="ta-content" id="ta-c-6">
+                <div class="ta-inner">
+                  <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide notification of significant revisions by updating the date at the top of these terms or through system notifications. By continuing to access or use our service after those revisions become effective, you agree to be bound by the revised terms.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ta-item">
+              <button class="ta-header" aria-expanded="false" aria-controls="ta-c-7">
+                <span class="ta-title">7. Contact Us</span>
+                <span class="ta-icon" aria-hidden="true"><span class="ta-line"></span><span class="ta-line"></span></span>
+              </button>
+              <div class="ta-content" id="ta-c-7">
+                <div class="ta-inner">
+                  <p>If you have any questions about these Terms &amp; Conditions, please contact us at <a href="mailto:info@mtone.in" class="ta-link">info@mtone.in</a>.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">3. Intellectual Property</h2>
-          <p>All content, features, and functionality on MT One are the exclusive property of mtone.in and its
-            licensors. You may not copy, modify, or distribute any part of the service without prior written consent.
-          </p>
-        </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">4. Termination</h2>
-          <p>We reserve the right to suspend or terminate your access to MT One at any time, without notice, for conduct
-            that we believe violates these Terms & Conditions or is harmful to other users.</p>
-        </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">5. Limitation of Liability</h2>
-          <p>MT One is provided "as is" and we make no warranties regarding its reliability or accuracy. In no event
-            shall mtone.in be liable for any damages arising from the use or inability to use the service.</p>
-        </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">6. Changes to Terms</h2>
-          <p>We may update these Terms & Conditions from time to time. Continued use of MT One after changes constitutes
-            acceptance of the new terms.</p>
-        </div>
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-2">7. Contact Us</h2>
-          <p>If you have any questions about these Terms & Conditions, please contact us at <a
-              href="mailto:info@mtone.in" class="text-gold underline">info@mtone.in</a>.</p>
-        </div>
+
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+
   <div id="footer"></div>
 
+  
+  <div id="demoModal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
+    <div style="background:#f8f7f9; border-radius:17.95px; box-shadow:0 8px 40px rgba(71,50,186,0.15); padding:32px 32px 28px 32px; width:100%; max-width:500px; position:relative; margin:20px;">
+      <div style="position:absolute; inset:0; background:#4732BA; opacity:0.04; border-radius:17.95px; pointer-events:none;"></div>
+      <button onclick="closeDemoModal()" style="position:absolute; top:16px; right:16px; background:rgba(0,0,0,0.06); border:none; cursor:pointer; z-index:1; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:50%;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <h2 style="font-family:'Montserrat',sans-serif; font-weight:600; font-size:26.2px; line-height:100%; letter-spacing:-0.01em; color:#000000; text-align:center; position:relative; margin-bottom:8px;">Book Free CRM Demo</h2>
+      <p style="font-family:'Montserrat',sans-serif; font-weight:400; font-size:16.67px; line-height:140%; letter-spacing:-0.01em;  text-align:center; position:relative; margin-bottom:24px;">See how MT One helps real estate teams improve follow-ups, track site visits, and close more bookings.</p>
+      <form style="position:relative; display:flex; flex-direction:column; gap:12px;" id="demoForm">
+        <input type="text" id="demo-name" placeholder="Name *" required style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+        <input type="tel" id="demo-phone" placeholder="Mobile No. *" required maxlength="10" inputmode="numeric" style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+        <input type="text" id="demo-company" placeholder="Company Name *" required style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+        <input type="email" id="demo-email" placeholder="Email *" required style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+        <input type="text" id="demo-teamsize" placeholder="Team Size" style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+        <input type="text" id="demo-city" placeholder="City" style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+        <button type="submit" id="demo-submit-btn" style="width:100%; height:56px; border-radius:17.79px; background:#FAAD13; font-family:'Montserrat',sans-serif; font-weight:500; font-size:21.35px; line-height:100%; color:white; border:none; cursor:pointer; margin-top:4px;">Schedule <strong>FREE Demo</strong></button>
+      </form>
+    </div>
+  </div>
+
+  
+  <script type="module">
+    import { partnerService } from '../js/services/partner-service.js';
+
+    document.getElementById('demoModal').addEventListener('click', function(e) {
+      if (e.target === this) closeDemoModal();
+    });
+
+    document.getElementById('demoForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name     = document.getElementById('demo-name').value.trim();
+      const phone    = document.getElementById('demo-phone').value.trim();
+      const company  = document.getElementById('demo-company').value.trim();
+      const email    = document.getElementById('demo-email').value.trim();
+      const teamSize = document.getElementById('demo-teamsize').value.trim();
+      const city     = document.getElementById('demo-city').value.trim();
+
+      if (!name || !phone || !company || !email) {
+        showDemoToast('Please fill in all required fields.', false); return;
+      }
+
+      const message = `Demo Request\nCompany: ${company}\nTeam Size: ${teamSize||'N/A'}\nCity: ${city||'N/A'}`;
+      const payload = { subject: 'Book Free Demo Request', message, email, name, phone, domain: 'deccanrealty.com' };
+
+      const btn = document.getElementById('demo-submit-btn');
+      btn.textContent = 'Sending...'; btn.style.opacity = '0.75'; btn.disabled = true;
+
+      try {
+        const result = await partnerService.sendContactMessage(payload);
+        if (result && result.success !== false) {
+          showDemoToast('Demo booked! We will contact you soon.', true);
+          document.getElementById('demoForm').reset();
+          setTimeout(() => closeDemoModal(), 2000);
+        } else {
+          showDemoToast(result.message || 'Failed. Please try again.', false);
+        }
+      } catch {
+        showDemoToast('An error occurred. Please try again.', false);
+      } finally {
+        btn.innerHTML = 'Schedule <strong>FREE Demo</strong>';
+        btn.style.opacity = '1';
+        btn.disabled = false;
+      }
+    });
+
+    function showDemoToast(message, isSuccess) {
+      const t = document.createElement('div');
+      t.style.cssText = `position:fixed;top:24px;right:24px;z-index:99999;padding:16px 24px;border-radius:12px;font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;color:white;background:${isSuccess?'#16a34a':'#dc2626'};box-shadow:0 4px 20px rgba(0,0,0,0.15);transition:opacity 0.3s;`;
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 2500);
+    }
+  </script>
+
+ 
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const items = document.querySelectorAll(".ta-item");
+
+      const first = document.querySelector(".ta-item.active");
+      if (first) {
+        const c = first.querySelector(".ta-content");
+        if (c) c.style.maxHeight = c.scrollHeight + "px";
+      }
+
+      items.forEach((item) => {
+        const header  = item.querySelector(".ta-header");
+        const content = item.querySelector(".ta-content");
+
+        header.addEventListener("click", () => {
+          const isActive = item.classList.contains("active");
+
+          items.forEach((other) => {
+            other.classList.remove("active");
+            const oc = other.querySelector(".ta-content");
+            const oh = other.querySelector(".ta-header");
+            if (oc) oc.style.maxHeight = null;
+            if (oh) oh.setAttribute("aria-expanded", "false");
+          });
+
+          if (!isActive) {
+            item.classList.add("active");
+            if (content) content.style.maxHeight = content.scrollHeight + "px";
+            header.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      window.addEventListener("resize", () => {
+        const active = document.querySelector(".ta-item.active .ta-content");
+        if (active) active.style.maxHeight = active.scrollHeight + "px";
+      });
+    });
+  </script>
 
 </body>
-</body>
-
 </html>

@@ -52,8 +52,8 @@ export class EmailOTPLoginModule extends BaseLoginModule {
     const otpTimer = document.getElementById("otp-timer");
     const resendOtp = document.getElementById("resend-otp");
 
-    if (otpTimer) otpTimer.classList.add("hidden");
-    if (resendOtp) resendOtp.classList.add("hidden");
+    if (otpTimer) otpTimer.classList.add("lp-hidden");
+    if (resendOtp) resendOtp.classList.add("lp-hidden");
   }
 
   updateStepDisplay() {
@@ -64,7 +64,7 @@ export class EmailOTPLoginModule extends BaseLoginModule {
     steps.forEach((stepId) => {
       const element = document.getElementById(`${stepId}-step`);
       if (element) {
-        element.classList.add("hidden");
+        element.classList.add("lp-hidden");
       }
     });
 
@@ -73,7 +73,7 @@ export class EmailOTPLoginModule extends BaseLoginModule {
       `${this.currentStep}-step`,
     );
     if (currentStepElement) {
-      currentStepElement.classList.remove("hidden");
+      currentStepElement.classList.remove("lp-hidden");
     }
 
     // Show/hide back button based on configuration
@@ -88,9 +88,9 @@ export class EmailOTPLoginModule extends BaseLoginModule {
       this.currentStep !== "email-input";
 
     if (shouldShowBackButton && this.currentStep !== "email-input") {
-      backButton.classList.remove("hidden");
+      backButton.classList.remove("lp-hidden");
     } else {
-      backButton.classList.add("hidden");
+      backButton.classList.add("lp-hidden");
     }
   }
 }

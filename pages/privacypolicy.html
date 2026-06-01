@@ -2,189 +2,787 @@
 <html lang="en">
 
 <head>
-  <meta name="description" content="Read the privacy policy for MT One. Learn how we protect your data and privacy as you use our CRM platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Read the Privacy Policy of MT One - App & CRM. Understand how ANS IT Services collects, stores, and protects your real estate business data.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy | MT One</title>
+  <title>Privacy Policy - MT One Real Estate CRM</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../css/style.css">
   <script type="module" src="../js/main.js" defer></script>
+
+  <style>
+ 
+    :root {
+      --pp-bg:            #FAF8F5;
+      --pp-white:         #FFFFFF;
+      --pp-gold:          #EAA023;
+      --pp-gold-hover:    #E19116;
+      --pp-gold-glow:     rgba(234,160,35,0.25);
+      --pp-text:          #111827;
+      
+      --pp-border:        #E5E7EB;
+      --pp-decor-pink:    #FCA5A5;
+      --pp-decor-gold:    #FBE2C3;
+      --pp-font-head:     'Outfit', sans-serif;
+      --pp-font-body:     'Inter', sans-serif;
+      --pp-shadow:        0 20px 40px -15px rgba(17,24,39,0.08), 0 15px 25px -10px rgba(17,24,39,0.04);
+      --pp-radius-lg:     24px;
+      --pp-radius-md:     12px;
+      --pp-radius-sm:     8px;
+    }
+
+   
+    .pp-main {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+     padding: 120px 24px 100px;
+    }
+
+    /* Decorative shapes — removed */
+
+    .pp-grid {
+      position: relative; z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: flex-start;
+    }
+
+    
+    .pp-image-section {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: sticky;
+      top: 100px;
+    }
+
+    .pp-image-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .pp-image-card {
+      position: relative;
+      border-radius: var(--pp-radius-lg);
+      overflow: hidden;
+      box-shadow: var(--pp-shadow);
+      background: var(--pp-white);
+      transition: box-shadow .5s ease;
+    }
+    .pp-image-card:hover {
+      box-shadow: 0 30px 60px -20px rgba(17,24,39,0.15);
+    }
+    .pp-image-card img {
+      width: 100%; height: auto;
+      object-fit: contain; display: block;
+    }
+
+    
+    .pp-policy-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pp-title {
+      font-family: var(--pp-font-head);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--pp-text);
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      margin-bottom: 40px;
+    }
+
+    /* =====================================================================
+       ACCORDION
+    ===================================================================== */
+    .pp-accordion { display: flex; flex-direction: column; }
+
+    .pp-acc-item { border-bottom: 1px solid var(--pp-border); }
+
+    .pp-acc-header {
+      display: flex; align-items: center;
+      width: 100%; padding: 24px 0;
+      background: transparent; border: none;
+      text-align: left; cursor: pointer;
+      font-family: var(--pp-font-head);
+      font-size: 1.15rem; font-weight: 600;
+      color: var(--pp-text);
+      transition: color .3s;
+    }
+
+    .pp-acc-num {
+      font-weight: 700;
+      margin-right: 12px;
+      color: var(--pp-text);
+    }
+    .pp-acc-label { flex-grow: 1; }
+
+    .pp-acc-icon {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--pp-text);
+      transition: transform .4s cubic-bezier(.4,0,.2,1);
+    }
+    .pp-acc-icon .v-line {
+      transform-origin: center;
+      transition: transform .4s ease, opacity .3s ease;
+    }
+
+    /* active state */
+    .pp-acc-item.active .pp-acc-header { color: var(--pp-gold); }
+    .pp-acc-item.active .pp-acc-icon {
+      transform: rotate(45deg);
+      color: var(--pp-gold);
+    }
+
+    .pp-acc-panel {
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+    }
+    .pp-acc-content {
+      padding: 0 0 24px;
+      font-family: var(--pp-font-body);
+      font-size: .95rem;
+      color: var(--pp-muted);
+      line-height: 1.7;
+    }
+    .pp-acc-content p { margin-bottom: 14px; }
+    .pp-acc-content p:last-child { margin-bottom: 0; }
+    .pp-acc-content ul, .pp-acc-content ol { margin-left: 20px; margin-bottom: 14px; }
+    .pp-acc-content li { margin-bottom: 7px; }
+    .pp-acc-content a { color: var(--pp-gold); font-weight: 500; }
+    .pp-acc-content a:hover { text-decoration: underline; }
+    .pp-acc-content strong { color: var(--pp-text); }
+
+    /* =====================================================================
+       DEMO MODAL (same as login page)
+    ===================================================================== */
+    #demoModal {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+    }
+    #demoModal.open { display: flex; }
+
+    .demo-box {
+      background: #f8f7f9;
+      border-radius: 17.95px;
+      box-shadow: 0 8px 40px rgba(71,50,186,0.15);
+      padding: 32px 32px 28px;
+      width: 100%; max-width: 500px;
+      position: relative;
+      margin: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .demo-box-overlay {
+      position: absolute; inset: 0;
+      background: #4732BA; opacity: .04;
+      border-radius: 17.95px; pointer-events: none;
+    }
+    .demo-close {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(0,0,0,0.06); border: none; cursor: pointer;
+      z-index: 1; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      transition: background .2s;
+    }
+    .demo-close:hover { background: rgba(0,0,0,0.12); }
+
+    .demo-title {
+      font-family: 'Montserrat', var(--pp-font-head), sans-serif;
+      font-weight: 600; font-size: 26px;
+      line-height: 1; letter-spacing: -.01em;
+      color: #000; text-align: center;
+      position: relative; margin-bottom: 8px;
+    }
+    .demo-subtitle {
+      font-family: 'Montserrat', var(--pp-font-body), sans-serif;
+      font-weight: 400; font-size: 15px;
+      line-height: 1.4; letter-spacing: -.01em;
+      text-align: center;
+      position: relative; margin-bottom: 24px;
+    }
+    .demo-form {
+      position: relative;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .demo-input {
+      width: 100%; height: 55px;
+      border-radius: 17.79px;
+      background: #fff; border: 1px solid #E8E8E8;
+      padding: 0 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px; color: #141F39;
+      outline: none; box-sizing: border-box;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .demo-input:focus {
+      border-color: var(--pp-gold);
+      box-shadow: 0 0 0 3px var(--pp-gold-glow);
+    }
+    .demo-input::placeholder { color: #9CA3AF; }
+    .demo-submit {
+      width: 100%; height: 56px;
+      border-radius: 17.79px;
+      background: #FAAD13; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500; font-size: 20px;
+      color: #fff; margin-top: 4px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .demo-submit:hover {
+      background: #E09B0E;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(250,173,19,0.4);
+    }
+    .demo-submit:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+    /* toast */
+    .pp-toast {
+      position: fixed; top: 24px; right: 24px; z-index: 99999;
+      padding: 14px 22px; border-radius: 12px;
+      font-family: var(--pp-font-head); font-weight: 600; font-size: 14px;
+      color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: opacity .3s;
+    }
+    .pp-toast.success { background: #16a34a; }
+    .pp-toast.error   { background: #dc2626; }
+
+  
+    @media (max-width: 1024px) {
+      .pp-main { padding: 66px 16px 60px; }
+      .pp-grid { grid-template-columns: 1fr; gap: 40px; }
+      .pp-image-section {
+        order: -1;
+        position: static;
+      }
+      .pp-image-wrapper { max-width: 100%; }
+      .pp-title { font-size: 2.5rem; margin-bottom: 28px; }
+    }
+
+    @media (max-width: 768px) {
+      .pp-title { font-size: 2rem; margin-bottom: 20px; }
+      .pp-acc-header { padding: 18px 0; font-size: 1rem; }
+      .demo-box { padding: 24px 20px; }
+      .demo-title { font-size: 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .pp-title { font-size: 1.75rem; }
+      .pp-acc-header { padding: 15px 0; font-size: .95rem; }
+      .pp-acc-content { font-size: .88rem; padding-bottom: 16px; }
+    }
+  </style>
+
+
+  <script>
+    function openDemoModal() {
+      const m = document.getElementById('demoModal');
+      if (m) {
+        m.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+      }
+    }
+    function closeDemoModal() {
+      const m = document.getElementById('demoModal');
+      if (m) {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    }
+  </script>
 </head>
 
-<body class="font-sans bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-800 overflow-x-hidden">
-  <!-- Header -->
+<body>
+
+ 
   <div id="navbar"></div>
 
-  <!-- Main Content -->
-  <main class="pt-40 pb-24 px-4 md:px-0 min-h-screen flex items-start justify-center">
-    <section
-      class="max-w-4xl w-full bg-white/80 backdrop-blur-xl border border-gold/30 rounded-3xl shadow-lg shadow-gold/10 p-10 md:p-16">
-      <h1 class="text-3xl md:text-5xl font-extrabold text-gold mb-8 text-center">Privacy Policy</h1>
-      <p class="text-gray-600 mb-6 text-lg text-center">Last updated: July 23, 2025</p>
+  
+  <main class="pp-main" id="pp-main">
 
-      <div class="space-y-8 text-gray-700 text-base md:text-lg leading-relaxed">
-        <div class="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-          <strong>Effective Date:</strong> July 23, 2025 | <strong>Last Updated:</strong> July 23, 2025
-        </div>
+    <div class="pp-grid">
 
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">1. Introduction</h2>
-          <p class="mb-4">ANS IT Services ("we," "our," or "us") operates the MT One - App & CRM mobile application (the "App"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our App.</p>
-          <p>By using MT One - App & CRM, you agree to the collection and use of information in accordance with this Privacy Policy.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">2. Contact Information</h2>
-          <div class="bg-gray-50 border border-gold/20 rounded-xl p-6">
-            <p class="font-semibold mb-2">ANS IT Services</p>
-            <p class="mb-1">C-116 GF, OfficeOn</p>
-            <p class="mb-1">Sector 2, Noida</p>
-            <p class="mb-2">Uttar Pradesh - 201301, India</p>
-            <p class="mb-1"><strong>Phone:</strong> +91 7303062845</p>
-            <p><strong>Email:</strong> <a href="mailto:info@mtone.in" class="text-gold hover:underline">info@mtone.in</a></p>
+      <!-- LEFT: Image -->
+      <section class="pp-image-section" aria-hidden="true">
+        <div class="pp-image-wrapper">
+        <div class="pp-image-card">
+            <img
+              src="https://res.cloudinary.com/dhsnbu7e3/image/upload/q_auto/f_auto/v1779986380/ChatGPT_Image_May_25_2026_12_23_09_PM_2_1_jz8srl.png"
+              alt="MT One Privacy Policy"
+            >
           </div>
         </div>
+      </section>
 
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">3. Information We Collect</h2>
+      <!-- RIGHT: Policy accordion -->
+      <section class="pp-policy-section">
+        <h1 class="pp-title">Privacy Policy</h1>
 
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">3.1 Personal Information</h3>
-          <p class="mb-3">We collect the following personal information:</p>
-          <ul class="list-disc list-inside mb-4 space-y-1">
-            <li>Full name</li>
-            <li>Email address</li>
-            <li>Phone number</li>
-            <li>Physical address</li>
-            <li>Lead information and notes</li>
-            <li>Property details</li>
-            <li>Property agent information</li>
-          </ul>
+        <div class="pp-accordion" id="pp-accordion">
 
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">3.2 How We Collect Information</h3>
-          <p class="mb-3">We collect information through:</p>
-          <ul class="list-disc list-inside space-y-1">
-            <li>User registration and account creation</li>
-            <li>Form submissions within the App</li>
-            <li>Webhook integrations that receive lead data</li>
-            <li>Direct user input for property and client management</li>
-          </ul>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">4. How We Use Your Information</h2>
-          <p class="mb-3">We use the collected information for:</p>
-          <ul class="list-disc list-inside space-y-1">
-            <li><strong>App Functionality:</strong> Managing leads, properties, and agent data</li>
-            <li><strong>Business Operations:</strong> Property dealing and real estate activities</li>
-            <li><strong>Internal Communication:</strong> Sharing lead data within your team</li>
-            <li><strong>Service Improvement:</strong> Enhancing app features and user experience</li>
-            <li><strong>Advertising:</strong> Property marketing and promotional activities</li>
-            <li><strong>Customer Support:</strong> Responding to inquiries and providing assistance</li>
-          </ul>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">5. Data Storage and Security</h2>
-
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">5.1 Data Storage</h3>
-          <ul class="list-disc list-inside mb-4 space-y-1">
-            <li>Your data is stored on Microsoft SQL Server databases hosted on Microsoft Azure cloud infrastructure</li>
-            <li>All data is stored within secure, encrypted databases</li>
-            <li>Data retention: We retain your information permanently on our databases for business continuity and historical record-keeping</li>
-          </ul>
-
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">5.2 Security Measures</h3>
-          <p>We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">6. Data Sharing and Disclosure</h2>
-
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">6.1 Third-Party Sharing</h3>
-          <p class="mb-3">We do not sell, trade, or share your personal information with third parties for their marketing purposes.</p>
-
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">6.2 Limited Disclosure</h3>
-          <p class="mb-3">We may disclose your information only in the following circumstances:</p>
-          <ul class="list-disc list-inside space-y-1">
-            <li><strong>Legal Compliance:</strong> When required by Indian law or legal process</li>
-            <li><strong>Business Operations:</strong> Within your authorized team members for legitimate business purposes</li>
-            <li><strong>Safety:</strong> To protect the rights, property, or safety of ANS IT Services, our users, or others</li>
-          </ul>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">7. Your Rights and Choices</h2>
-
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">7.1 Access and Control</h3>
-          <p class="mb-3">You have the right to:</p>
-          <ul class="list-disc list-inside mb-4 space-y-1">
-            <li>Access your personal information stored in the App</li>
-            <li>Update or correct your information</li>
-            <li>Request deletion of your account (subject to business record requirements)</li>
-            <li>Withdraw consent for data processing</li>
-          </ul>
-
-          <h3 class="text-lg font-semibold text-gray-800 mb-3">7.2 Data Portability</h3>
-          <p>You may request a copy of your data in a commonly used, machine-readable format.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">8. Children's Privacy</h2>
-          <p>MT One - App & CRM is intended for business use by adults. We do not knowingly collect personal information from individuals under 18 years of age.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">9. Geographic Scope</h2>
-          <p>This App is designed for use within India only. All data processing activities comply with applicable Indian data protection laws.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">10. No Analytics or Tracking</h2>
-          <p>We do not use third-party analytics, tracking services, or advertising networks. All data collection is limited to the functionality described in this Privacy Policy.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">11. Device Permissions</h2>
-          <p>MT One - App & CRM does not require any special device permissions such as camera, location, contacts, or file access.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">12. Changes to This Privacy Policy</h2>
-          <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy within the App and updating the "Last Updated" date.</p>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">13. Compliance</h2>
-          <p class="mb-3">This Privacy Policy is designed to comply with:</p>
-          <ul class="list-disc list-inside space-y-1">
-            <li>Indian Information Technology Act, 2000</li>
-            <li>Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011</li>
-            <li>Google Play Store requirements</li>
-            <li>General data protection principles</li>
-          </ul>
-        </div>
-
-        <div>
-          <h2 class="text-xl md:text-2xl font-semibold text-gold mb-4">14. Contact Us</h2>
-          <p class="mb-4">If you have any questions about this Privacy Policy or our data practices, please contact us:</p>
-          <div class="bg-gray-50 border border-gold/20 rounded-xl p-6">
-            <p class="mb-1"><strong>Email:</strong> <a href="mailto:info@mtone.in" class="text-gold hover:underline">info@mtone.in</a></p>
-            <p class="mb-1"><strong>Phone:</strong> +91 7303062845</p>
-            <p><strong>Address:</strong> ANS IT Services, C-116 GF, OfficeOn, Sector 2, Noida, Uttar Pradesh - 201301, India</p>
+          <!-- 1 -->
+          <div class="pp-acc-item active" id="pp-item-1">
+            <button class="pp-acc-header" aria-expanded="true" aria-controls="pp-panel-1">
+              <span class="pp-acc-num">1.</span>
+              <span class="pp-acc-label">Introduction</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-1">
+              <div class="pp-acc-content">
+                <p>ANS IT Services ("we," "our," or "us") operates the MT One - App &amp; CRM mobile application (the "App"). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our App.</p>
+                <p>By using MT One - App &amp; CRM, you agree to the collection and use of information in accordance with this Privacy Policy.</p>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
-          <p><strong>This privacy policy is effective as of July 23, 2025, and applies to all users of the MT One - App & CRM application.</strong></p>
+          <!-- 2 -->
+          <div class="pp-acc-item" id="pp-item-2">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-2">
+              <span class="pp-acc-num">2.</span>
+              <span class="pp-acc-label">Contact Information</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-2">
+              <div class="pp-acc-content">
+                <p>If you have any questions, suggestions, or complaints regarding our privacy practices or this policy, please contact us at:</p>
+                <ul>
+                  <li><strong>Email:</strong> <a href="mailto:info@mtone.in">info@mtone.in</a></li>
+                  <li><strong>Phone:</strong> <a href="tel:+917303062845">+91-73030-62845</a>, <a href="tel:+919718361550">+91-97183-61550</a></li>
+                  <li><strong>Address:</strong> C-116 GF, OfficeOn, Sector 2, Noida, Uttar Pradesh - 201301</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="pp-acc-item" id="pp-item-3">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-3">
+              <span class="pp-acc-num">3.</span>
+              <span class="pp-acc-label">Information We Collect</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-3">
+              <div class="pp-acc-content">
+                <p>We collect information that helps us provide a customized and efficient real estate CRM experience. This includes:</p>
+                <p><strong>Personal Data:</strong> Information you explicitly provide when setting up an account — full name, mobile number, email address, company details, and credentials.</p>
+                <p><strong>Business Data:</strong> Leads list, customer interaction logs, site visit records, follow-ups, and inventory details inputted into the App.</p>
+                <p><strong>Usage &amp; Device Data:</strong> System information (OS version, device model), IP addresses, application performance logs, and feature usage duration.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="pp-acc-item" id="pp-item-4">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-4">
+              <span class="pp-acc-num">4.</span>
+              <span class="pp-acc-label">How We Use Your Information</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-4">
+              <div class="pp-acc-content">
+                <p>We process your information for legitimate business interests, fulfillment of our contract, legal compliance, and/or your consent. Specifically:</p>
+                <ul>
+                  <li>Provide, operate, and maintain the MT One App &amp; CRM platform.</li>
+                  <li>Facilitate real estate sales tracking, site visit coordination, and lead conversion workflows.</li>
+                  <li>Send automated messages, updates, and CRM reminders (including WhatsApp integrations).</li>
+                  <li>Deliver customer support, handle queries, and troubleshoot technical errors.</li>
+                  <li>Monitor system performance and enhance application stability.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="pp-acc-item" id="pp-item-5">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-5">
+              <span class="pp-acc-num">5.</span>
+              <span class="pp-acc-label">Data Storage and Security</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-5">
+              <div class="pp-acc-content">
+                <p>We are committed to securing your data. All records are stored on secure cloud database systems that implement standard firewall protocols, end-to-end data encryption in transit, and role-based access control policies.</p>
+                <p>Although we take commercially reasonable security measures to protect your information, no security system or transmission method over the internet is completely error-free or impenetrable. Thus, we cannot guarantee absolute data safety.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="pp-acc-item" id="pp-item-6">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-6">
+              <span class="pp-acc-num">6.</span>
+              <span class="pp-acc-label">Data Sharing and Disclosure</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-6">
+              <div class="pp-acc-content">
+                <p>We respect your privacy and do not sell, rent, or lease your personal or business records to third parties. We may disclose your information under the following situations:</p>
+                <ul>
+                  <li><strong>Third-Party Vendors:</strong> Service providers who help us deliver key features — SMS/WhatsApp gateways, email servers, and hosting providers.</li>
+                  <li><strong>Legal Mandates:</strong> If required by law, court orders, or government regulations to comply with a judicial proceeding or protect safety.</li>
+                  <li><strong>Business Mergers:</strong> In connection with any merger, acquisition, or sale of company assets, user data may be transferred as a business asset.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7 -->
+          <div class="pp-acc-item" id="pp-item-7">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-7">
+              <span class="pp-acc-num">7.</span>
+              <span class="pp-acc-label">Your Rights and Choices</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-7">
+              <div class="pp-acc-content">
+                <p>You have full authority over your registered profile. Your choices include:</p>
+                <p><strong>Data Access &amp; Edits:</strong> You can review, update, or correct your personal details at any time by logging into the App and visiting your account profile.</p>
+                <p><strong>Account Deletion:</strong> To permanently delete your MT One profile and erase associated data from our servers, send a written request to <a href="mailto:info@mtone.in">info@mtone.in</a>. We will process your request within standard legal timeframes.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8 -->
+          <div class="pp-acc-item" id="pp-item-8">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-8">
+              <span class="pp-acc-num">8.</span>
+              <span class="pp-acc-label">Children's Privacy</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-8">
+              <div class="pp-acc-content">
+                <p>The MT One real estate CRM is not designed for, or directed towards, children under the age of 13. We do not knowingly collect or store personal information from children. If we discover that a user under 13 has registered without parental verification, we will immediately terminate the account and purge their data.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 9 -->
+          <div class="pp-acc-item" id="pp-item-9">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-9">
+              <span class="pp-acc-num">9.</span>
+              <span class="pp-acc-label">Geographic Scope</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-9">
+              <div class="pp-acc-content">
+                <p>MT One is operated and hosted in India. If you access or use the App from outside India, please note that your information will be transferred, stored, and processed in India where our servers are located. By using our App, you consent to this transfer and processing.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10 -->
+          <div class="pp-acc-item" id="pp-item-10">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-10">
+              <span class="pp-acc-num">10.</span>
+              <span class="pp-acc-label">No Analytics or Tracking</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-10">
+              <div class="pp-acc-content">
+                <p>We hold privacy in high regard. Unlike other digital platforms, MT One does not employ third-party tracking cookies or monitor your activities across other applications. We only process application logging and diagnostics parameters internally to identify performance bugs and refine CRM usability features.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 11 -->
+          <div class="pp-acc-item" id="pp-item-11">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-11">
+              <span class="pp-acc-num">11.</span>
+              <span class="pp-acc-label">Device Permissions</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-11">
+              <div class="pp-acc-content">
+                <p>To enable real-time CRM capabilities, the App requests the following device permissions:</p>
+                <ul>
+                  <li><strong>Contacts List:</strong> To seamlessly import potential leads and register them into your CRM directory.</li>
+                  <li><strong>Camera &amp; Photo Gallery:</strong> To take and upload pictures of site visits, building construction updates, and files.</li>
+                  <li><strong>Location Services:</strong> To verify site visit locations and aid sales teams with location-based visit tracking.</li>
+                </ul>
+                <p>You may adjust or toggle off these permissions at any time via your device's operating system settings.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 12 -->
+          <div class="pp-acc-item" id="pp-item-12">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-12">
+              <span class="pp-acc-num">12.</span>
+              <span class="pp-acc-label">Changes to this Privacy Policy</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-12">
+              <div class="pp-acc-content">
+                <p>We reserve the right to modify or adjust this privacy statement at our discretion. Any revisions will be posted directly to this section with an updated revision date. In the event of substantial changes, we will push an in-app alert or notification to keep you informed.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 13 -->
+          <div class="pp-acc-item" id="pp-item-13">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-13">
+              <span class="pp-acc-num">13.</span>
+              <span class="pp-acc-label">Compliance</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-13">
+              <div class="pp-acc-content">
+                <p>We operate in compliance with the Information Technology Act, 2000 of India, as well as general guidelines governing digital data management systems. We ensure your database values are protected under legally defined administrative procedures.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 14 -->
+          <div class="pp-acc-item" id="pp-item-14">
+            <button class="pp-acc-header" aria-expanded="false" aria-controls="pp-panel-14">
+              <span class="pp-acc-num">14.</span>
+              <span class="pp-acc-label">Contact Us</span>
+              <span class="pp-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="pp-acc-panel" id="pp-panel-14">
+              <div class="pp-acc-content">
+                <p>For direct correspondence with our data compliance officer, you can write or call us:</p>
+                <ul>
+                  <li><strong>Support Desk:</strong> <a href="mailto:info@mtone.in">info@mtone.in</a></li>
+                  <li><strong>Primary Helpline:</strong> +91-73030-62845</li>
+                  <li><strong>Office Address:</strong> C-116 GF, OfficeOn, Sector 2, Noida, Uttar Pradesh - 201301</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+
+    </div>
   </main>
 
-  <!-- Footer -->
+  
   <div id="footer"></div>
 
+ 
+  <div id="demoModal" role="dialog" aria-modal="true" aria-labelledby="demoModalTitle">
+    <div class="demo-box">
+      <div class="demo-box-overlay"></div>
+      <button class="demo-close" onclick="closeDemoModal()" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <h2 class="demo-title" id="demoModalTitle">Book Free CRM Demo</h2>
+      <p class="demo-subtitle">See how MT One helps real estate teams improve follow-ups, track site visits, and close more bookings.</p>
+      <form class="demo-form" id="demoForm" novalidate>
+        <input type="text"  id="demo-name"     class="demo-input" placeholder="Name *"         required>
+        <input type="tel"   id="demo-phone"    class="demo-input" placeholder="Mobile No. *"   required maxlength="10" inputmode="numeric">
+        <input type="text"  id="demo-company"  class="demo-input" placeholder="Company Name *" required>
+        <input type="email" id="demo-email"    class="demo-input" placeholder="Email *"         required>
+        <input type="text"  id="demo-teamsize" class="demo-input" placeholder="Team Size">
+        <input type="text"  id="demo-city"     class="demo-input" placeholder="City">
+        <button type="submit" class="demo-submit" id="demo-submit-btn">
+          Schedule <strong>FREE Demo</strong>
+        </button>
+      </form>
+    </div>
+  </div>
+
+ 
+  <script type="module">
+    import { partnerService } from '/js/services/partner-service.js';
+
+   
+    document.addEventListener('DOMContentLoaded', () => {
+      const items = document.querySelectorAll('.pp-acc-item');
+
+     
+      const firstActive = document.querySelector('.pp-acc-item.active');
+      if (firstActive) {
+        const panel = firstActive.querySelector('.pp-acc-panel');
+        if (panel) { panel.style.maxHeight = panel.scrollHeight + 'px'; panel.style.opacity = '1'; }
+      }
+
+      items.forEach(item => {
+        const header = item.querySelector('.pp-acc-header');
+        const panel  = item.querySelector('.pp-acc-panel');
+        if (!header || !panel) return;
+
+        header.addEventListener('click', () => {
+          const isOpen = item.classList.contains('active');
+
+         
+          items.forEach(other => {
+            if (other.classList.contains('active')) {
+              other.classList.remove('active');
+              const p = other.querySelector('.pp-acc-panel');
+              const h = other.querySelector('.pp-acc-header');
+              if (p) { p.style.maxHeight = null; p.style.opacity = '0'; }
+              if (h) h.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+        
+          if (!isOpen) {
+            item.classList.add('active');
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+            panel.style.opacity = '1';
+            header.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+     
+      window.addEventListener('resize', () => {
+        const active = document.querySelector('.pp-acc-item.active .pp-acc-panel');
+        if (active) active.style.maxHeight = active.scrollHeight + 'px';
+      });
+
+      
+      // close on backdrop click
+      document.getElementById('demoModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('demoModal')) {
+          closeDemoModal();
+        }
+      });
+
+     
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeDemoModal();
+      });
+
+      
+      document.getElementById('demoForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const name     = document.getElementById('demo-name').value.trim();
+        const phone    = document.getElementById('demo-phone').value.trim();
+        const company  = document.getElementById('demo-company').value.trim();
+        const email    = document.getElementById('demo-email').value.trim();
+        const teamSize = document.getElementById('demo-teamsize').value.trim();
+        const city     = document.getElementById('demo-city').value.trim();
+
+        if (!name || !phone || !company || !email) {
+          showToast('Please fill in all required fields.', false); return;
+        }
+
+        const message = `Demo Request\nCompany: ${company}\nTeam Size: ${teamSize || 'N/A'}\nCity: ${city || 'N/A'}`;
+        const payload = { subject: 'Book Free Demo Request', message, email, name, phone, domain: window.location.hostname };
+
+        const btn = document.getElementById('demo-submit-btn');
+        btn.textContent = 'Sending…'; btn.style.opacity = '.75'; btn.disabled = true;
+
+        try {
+          const result = await partnerService.sendContactMessage(payload);
+          if (result && result.success !== false) {
+            showToast('Demo booked! We will contact you soon.', true);
+            document.getElementById('demoForm').reset();
+            setTimeout(() => closeDemoModal(), 2000);
+          } else {
+            showToast(result.message || 'Failed. Please try again.', false);
+          }
+        } catch {
+          showToast('An error occurred. Please try again.', false);
+        } finally {
+          btn.innerHTML = 'Schedule <strong>FREE Demo</strong>';
+          btn.style.opacity = '1'; btn.disabled = false;
+        }
+      });
+    });
+
+    
+    function showToast(message, isSuccess) {
+      const t = document.createElement('div');
+      t.className = 'pp-toast ' + (isSuccess ? 'success' : 'error');
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 2800);
+    }
+  </script>
 
 </body>
-</body>
-
 </html>

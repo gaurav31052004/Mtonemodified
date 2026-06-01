@@ -1,55 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta name="description" content="Frequently asked questions about MT One CRM. Find answers about features, trials, support, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Find answers to frequently asked questions about MT One, the ultimate real estate CRM designed for builders, brokers, and sales teams.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQs - MT One</title>
+  <title>FAQ - MT One Real Estate CRM</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../css/style.css">
   <script type="module" src="../js/main.js" defer></script>
+
+  <style>
+    
+    :root {
+      --fq-bg:          #FAF8F5;
+      --fq-white:       #FFFFFF;
+      --fq-gold:        #EAA023;
+      --fq-gold-hover:  #E19116;
+      --fq-gold-glow:   rgba(234,160,35,0.25);
+      --fq-text:        #111827;
+      --fq-muted:       #4B5563;
+      --fq-border:      #E5E7EB;
+      --fq-font-head:   'Outfit', sans-serif;
+      --fq-font-body:   'Inter', sans-serif;
+      --fq-shadow:      0 20px 40px -15px rgba(17,24,39,0.08), 0 15px 25px -10px rgba(17,24,39,0.04);
+      --fq-radius-lg:   24px;
+      --fq-radius-md:   12px;
+      --fq-radius-sm:   8px;
+    }
+
+    
+    .fq-main {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 112px 24px 100px;
+    }
+
+    .fq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: flex-start;
+    }
+
+  
+    .fq-image-section {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: sticky;
+      top: 100px;
+    }
+
+    .fq-image-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .fq-image-card {
+      position: relative;
+      border-radius: var(--fq-radius-lg);
+      overflow: hidden;
+      box-shadow: var(--fq-shadow);
+      background: var(--fq-white);
+      transition: box-shadow .5s ease;
+    }
+    .fq-image-card:hover {
+      box-shadow: 0 30px 60px -20px rgba(17,24,39,0.15);
+    }
+    .fq-image-card img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    
+    .fq-content-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .fq-title {
+      font-family: var(--fq-font-head);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--fq-text);
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      margin-bottom: 40px;
+    }
+
+    
+    .fq-accordion {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .fq-acc-item {
+      border-bottom: 1px solid var(--fq-border);
+    }
+
+    .fq-acc-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 24px 0;
+      background: transparent;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--fq-font-head);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--fq-text);
+      transition: color .3s;
+    }
+
+    .fq-acc-num {
+      font-weight: 700;
+      margin-right: 12px;
+      color: var(--fq-text);
+      flex-shrink: 0;
+    }
+    .fq-acc-label {
+      flex-grow: 1;
+    }
+
+    .fq-acc-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fq-text);
+      flex-shrink: 0;
+      transition: transform .4s cubic-bezier(.4,0,.2,1);
+    }
+    .fq-acc-icon .v-line {
+      transform-origin: center;
+      transition: transform .4s ease, opacity .3s ease;
+    }
+
+    /* active state */
+    .fq-acc-item.active .fq-acc-header { color: var(--fq-gold); }
+    .fq-acc-item.active .fq-acc-icon {
+      transform: rotate(45deg);
+      color: var(--fq-gold);
+    }
+
+    .fq-acc-panel {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+    }
+    .fq-acc-content {
+      padding: 0 0 24px;
+      font-family: var(--fq-font-body);
+      font-size: .95rem;
+     
+      line-height: 1.7;
+    }
+    .fq-acc-content p { margin-bottom: 14px; }
+    .fq-acc-content p:last-child { margin-bottom: 0; }
+    .fq-acc-content ul, .fq-acc-content ol { margin-left: 20px; margin-bottom: 14px; }
+    .fq-acc-content li { margin-bottom: 7px; }
+    .fq-acc-content a { color: var(--fq-gold); font-weight: 500; }
+    .fq-acc-content a:hover { text-decoration: underline; }
+    .fq-acc-content strong { color: var(--fq-text); }
+
+    
+    #demoModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+    #demoModal.open { display: flex; }
+
+    .demo-box {
+      background: #f8f7f9;
+      border-radius: 17.95px;
+      box-shadow: 0 8px 40px rgba(71,50,186,0.15);
+      padding: 32px 32px 28px;
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+      margin: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .demo-box-overlay {
+      position: absolute; inset: 0;
+      background: #4732BA; opacity: .04;
+      border-radius: 17.95px; pointer-events: none;
+    }
+    .demo-close {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(0,0,0,0.06); border: none; cursor: pointer;
+      z-index: 1; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      transition: background .2s;
+    }
+    .demo-close:hover { background: rgba(0,0,0,0.12); }
+
+    .demo-title {
+      font-family: 'Montserrat', var(--fq-font-head), sans-serif;
+      font-weight: 600; font-size: 26px;
+      line-height: 1; letter-spacing: -.01em;
+      color: #000; text-align: center;
+      position: relative; margin-bottom: 8px;
+    }
+    .demo-subtitle {
+      font-family: 'Montserrat', var(--fq-font-body), sans-serif;
+      font-weight: 400; font-size: 15px;
+      line-height: 1.4; letter-spacing: -.01em;
+       text-align: center;
+      position: relative; margin-bottom: 24px;
+    }
+    .demo-form {
+      position: relative;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .demo-input {
+      width: 100%; height: 55px;
+      border-radius: 17.79px;
+      background: #fff; border: 1px solid #E8E8E8;
+      padding: 0 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 15px; color: #141F39;
+      outline: none; box-sizing: border-box;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .demo-input:focus {
+      border-color: var(--fq-gold);
+      box-shadow: 0 0 0 3px var(--fq-gold-glow);
+    }
+    .demo-input::placeholder { color: #9CA3AF; }
+    .demo-submit {
+      width: 100%; height: 56px;
+      border-radius: 17.79px;
+      background: #FAAD13; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500; font-size: 20px;
+      color: #fff; margin-top: 4px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .demo-submit:hover {
+      background: #E09B0E;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(250,173,19,0.4);
+    }
+    .demo-submit:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+    /* toast */
+    .fq-toast {
+      position: fixed; top: 24px; right: 24px; z-index: 99999;
+      padding: 14px 22px; border-radius: 12px;
+      font-family: var(--fq-font-head); font-weight: 600; font-size: 14px;
+      color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: opacity .3s;
+    }
+    .fq-toast.success { background: #16a34a; }
+    .fq-toast.error   { background: #dc2626; }
+
+    
+    @media (max-width: 1024px) {
+      .fq-main { padding: 66px 16px 60px; }
+      .fq-grid { grid-template-columns: 1fr; gap: 40px; }
+      .fq-image-section {
+        order: -1;
+        position: static;
+      }
+      .fq-image-wrapper { max-width: 100%; }
+      .fq-title { font-size: 2.5rem; margin-bottom: 28px; }
+    }
+
+    @media (max-width: 768px) {
+      .fq-title { font-size: 2rem; margin-bottom: 20px; }
+      .fq-acc-header { padding: 18px 0; font-size: 1rem; }
+      .demo-box { padding: 24px 20px; }
+      .demo-title { font-size: 22px; }
+    }
+
+    @media (max-width: 480px) {
+      .fq-title { font-size: 1.75rem; }
+      .fq-acc-header { padding: 15px 0; font-size: .95rem; }
+      .fq-acc-content { font-size: .88rem; padding-bottom: 16px; }
+    }
+  </style>
+
+ 
+  <script>
+    function openDemoModal() {
+      const m = document.getElementById('demoModal');
+      if (m) {
+        m.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+      }
+    }
+    function closeDemoModal() {
+      const m = document.getElementById('demoModal');
+      if (m) {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    }
+  </script>
 </head>
-<body class="font-sans bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-800 overflow-x-hidden">
-  <!-- Header -->
+
+<body>
+
+  <!-- Navbar (project ka) -->
   <div id="navbar"></div>
 
-  <section class="min-h-[40vh] flex items-center justify-center px-8 pt-24 md:pt-32 bg-gradient-to-r from-gold/10 to-orange/10">
-    <div class="max-w-3xl text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 gradient-text leading-tight">Frequently Asked Questions</h1>
-      <p class="text-lg md:text-xl text-gray-600 mb-8">Find answers to common questions about MT One CRM.</p>
+ 
+  <main class="fq-main" id="fq-main">
+
+    <div class="fq-grid">
+
+      <!-- LEFT: Image -->
+      <section class="fq-image-section" aria-hidden="true">
+        <div class="fq-image-wrapper">
+          <div class="fq-image-card">
+            <img
+              src="https://res.cloudinary.com/dhsnbu7e3/image/upload/f_auto,q_auto,w_480/v1780038536/ChatGPT_Image_May_25_2026_12_23_09_PM_1_1_deanir.png"
+              alt="MT One FAQ Illustration"
+              width="480"
+              height="480"
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: FAQ Accordion -->
+      <section class="fq-content-section">
+        <h1 class="fq-title">Frequently Asked<br>Questions</h1>
+
+        <div class="fq-accordion" id="fq-accordion">
+
+          <!-- 1 -->
+          <div class="fq-acc-item active" id="fq-item-1">
+            <button class="fq-acc-header" aria-expanded="true" aria-controls="fq-panel-1">
+              <span class="fq-acc-num">1.</span>
+              <span class="fq-acc-label">Is MT One built specifically for real estate?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-1">
+              <div class="fq-acc-content">
+                <p>Yes, MT One is exclusively designed for builders, brokers, and real estate sales teams. Every feature — from lead management to site visit tracking — is built keeping the real estate workflow in mind.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="fq-acc-item" id="fq-item-2">
+            <button class="fq-acc-header" aria-expanded="false" aria-controls="fq-panel-2">
+              <span class="fq-acc-num">2.</span>
+              <span class="fq-acc-label">Can I track site visits and follow-ups?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-2">
+              <div class="fq-acc-content">
+                <p>Yes, MT One enables you to log, schedule, and track site visits, assign follow-up tasks to your team, and receive real-time status updates on customer feedback.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="fq-acc-item" id="fq-item-3">
+            <button class="fq-acc-header" aria-expanded="false" aria-controls="fq-panel-3">
+              <span class="fq-acc-num">3.</span>
+              <span class="fq-acc-label">Does MT One support WhatsApp integration?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-3">
+              <div class="fq-acc-content">
+                <p>Absolutely! MT One integrates seamlessly with WhatsApp to automate reminders, share digital brochures, send site-visit confirmations, and chat with clients directly from the CRM dashboard.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="fq-acc-item" id="fq-item-4">
+            <button class="fq-acc-header" aria-expanded="false" aria-controls="fq-panel-4">
+              <span class="fq-acc-num">4.</span>
+              <span class="fq-acc-label">Can I manage channel partners?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-4">
+              <div class="fq-acc-content">
+                <p>Yes, MT One includes a dedicated Channel Partner Module where you can register brokers, share real-time inventory, track partner leads, and manage commission payouts transparently.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="fq-acc-item" id="fq-item-5">
+            <button class="fq-acc-header" aria-expanded="false" aria-controls="fq-panel-5">
+              <span class="fq-acc-num">5.</span>
+              <span class="fq-acc-label">Is there a mobile app?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-5">
+              <div class="fq-acc-content">
+                <p>Yes, MT One offers a robust mobile app for both iOS and Android, allowing your sales agents to access lead data, log meetings, and update deal statuses on the go.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="fq-acc-item" id="fq-item-6">
+            <button class="fq-acc-header" aria-expanded="false" aria-controls="fq-panel-6">
+              <span class="fq-acc-num">6.</span>
+              <span class="fq-acc-label">Can I import my existing leads?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-6">
+              <div class="fq-acc-content">
+                <p>Absolutely. MT One allows you to import leads from spreadsheets or other CRMs easily, so you can hit the ground running without losing any existing data.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7 -->
+          <div class="fq-acc-item" id="fq-item-7">
+            <button class="fq-acc-header" aria-expanded="false" aria-controls="fq-panel-7">
+              <span class="fq-acc-num">7.</span>
+              <span class="fq-acc-label">Is my data secure?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-7">
+              <div class="fq-acc-content">
+                <p>Your data is protected with enterprise-grade security — end-to-end encryption, role-based access controls, and secure cloud hosting ensure your business data stays safe at all times.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8 -->
+          <div class="fq-acc-item" id="fq-item-8">
+            <button class="fq-acc-header" aria-expanded="false" aria-controls="fq-panel-8">
+              <span class="fq-acc-num">8.</span>
+              <span class="fq-acc-label">How do I get support?</span>
+              <span class="fq-acc-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round">
+                  <line x1="12" y1="5" x2="12" y2="19" class="v-line"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </button>
+            <div class="fq-acc-panel" id="fq-panel-8">
+              <div class="fq-acc-content">
+                <p>You can reach our support team via email at <a href="mailto:info@mtone.in">info@mtone.in</a>, by phone at <a href="tel:+917303062845">+91-73030-62845</a>, or through the live chat option available on your dashboard.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
     </div>
-  </section>
+  </main>
 
-  <section class="py-20 px-8 max-w-3xl mx-auto">
-    <div class="space-y-8">
-      <div class="bg-white/90 rounded-2xl shadow-lg p-6 border border-gold/20">
-        <h2 class="text-xl font-semibold mb-2 text-gold">What is MT One?</h2>
-        <p class="text-gray-700">MT One is a next-generation CRM platform designed for real estate teams to manage leads, listings, follow-ups, and analytics in one place.</p>
-      </div>
-      <div class="bg-white/90 rounded-2xl shadow-lg p-6 border border-gold/20">
-        <h2 class="text-xl font-semibold mb-2 text-gold">Is there a free trial?</h2>
-        <p class="text-gray-700">Yes! You can start with a free trial to explore all features before choosing a plan.</p>
-      </div>
-      <div class="bg-white/90 rounded-2xl shadow-lg p-6 border border-gold/20">
-        <h2 class="text-xl font-semibold mb-2 text-gold">Can I import my existing leads?</h2>
-        <p class="text-gray-700">Absolutely. MT One allows you to import leads from spreadsheets or other CRMs easily.</p>
-      </div>
-      <div class="bg-white/90 rounded-2xl shadow-lg p-6 border border-gold/20">
-        <h2 class="text-xl font-semibold mb-2 text-gold">Is my data secure?</h2>
-        <p class="text-gray-700">Your data is protected with enterprise-grade security and privacy controls.</p>
-      </div>
-      <div class="bg-white/90 rounded-2xl shadow-lg p-6 border border-gold/20">
-        <h2 class="text-xl font-semibold mb-2 text-gold">How do I get support?</h2>
-        <p class="text-gray-700">You can reach our support team via email, phone, or live chat from your dashboard.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-10 px-8 max-w-3xl mx-auto text-center">
-    <h2 class="text-2xl font-bold mb-4 text-gold">Still have questions?</h2>
-    <p class="text-lg text-gray-700 mb-6">Contact us at <a href="mailto:info@mtone.in" class="text-gold hover:underline">info@mtone.in</a> and we'll be happy to help!</p>
-  </section>
-
-  <!-- Footer -->
   <div id="footer"></div>
+
+  <!-- =====================================================================
+       BOOK FREE DEMO MODAL
+  ===================================================================== -->
+  <div id="demoModal" role="dialog" aria-modal="true" aria-labelledby="demoModalTitle">
+    <div class="demo-box">
+      <div class="demo-box-overlay"></div>
+      <button class="demo-close" onclick="closeDemoModal()" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <h2 class="demo-title" id="demoModalTitle">Book Free CRM Demo</h2>
+      <p class="demo-subtitle">See how MT One helps real estate teams improve follow-ups, track site visits, and close more bookings.</p>
+      <form class="demo-form" id="demoForm" novalidate>
+        <input type="text"  id="demo-name"     class="demo-input" placeholder="Name *"         required>
+        <input type="tel"   id="demo-phone"    class="demo-input" placeholder="Mobile No. *"   required maxlength="10" inputmode="numeric">
+        <input type="text"  id="demo-company"  class="demo-input" placeholder="Company Name *" required>
+        <input type="email" id="demo-email"    class="demo-input" placeholder="Email *"         required>
+        <input type="text"  id="demo-teamsize" class="demo-input" placeholder="Team Size">
+        <input type="text"  id="demo-city"     class="demo-input" placeholder="City">
+        <button type="submit" class="demo-submit" id="demo-submit-btn">
+          Schedule <strong>FREE Demo</strong>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       JAVASCRIPT — Accordion + Demo Modal
+  ===================================================================== -->
+  <script type="module">
+    import { partnerService } from '/js/services/partner-service.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      /* ----------------------------------------------------------------
+         ACCORDION
+      ---------------------------------------------------------------- */
+      const items = document.querySelectorAll('.fq-acc-item');
+
+      // init first open item
+      const firstActive = document.querySelector('.fq-acc-item.active');
+      if (firstActive) {
+        const panel = firstActive.querySelector('.fq-acc-panel');
+        if (panel) { panel.style.maxHeight = panel.scrollHeight + 'px'; panel.style.opacity = '1'; }
+      }
+
+      items.forEach(item => {
+        const header = item.querySelector('.fq-acc-header');
+        const panel  = item.querySelector('.fq-acc-panel');
+        if (!header || !panel) return;
+
+        header.addEventListener('click', () => {
+          const isOpen = item.classList.contains('active');
+
+          // close all
+          items.forEach(other => {
+            if (other.classList.contains('active')) {
+              other.classList.remove('active');
+              const p = other.querySelector('.fq-acc-panel');
+              const h = other.querySelector('.fq-acc-header');
+              if (p) { p.style.maxHeight = null; p.style.opacity = '0'; }
+              if (h) h.setAttribute('aria-expanded', 'false');
+            }
+          });
+
+          // toggle clicked
+          if (!isOpen) {
+            item.classList.add('active');
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+            panel.style.opacity = '1';
+            header.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      // resize fix
+      window.addEventListener('resize', () => {
+        const active = document.querySelector('.fq-acc-item.active .fq-acc-panel');
+        if (active) active.style.maxHeight = active.scrollHeight + 'px';
+      });
+
+      
+      document.getElementById('demoModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('demoModal')) closeDemoModal();
+      });
+
+      // close on Escape
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeDemoModal();
+      });
+
+      // form submit
+      document.getElementById('demoForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const name     = document.getElementById('demo-name').value.trim();
+        const phone    = document.getElementById('demo-phone').value.trim();
+        const company  = document.getElementById('demo-company').value.trim();
+        const email    = document.getElementById('demo-email').value.trim();
+        const teamSize = document.getElementById('demo-teamsize').value.trim();
+        const city     = document.getElementById('demo-city').value.trim();
+
+        if (!name || !phone || !company || !email) {
+          showToast('Please fill in all required fields.', false); return;
+        }
+
+        const message = `Demo Request\nCompany: ${company}\nTeam Size: ${teamSize || 'N/A'}\nCity: ${city || 'N/A'}`;
+        const payload = { subject: 'Book Free Demo Request', message, email, name, phone, domain: window.location.hostname };
+
+        const btn = document.getElementById('demo-submit-btn');
+        btn.textContent = 'Sending…'; btn.style.opacity = '.75'; btn.disabled = true;
+
+        try {
+          const result = await partnerService.sendContactMessage(payload);
+          if (result && result.success !== false) {
+            showToast('Demo booked! We will contact you soon.', true);
+            document.getElementById('demoForm').reset();
+            setTimeout(() => closeDemoModal(), 2000);
+          } else {
+            showToast(result.message || 'Failed. Please try again.', false);
+          }
+        } catch {
+          showToast('An error occurred. Please try again.', false);
+        } finally {
+          btn.innerHTML = 'Schedule <strong>FREE Demo</strong>';
+          btn.style.opacity = '1'; btn.disabled = false;
+        }
+      });
+    });
+
+   
+    function showToast(message, isSuccess) {
+      const t = document.createElement('div');
+      t.className = 'fq-toast ' + (isSuccess ? 'success' : 'error');
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 2800);
+    }
+  </script>
+
 </body>
 </html>

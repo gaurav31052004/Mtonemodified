@@ -2,14 +2,15 @@ import { partnerService } from "../services/partner-service.js";
 
 class PricingToggle {
     constructor() {
-        this.isYearly = false;
+        this.isYearly = true;
         this.plans = [];
         this.init();
     }
 
     async init() {
-        this.createToggle();
-        this.bindEvents();
+        //this.createToggle();
+        //this.bindEvents();
+          this.bindHTMLToggle(); 
         this.showLoader();
         await this.loadPlans();
         this.renderPricingCards();
@@ -49,7 +50,24 @@ class PricingToggle {
             this.renderPricingCards();
         });
     }
+bindHTMLToggle() {
+    const btnMonthly = document.getElementById('btn-monthly');
+    const btnAnnual = document.getElementById('btn-annual');
 
+    if (btnMonthly && btnAnnual) {
+        btnMonthly.addEventListener('click', () => {
+            this.isYearly = false;
+            window.switchPricing('monthly');
+            this.renderPricingCards();
+        });
+
+        btnAnnual.addEventListener('click', () => {
+            this.isYearly = true;
+            window.switchPricing('annual');
+            this.renderPricingCards();
+        });
+    }
+}
     showLoader() {
         const container = document.getElementById('pricing-cards');
         if (container) {

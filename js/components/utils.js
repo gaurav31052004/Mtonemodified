@@ -19,7 +19,7 @@ export function addFontAwesome() {
  * Dynamically add favicon to <head>
  */
 export function addFavicon() {
-  const faviconUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/v1760445407/Group_108_abchap.png";
+  const faviconUrl = "https://res.cloudinary.com/df1kus7ro/image/upload/f_auto,q_auto,w_32/v1760445407/Group_108_abchap.png";
   let link = document.querySelector('link[rel~="icon"]');
   if (!link) {
     link = document.createElement('link');

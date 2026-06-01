@@ -1,0 +1,54 @@
+services:
+  - type: web
+    name: mtone-fe-modified
+    env: static
+    buildCommand: npm run build:prod
+    publishPath: dist
+    routes:
+      # Route rewrites for clean URLs matching the multi-page structure
+      - source: /about
+        destination: /pages/about.html
+        type: rewrite
+      - source: /admin
+        destination: /pages/admin.html
+        type: rewrite
+      - source: /application
+        destination: /pages/application.html
+        type: rewrite
+      - source: /cancellation-refund
+        destination: /pages/cancellation-refund.html
+        type: rewrite
+      - source: /choose-plan
+        destination: /pages/choose-plan.html
+        type: rewrite
+      - source: /contact
+        destination: /pages/contact.html
+        type: rewrite
+      - source: /faq
+        destination: /pages/faq.html
+        type: rewrite
+      - source: /login
+        destination: /pages/login.html
+        type: rewrite
+      - source: /onboarding
+        destination: /pages/onboarding.html
+        type: rewrite
+      - source: /partners/application
+        destination: /pages/partners/application.html
+        type: rewrite
+      - source: /privacy-policy
+        destination: /pages/privacy-policy.html
+        type: rewrite
+      - source: /privacypolicy
+        destination: /pages/privacypolicy.html
+        type: rewrite
+      - source: /shipping
+        destination: /pages/shipping.html
+        type: rewrite
+      - source: /terms-conditions
+        destination: /pages/terms-conditions.html
+        type: rewrite
+      # Fallback to 404 page for unmatched routes
+      - source: /*
+        destination: /pages/404.html
+        type: rewrite

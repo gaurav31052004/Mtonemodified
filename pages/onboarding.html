@@ -2,64 +2,582 @@
 <html lang="en">
 
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&family=Montserrat:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"></noscript>
   <meta name="description"
     content="Sign up for MT One CRM. Create your account and start managing your real estate business with next-gen tools.">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up | MT One</title>
   <link rel="stylesheet" href="../css/style.css">
+    <!-- Plain script — navbar Book Free Demo button ke liye -->
+<script>
+  function openDemoModal() {
+    const modal = document.getElementById('demoModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    }
+  }
+  function closeDemoModal() {
+    const modal = document.getElementById('demoModal');
+    if (modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+  }
+</script>
   <script src="../js/main.js" type="module" defer></script>
+
+  <style>
+    /* ============================================================
+       SIGNUP PAGE — su- prefix, scoped, won't break other pages
+       ============================================================ */
+
+    .signup-page-bg {
+      background-color: #FFFDF9;
+      position: relative;
+    }
+
+    /* Ambient blobs — subtle, fixed */
+    .su-bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      z-index: 0;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+    .su-blob-1 { width: 500px; height: 500px; background: #FFF0D6; top: -120px; right: -80px; opacity: 0.5; }
+    .su-blob-2 { width: 400px; height: 400px; background: #F5E9D8; bottom: 150px; left: -150px; opacity: 0.4; }
+    .su-blob-3 { width: 350px; height: 350px; background: #FFF6E6; top: 45%; right: 10%; opacity: 0.3; }
+
+    /* ── Main section ── */
+   .su-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 85px);
+  padding: 100px 24px 60px; /* 100px top — navbar overlap fix */
+  position: relative;
+  z-index: 1;
+}
+
+    /* ── Two-column container ── */
+    .su-container {
+      width: 100%;
+      max-width: 1160px;
+      display: flex;
+      align-items: center;
+      gap: 52px;
+    }
+
+    /* ── LEFT: form column ── */
+    .su-form-col {
+      flex: 1 1 480px;
+      min-width: 0;
+    }
+
+    /* ── Card ── */
+    .su-card {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 44px 48px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.07);
+  border: 1px solid rgba(229, 231, 235, 0.5);
+  position: relative;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+    /* Gold top bar */
+    .su-card-topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #FBA11D, #E08C10);
+    }
+
+    /* ── Card header ── */
+    .su-card-header { margin-bottom: 30px; }
+    .su-card-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1F2937;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .su-card-header p {  font-size: 14.5px; }
+
+    /* ── Input group ── */
+    .su-input-group {
+      position: relative;
+      margin-bottom: 22px;
+    }
+
+    .su-input {
+      width: 100%;
+      padding: 15px 18px;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 10px;
+      font-size: 14.5px;
+      font-family: 'Inter', sans-serif;
+      
+      background: transparent;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .su-input::placeholder { color: #9CA3AF; }
+    .su-input:focus {
+      border-color: #FBA11D;
+      box-shadow: 0 0 0 3px rgba(251, 161, 29, 0.1);
+    }
+
+    /* Floating label */
+    .su-label {
+      position: absolute;
+      left: 13px;
+      top: 0;
+      transform: translateY(-50%);
+      background: #FFFFFF;
+      padding: 0 6px;
+      color: #6B7280;
+      font-size: 11.5px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      pointer-events: none;
+      transition: color 0.2s ease;
+      white-space: nowrap;
+    }
+    .su-input:focus ~ .su-label { color: #FBA11D; }
+
+    /* Error states */
+    .su-input-group.su-has-error .su-input { border-color: #EF4444; }
+    .su-input-group.su-has-error .su-input:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+    .su-input-group.su-has-error .su-label { color: #EF4444 !important; }
+
+    .su-error {
+      display: block;
+      color: #EF4444;
+      font-size: 11.5px;
+      font-weight: 500;
+      margin-top: 4px;
+      padding-left: 2px;
+      min-height: 15px;
+      white-space: nowrap; /* keeps error on one line */
+    }
+    .su-zone-error { text-align: center; white-space: normal; }
+
+    /* ── Zone wrapper ── */
+    .su-zone-wrapper { margin: 4px 0 24px; }
+
+    .su-zone-divider {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .su-zone-divider::before,
+    .su-zone-divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1.5px solid #E5E7EB;
+    }
+    .su-zone-divider span {
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 700;
+    
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Zone grid */
+    .su-zone-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      min-height: 32px; /* so loading/error text has space */
+    }
+
+    /* Loading / error text inside grid */
+    .su-zone-grid > div[style*="color"] {
+      grid-column: 1 / -1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Partner card — signup page overrides */
+    .su-zone-grid .partner-card {
+      border-radius: 10px !important;
+      aspect-ratio: 1;
+      transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+    }
+    .su-zone-grid .partner-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09) !important;
+    }
+    .su-zone-grid .partner-card.border-gold {
+      outline: 2.5px solid #FBA11D;
+      outline-offset: -2px;
+      box-shadow: 0 4px 14px rgba(251, 161, 29, 0.25) !important;
+    }
+
+    /* ── Submit button ── */
+    .su-submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: #FBA11D;
+      color: #FFFFFF;
+      font-size: 15.5px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(251, 161, 29, 0.25);
+      margin-top: 6px;
+    }
+    .su-submit-btn:hover {
+      background: #E08C10;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(251, 161, 29, 0.32);
+    }
+    .su-submit-btn:disabled {
+      opacity: 0.72;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Card footer ── */
+    .su-card-footer {
+      text-align: center;
+      margin-top: 22px;
+      font-size: 13.5px;
+     
+    }
+    .su-login-link {
+      color: #1E40AF;
+      font-weight: 600;
+      text-decoration: underline;
+      margin-left: 3px;
+      transition: color 0.2s;
+    }
+    .su-login-link:hover { color: #1D4ED8; }
+
+    /* ── RIGHT: illustration column ── */
+    .su-graphic-col {
+  flex: 1 1 420px;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+    .su-illustration-wrap {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    }
+    .su-illustration { width: 100%; height: auto; display: block; }
+
+    /* ============================================================
+       SUCCESS MODAL
+       ============================================================ */
+    .su-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+    .su-modal-overlay.su-show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .su-modal-card {
+      background: #FFFFFF;
+      padding: 44px 40px;
+      border-radius: 18px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .su-modal-overlay.su-show .su-modal-card {
+      transform: translateY(0) scale(1);
+    }
+    .su-modal-icon {
+      width: 60px; height: 60px;
+      background: #10B981;
+      color: #FFFFFF;
+      font-size: 26px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+    }
+    .su-modal-card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 23px;
+      font-weight: 700;
+      color: #1F2937;
+      margin-bottom: 10px;
+    }
+    .su-modal-card p {
+      color: #6B7280;
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 26px;
+    }
+    .su-modal-btn {
+      width: 100%;
+      padding: 13px;
+      background: #FBA11D;
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .su-modal-btn:hover { background: #E08C10; }
+
+    /* Spinner for loading state */
+    @keyframes su-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+
+    /* Large tablets */
+    @media (max-width: 1024px) {
+  .su-container { gap: 36px; }
+  .su-card { padding: 40px 36px; }
+}
+
+@media (max-width: 860px) {
+  .su-section {
+    padding: 100px 20px 56px; /* top padding maintain */
+    min-height: auto;
+  }
+  .su-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 32px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Image upar — form neeche */
+  .su-form-col {
+    flex: none;
+    order: 2;
+  }
+  .su-graphic-col {
+    flex: none;
+    order: 1;
+    display: flex;
+    justify-content: center;
+  }
+  .su-illustration-wrap {
+    max-width: 100%;
+    width: 100%;
+  }
+  .su-zone-grid { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+@media (max-width: 540px) {
+  .su-section { padding: 90px 14px 48px; }
+  .su-card { padding: 32px 20px 28px; }
+  .su-card-header h1 { font-size: 23px; }
+  .su-zone-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px; }
+}
+
+@media (max-width: 380px) {
+  .su-card { padding: 28px 14px 24px; }
+  .su-zone-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+  </style>
 </head>
 
-<body
-  class="font-sans bg-gradient-to-br from-white via-gray-50 to-gray-200 text-gray-800 overflow-x-hidden min-h-screen">
-  <!-- Header -->
+<body class="font-sans text-gray-800 overflow-x-hidden min-h-screen signup-page-bg">
+
+  <!-- Ambient blobs -->
+  <div class="su-bg-blob su-blob-1"></div>
+  <div class="su-bg-blob su-blob-2"></div>
+  <div class="su-bg-blob su-blob-3"></div>
+
+  <!-- Navbar (injected by main.js) -->
   <div id="navbar"></div>
 
-  <!-- Signup Form Section -->
-  <div class="min-h-screen flex items-center justify-center p-4 md:p-8">
-    <div
-      class="bg-white/95 backdrop-blur-xl border border-gold/20 rounded-3xl p-6 md:p-8 w-full max-w-sm md:max-w-md lg:max-w-xl shadow-2xl relative overflow-hidden mt-24">
-      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold to-orange"></div>
-      <div class="text-center mt-6 mb-4">
-        <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">Create Your Account</h1>
-        <p class="text-gray-600 text-base">Sign up to get started with MT One</p>
-      </div>
-      <form id="signup-form" class="space-y-4">
-        <div>
-          <label for="name" class="block mb-2 font-semibold text-gray-800">Full Name</label>
-          <input type="text" id="name" name="name" required placeholder="Your Name"
-            class="w-full p-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:outline-none focus:border-gold">
-        </div>
-        <div>
-          <label for="email" class="block mb-2 font-semibold text-gray-800">Email Address</label>
-          <input type="email" id="email" name="email" required placeholder="your.email@domain.com"
-            class="w-full p-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:outline-none focus:border-gold">
-        </div>
-        <div>
-          <label for="phone" class="block mb-2 font-semibold text-gray-800">Phone Number</label>
-          <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" maxlength="10"
-            placeholder="Enter 10-digit phone number"
-            class="w-full p-3 border-2 border-gray-200 rounded-xl text-base transition-all duration-300 focus:outline-none focus:border-gold">
-        </div>
-        <div>
-          <label class="block mb-2 font-semibold text-gray-800">Agent/Builder Zone</label>
-          <div id="partner-zone-cards" class="w-full"></div>
-          <input type="hidden" id="partner-zone" name="partner-zone" required>
-        </div>
+  <!-- ── Main signup section ── -->
+  <main class="su-section">
+  <div class="su-container">
 
-        <button type="submit"
-          class="w-full bg-gradient-to-r from-gold to-orange hover:from-orange-600 hover:to-yellow-400 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg cursor-pointer">Sign
-          Up</button>
+  <!-- PEHLE: Form (mobile + desktop dono pe pehle dikhega DOM mein) -->
+  <div class="su-form-col">
+    <div class="su-card">
+      <div class="su-card-topbar"></div>
+      <div class="su-card-header">
+        <h1>Create Your Account</h1>
+        <p>Sign up to get started with MT One</p>
+      </div>
+      <form id="signup-form" novalidate class="su-form">
+        <div class="su-input-group" id="group-name">
+          <input type="text" id="name" name="name" class="su-input" placeholder="Your Name" required>
+          <label for="name" class="su-label">Full Name</label>
+          <span class="su-error" id="error-name"></span>
+        </div>
+        <div class="su-input-group" id="group-email">
+          <input type="email" id="email" name="email" class="su-input" placeholder="yourname@domain.com" required>
+          <label for="email" class="su-label">Email Address</label>
+          <span class="su-error" id="error-email"></span>
+        </div>
+        <div class="su-input-group" id="group-phone">
+          <input type="tel" id="phone" name="phone" class="su-input"
+            placeholder="Enter 10-digit phone number" pattern="[0-9]{10}" maxlength="10" required>
+          <label for="phone" class="su-label">Phone Number</label>
+          <span class="su-error" id="error-phone"></span>
+        </div>
+        <div class="su-zone-wrapper">
+          <div class="su-zone-divider"><span>Agent / Builder Zone</span></div>
+          <div id="partner-zone-cards" class="su-zone-grid"></div>
+          <input type="hidden" id="partner-zone" name="partner-zone" required>
+          <span class="su-error su-zone-error" id="error-zone"></span>
+        </div>
+        <button type="submit" class="su-submit-btn">Sign Up</button>
       </form>
-      <div class="text-center mt-6 text-sm text-gray-600">
-        Already have an account? <a href="/login/" class="text-gold underline hover:text-orange">Login</a>
+      <div class="su-card-footer">
+        Already have an account?
+        <a href="/login/" class="su-login-link">Login</a>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div id="footer"></div>
-</body>
+  <!-- BAAD MEIN: Illustration -->
+  <div class="su-graphic-col">
+    <div class="su-illustration-wrap">
+      <img
+        src="https://res.cloudinary.com/dhsnbu7e3/image/upload/f_auto,q_auto,w_600/v1779873164/container_mjckvd.png"
+        alt="MT One CRM platform illustration"
+        class="su-illustration"
+        width="604"
+        height="780">
+    </div>
+  </div>
 
+</div>
+  </main>
+
+  <!-- Footer (injected by main.js) -->
+  <div id="footer"></div>
+<!-- Demo Modal — SIRF EK, body mein -->
+<div id="demoModal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
+  <div style="background:#f8f7f9; border-radius:17.95px; box-shadow:0 8px 40px rgba(71,50,186,0.15); padding:32px 32px 28px 32px; width:100%; max-width:500px; position:relative; margin:20px;">
+    <div style="position:absolute; inset:0; background:#4732BA; opacity:0.04; border-radius:17.95px; pointer-events:none;"></div>
+    <button onclick="closeDemoModal()" style="position:absolute; top:16px; right:16px; background:rgba(0,0,0,0.06); border:none; cursor:pointer; z-index:1; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:50%;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <h2 style="font-family:'Montserrat',sans-serif; font-weight:600; font-size:26.2px; line-height:100%; letter-spacing:-0.01em; color:#000000; text-align:center; position:relative; margin-bottom:8px;">Book Free CRM Demo</h2>
+    <p style="font-family:'Montserrat',sans-serif; font-weight:400; font-size:16.67px; line-height:140%; letter-spacing:-0.01em; color:#5A7184; text-align:center; position:relative; margin-bottom:24px;">See how MT One helps real estate teams improve follow-ups, track site visits, and close more bookings.</p>
+    <form style="position:relative; display:flex; flex-direction:column; gap:12px;" id="demoForm">
+      <input type="text" id="demo-name" placeholder="Name *" required style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+      <input type="tel" id="demo-phone" placeholder="Mobile No. *" required maxlength="10" inputmode="numeric" style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+      <input type="text" id="demo-company" placeholder="Company Name *" required style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+      <input type="email" id="demo-email" placeholder="Email *" required style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+      <input type="text" id="demo-teamsize" placeholder="Team Size" style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+      <input type="text" id="demo-city" placeholder="City" style="width:100%; height:55px; border-radius:17.79px; background:#FFFFFF; border:1px solid #E8E8E8; padding:0 20px; font-family:'Montserrat',sans-serif; font-size:15px; color:#141F39; outline:none; box-sizing:border-box;">
+      <button type="submit" id="demo-submit-btn" style="width:100%; height:56px; border-radius:17.79px; background:#FAAD13; font-family:'Montserrat',sans-serif; font-weight:500; font-size:21.35px; line-height:100%; color:white; border:none; cursor:pointer; margin-top:4px;">Schedule <strong>FREE Demo</strong></button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { partnerService } from '/js/services/partner-service.js';
+
+  // Click outside to close
+  document.getElementById('demoModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDemoModal();
+  });
+
+  // Form submit
+  document.getElementById('demoForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const name     = document.getElementById('demo-name').value.trim();
+    const phone    = document.getElementById('demo-phone').value.trim();
+    const company  = document.getElementById('demo-company').value.trim();
+    const email    = document.getElementById('demo-email').value.trim();
+    const teamSize = document.getElementById('demo-teamsize').value.trim();
+    const city     = document.getElementById('demo-city').value.trim();
+
+    if (!name || !phone || !company || !email) {
+      showDemoToast('Please fill in all required fields.', false); return;
+    }
+
+    const message = `Demo Request\nCompany: ${company}\nTeam Size: ${teamSize||'N/A'}\nCity: ${city||'N/A'}`;
+    const payload = { subject: 'Book Free Demo Request', message, email, name, phone, domain: 'deccanrealty.com' };
+
+    const btn = document.getElementById('demo-submit-btn');
+    btn.textContent = 'Sending...'; btn.style.opacity = '0.75'; btn.disabled = true;
+
+    try {
+      const result = await partnerService.sendContactMessage(payload);
+      if (result && result.success !== false) {
+        showDemoToast('Demo booked! We will contact you soon.', true);
+        document.getElementById('demoForm').reset();
+        setTimeout(() => closeDemoModal(), 2000);
+      } else {
+        showDemoToast(result.message || 'Failed. Please try again.', false);
+      }
+    } catch {
+      showDemoToast('An error occurred. Please try again.', false);
+    } finally {
+      btn.innerHTML = 'Schedule <strong>FREE Demo</strong>';
+      btn.style.opacity = '1';
+      btn.disabled = false;
+    }
+  });
+
+  function showDemoToast(message, isSuccess) {
+    const t = document.createElement('div');
+    t.style.cssText = `position:fixed;top:24px;right:24px;z-index:99999;padding:16px 24px;border-radius:12px;font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;color:white;background:${isSuccess?'#16a34a':'#dc2626'};box-shadow:0 4px 20px rgba(0,0,0,0.15);transition:opacity 0.3s;`;
+    t.textContent = message;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 2500);
+  }
+</script>
+  <!-- ── Success Modal ── -->
+  <div class="su-modal-overlay" id="su-success-modal"
+    role="dialog" aria-modal="true" aria-labelledby="su-modal-title">
+    <div class="su-modal-card">
+      <div class="su-modal-icon">&#10004;</div>
+      <h2 id="su-modal-title">Account Created!</h2>
+      <p id="su-modal-msg">Welcome to MT One. Your account has been created successfully. Redirecting you now…</p>
+      <button class="su-modal-btn" id="su-modal-close">Get Started</button>
+    </div>
+  </div>
+
+</body>
 </html>

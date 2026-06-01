@@ -2273,7 +2273,7 @@
   }
   .md\:pt-32 {
     @media (width >= 48rem) {
-      padding-top: calc(var(--spacing) * 32);
+      padding-top: calc(var(--spacing) * 12);
     }
   }
   .md\:text-2xl {

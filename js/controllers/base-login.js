@@ -246,9 +246,9 @@ export class BaseLoginModule {
     if (!loading) return;
 
     if (show) {
-      loading.classList.remove("hidden");
+      loading.classList.remove("lp-hidden");
     } else {
-      loading.classList.add("hidden");
+      loading.classList.add("lp-hidden");
     }
   }
 

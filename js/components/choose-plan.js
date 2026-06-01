@@ -149,10 +149,28 @@ class ChoosePlan {
       ? this.plans.filter(plan => plan.billingCycle === 'Yearly' || plan.isTrial)
       : this.plans.filter(plan => plan.billingCycle === 'Monthly' || plan.isTrial);
     
-    this.renderAllPlans(currentPlans);
+    // Create custom enterprise plan
+    const customPlan = {
+      id: 'custom',
+      planName: 'Enterprise Plan',
+      price: null,
+      features: [
+        'Unlimited leads',
+        'Full CRM suite',
+        '24/7 phone support',
+        'Custom integrations',
+        'Dedicated account manager',
+        'Custom reporting'
+      ],
+      description: 'Need something tailored for your enterprise? Get in touch for a custom solution and pricing.',
+      billingCycle: 'Custom',
+      maxUsers: 'Unlimited'
+    };
+
+    this.renderAllPlans(currentPlans, customPlan);
   }
 
-  renderAllPlans(plansToRender = []) {
+  renderAllPlans(plansToRender = [], customPlan) {
     // Clear existing cards
     this.pricingCards.innerHTML = '';
 
@@ -161,11 +179,17 @@ class ChoosePlan {
       return;
     }
 
-    // Add all plans
+    // Add all plans (paid/free trial)
     plansToRender.forEach(plan => {
       const planCard = this.createPlanCard(plan);
       this.pricingCards.appendChild(planCard);
     });
+
+    // Add custom enterprise plan
+    if (customPlan) {
+      const enterpriseCard = this.createPlanCard(customPlan);
+      this.pricingCards.appendChild(enterpriseCard);
+    }
   }
 
   showNoPlanMessage() {
@@ -180,22 +204,41 @@ class ChoosePlan {
   }
 
   createPlanCard(plan) {
-    const isPopular = plan.planName.toLowerCase().includes('pro') || plan.planName.toLowerCase().includes('premium');
-    const priceInRupees = (plan.price / 100).toLocaleString('en-IN');
-    const billingText = plan.billingCycle.toLowerCase();
+    const planId = plan.id;
+    const isPopular = plan.planName && (plan.planName.toLowerCase().includes('pro') || plan.planName.toLowerCase().includes('premium'));
+    const priceInRupees = plan.price ? (plan.price / 100).toLocaleString('en-IN') : null;
     const period = plan.billingCycle === 'Yearly' ? 'year' : 'month';
     
     // Determine button color based on billing cycle
     const isYearlyPlan = plan.billingCycle === 'Yearly';
-    const buttonColorClass = plan.isTrial 
+    const buttonColorClass = isYearlyPlan 
       ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
-      : isYearlyPlan 
-        ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
-        : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700';
+      : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700';
+    
+    // Generate features based on plan data
+    let features = plan.features || [];
+    if (!plan.features && plan.maxUsers) {
+      features = [
+        `Up to ${plan.maxUsers === 'Unlimited' ? 'unlimited' : plan.maxUsers} users`,
+        'Advanced CRM features',
+        'Lead management system',
+        'Mobile app access',
+        'Email & SMS campaigns'
+      ];
+      
+      // Add premium features for higher-tier plans
+      if (plan.price && plan.price > 200000) { // Above ₹2000
+        features.push('Priority support', 'Advanced analytics', 'Custom integrations');
+      } else if (plan.price && plan.price > 100000) { // Above ₹1000
+        features.push('Email support', 'Basic analytics');
+      } else {
+        features.push('Basic support');
+      }
+    }
     
     const cardDiv = document.createElement('div');
-    cardDiv.className = `bg-gradient-to-br from-white to-orange-50/80 rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur-sm relative hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 min-h-[500px] w-full max-w-xs mx-auto group ${isPopular ? 'border-2 border-gold/40' : 'border border-gold/20'}`;
-    cardDiv.setAttribute('data-plan', plan.id);
+    cardDiv.className = `bg-gradient-to-br ${planId === 'free' ? 'from-white to-gray-50/80' : 'from-white to-orange-50/80'} rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur-sm relative hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 min-h-[500px] w-full max-w-xs mx-auto group ${isPopular ? 'border-2 border-gold/40' : 'border border-gold/20'}`;
+    cardDiv.setAttribute('data-plan', planId);
     
     cardDiv.innerHTML = `
       ${isPopular ? `
@@ -204,6 +247,14 @@ class ChoosePlan {
         </div>
         <div class="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-gold to-orange-400 rounded-full flex items-center justify-center shadow-lg">
           <span class="text-white font-bold text-sm">PRO</span>
+        </div>
+      ` : planId === 'free' ? `
+        <div class="absolute top-6 left-6">
+          <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">🎯 FREE Trial</span>
+        </div>
+      ` : planId === 'custom' ? `
+        <div class="absolute top-6 left-6">
+          <span class="inline-block px-4 py-2 text-sm font-bold rounded-full shadow-lg" style="color: #035388; background: linear-gradient(135deg, #E3F8FF, #F0F9FF);">💼 ENTERPRISE</span>
         </div>
       ` : `
         <div class="absolute top-6 left-6">
@@ -214,54 +265,72 @@ class ChoosePlan {
       <div class="text-center mb-8 mt-12">
         <div class="mb-6">
           <div class="flex items-baseline justify-center">
-            <span class="text-5xl font-extrabold text-gray-900">₹${priceInRupees}</span>
-            <span class="text-lg text-gray-600 ml-2">/${period}</span>
+            <span class="text-5xl font-extrabold ${planId === 'free' ? 'bg-gradient-to-r from-gold to-yellow-600 bg-clip-text text-transparent' : 'text-gray-900'}">
+              ${plan.price === 0 ? '₹0' : 
+                plan.price === null ? 'Contact Us' : 
+                `₹${priceInRupees}`}
+            </span>
+            ${plan.price !== null && plan.price !== 0 ? `<span class="text-lg text-gray-600 ml-2">/${period}</span>` : plan.price === 0 ? `<span class="text-lg text-gray-500 ml-2">/trial</span>` : ''}
           </div>
-          <div class="mt-2">
-            <span class="text-sm text-gray-500">${plan.durationDays} days access</span>
-          </div>
+          ${planId === 'free' ? `
+            <div class="mt-2">
+              <span class="text-sm text-green-600 font-semibold bg-green-50 px-3 py-1 rounded-full">✨ No Credit Card Required</span>
+            </div>
+          ` : plan.durationDays ? `
+            <div class="mt-2">
+              <span class="text-sm text-gray-500">${plan.durationDays} days access</span>
+            </div>
+          ` : ''}
         </div>
-        <p class="text-base text-gray-600 mb-8 leading-relaxed">${plan.description}</p>
-        <button class="w-full text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer ${buttonColorClass}" 
-                data-plan-id="${plan.id}" data-plan-name="${plan.planName}">
-          ${plan.isTrial ? '🚀 Start FREE Trial' : `💎 Get ${plan.planName}`}
+        <p class="text-base text-gray-600 mb-8 leading-relaxed">${plan.description || 'Plan description'}</p>
+        <button class="w-full text-white cursor-pointer font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
+          planId === 'free' 
+            ? 'bg-gradient-to-r from-gold to-yellow-500 hover:from-yellow-500 hover:to-gold'
+            : planId === 'custom'
+              ? 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700'
+              : buttonColorClass
+        }" data-plan-id="${plan.id || planId}">
+          ${planId === 'free' ? '🚀 Start FREE Trial' : 
+            planId === 'custom' ? '📞 Contact Sales' : 
+            `💎 Get ${plan.planName}`}
         </button>
       </div>
       
-      <div class="space-y-4">
-        <div class="flex items-center bg-green-50 p-3 rounded-xl">
-          <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-            <span class="text-white text-xs">✓</span>
-          </div>
-          <span class="text-sm font-medium text-gray-700">Up to ${plan.maxUsers} users</span>
-        </div>
-        <div class="flex items-center bg-blue-50 p-3 rounded-xl">
-          <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-            <span class="text-white text-xs">✓</span>
-          </div>
-          <span class="text-sm font-medium text-gray-700">Advanced CRM features</span>
-        </div>
-        <div class="flex items-center bg-purple-50 p-3 rounded-xl">
-          <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-            <span class="text-white text-xs">✓</span>
-          </div>
-          <span class="text-sm font-medium text-gray-700">Priority support</span>
-        </div>
-        <div class="flex items-center bg-orange-50 p-3 rounded-xl">
-          <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-            <span class="text-white text-xs">✓</span>
-          </div>
-          <span class="text-sm font-medium text-gray-700">Mobile app access</span>
-        </div>
+      <div class="space-y-4 text-left">
+        ${features.slice(0, 6).map((feature, index) => {
+          const colorClasses = [
+            'bg-green-50', 'bg-green-500',
+            'bg-blue-50', 'bg-blue-500', 
+            'bg-purple-50', 'bg-purple-500',
+            'bg-orange-50', 'bg-orange-500',
+            'bg-indigo-50', 'bg-indigo-500',
+            'bg-pink-50', 'bg-pink-500'
+          ];
+          const bgClass = colorClasses[(index * 2) % colorClasses.length];
+          const iconClass = colorClasses[(index * 2 + 1) % colorClasses.length];
+          return `
+            <div class="flex items-center ${bgClass} p-3 rounded-xl">
+              <div class="w-6 h-6 ${iconClass} rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                <span class="text-white text-xs">✓</span>
+              </div>
+              <span class="text-sm font-medium text-gray-700">${feature}</span>
+            </div>
+          `;
+        }).join('')}
       </div>
     `;
 
     // Add click handler for the button
     const button = cardDiv.querySelector('button');
-    if (plan.isTrial) {
+    if (planId === 'free') {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         window.location.href = "/login/";
+      });
+    } else if (planId === 'custom') {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'mailto:contact@mtone.in?subject=Enterprise Plan Inquiry';
       });
     } else {
       button.addEventListener('click', (e) => this.handlePaidPlanClick(e, plan));
@@ -332,7 +401,7 @@ class ChoosePlan {
       key: keyId,
       order_id: orderId,
       name: "MT One",
-      image: "https://res.cloudinary.com/df1kus7ro/image/upload/v1760445407/Group_105_ymmgvk.png",
+      image: "https://res.cloudinary.com/df1kus7ro/image/upload/f_auto,q_auto,w_120/v1760445407/Group_105_ymmgvk.png",
       description: `${plan.planName} Payment`,
       handler: function (response) {
         console.log("Payment response:", response);

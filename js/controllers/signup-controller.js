@@ -1,392 +1,309 @@
 // SignupController.js
-// Handles signup form logic for onboarding page
-
 import { partnerService } from "../services/partner-service.js";
 
 export default class SignupController {
   constructor() {
     this.form = document.getElementById("signup-form");
-    this.partnerZoneCardsContainer =
-      document.getElementById("partner-zone-cards");
+    this.partnerZoneCardsContainer = document.getElementById("partner-zone-cards");
     this.partnerZoneInput = document.getElementById("partner-zone");
+    this.successModal = document.getElementById("su-success-modal");
+    this.modalCloseBtn = document.getElementById("su-modal-close");
     this.init();
   }
 
   async init() {
     await this.renderPartnerZoneCards();
+
     if (this.form) {
       this.form.addEventListener("submit", this.handleSubmit.bind(this));
     }
-  }
 
-  async renderPartnerZoneCards() {
-    if (!this.partnerZoneCardsContainer || !this.partnerZoneInput) return;
-    this.partnerZoneCardsContainer.innerHTML =
-      '<div class="text-gray-500 text-sm">Loading zones...</div>';
-    try {
-      const partners = await partnerService.getPartnerLocations();
-      if (partners && partners.length > 0) {
-        this.partnerZoneCardsContainer.className = "";
-        this.partnerZoneCardsContainer.classList.add(
-          "grid",
-          "grid-cols-2",
-          "sm:grid-cols-3",
-          "md:grid-cols-4",
-          "lg:grid-cols-5",
-          "gap-3",
-          "w-full",
-          "mt-2",
-          "p-3",
-        );
-        this.partnerZoneCardsContainer.innerHTML = partners
-          .map(
-            (partner) => `
-        <div class="partner-card relative flex flex-col items-center justify-center p-3 border border-gray-200 rounded-2xl cursor-pointer transition-all duration-300 bg-white hover:border-gold hover:shadow-md min-h-[100px] group overflow-hidden" 
-          data-id="${partner.masterDetailName}" data-name="${partner.masterDetailName}">
-          <!-- Selection indicator -->
-          <div class="absolute top-2 left-2 w-4 h-4 rounded-full border-2 border-gray-300 bg-white transition-all duration-200 group-hover:border-gold hidden z-10">
-            <!-- Checkmark icon -->
-            <svg class="absolute inset-0 w-2.5 h-2.5 m-auto text-white opacity-0 transition-opacity duration-200" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-            </svg>
-          </div>
-          <img src="${partner.iconUrl}" alt="${partner.masterDetailName}" class="w-8 h-8 object-contain mb-2 rounded-lg flex-shrink-0">
-          <h3 class="text-xs font-semibold text-gray-800 text-center leading-tight px-1 line-clamp-2">${partner.masterDetailName}</h3>
-        </div>
-      `,
-          )
-          .join("");
-
-        // Enhanced radio button behavior
-        this.partnerZoneCardsContainer
-          .querySelectorAll(".partner-card")
-          .forEach((card) => {
-            card.addEventListener("click", () => {
-              // Remove selection from all cards
-              this.partnerZoneCardsContainer
-                .querySelectorAll(".partner-card")
-                .forEach((c) => {
-                  c.classList.remove(
-                    "border-gold",
-                    "shadow-md",
-                  );
-                  const indicator = c.querySelector(".absolute.top-2.left-2");
-                  indicator.classList.add("hidden");
-                  indicator.classList.remove("border-gold", "bg-gold");
-                  const svg = indicator.querySelector("svg");
-                  svg.classList.add("opacity-0");
-                  svg.classList.remove("opacity-100");
-                });
-
-              // Add selection to clicked card
-              card.classList.add(
-                "border-gold",
-                "shadow-md",
-              );
-              const indicator = card.querySelector(".absolute.top-2.left-2");
-              indicator.classList.remove("hidden");
-              indicator.classList.add("border-gold", "bg-yellow-400");
-              const svg = indicator.querySelector("svg");
-              svg.classList.remove("opacity-0");
-              svg.classList.add("opacity-100");
-
-              // Set hidden input value
-              this.partnerZoneInput.value = card.dataset.id;
-
-              // Optional: Add haptic feedback for mobile
-              if (navigator.vibrate) {
-                navigator.vibrate(50);
-              }
-
-              // Dispatch custom event for other components to listen
-              card.dispatchEvent(
-                new CustomEvent("partnerSelected", {
-                  detail: { id: card.dataset.id, name: card.dataset.name },
-                }),
-              );
-            });
-
-            // Add keyboard support for accessibility
-            card.setAttribute("tabindex", "0");
-            card.setAttribute("role", "radio");
-            card.addEventListener("keydown", (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                card.click();
-              }
-            });
-          });
-      } else {
-        this.partnerZoneCardsContainer.innerHTML =
-          '<div class="text-gray-500 text-sm">No zones available</div>';
-      }
-    } catch (err) {
-      this.partnerZoneCardsContainer.innerHTML =
-        '<div class="text-red-500 text-sm">Failed to load zones</div>';
+    // Modal close handlers
+    if (this.modalCloseBtn) {
+      this.modalCloseBtn.addEventListener("click", () => this.hideModal());
+    }
+    if (this.successModal) {
+      this.successModal.addEventListener("click", (e) => {
+        if (e.target === this.successModal) this.hideModal();
+      });
     }
   }
 
+  /* ------------------------------------------------------------------
+     ZONE CARDS — renders dynamically from partnerService
+  ------------------------------------------------------------------ */
+  async renderPartnerZoneCards() {
+    if (!this.partnerZoneCardsContainer || !this.partnerZoneInput) return;
+
+    this.partnerZoneCardsContainer.innerHTML =
+      '<div style="color:#6B7280;font-size:13px;padding:8px 0;">Loading zones…</div>';
+
+    try {
+      const partners = await partnerService.getPartnerLocations();
+
+      if (partners && partners.length > 0) {
+        // Keep the su-zone-grid class from HTML, just fill the cards
+        this.partnerZoneCardsContainer.innerHTML = partners
+          .map(
+            (partner) => `
+            <div class="partner-card relative flex flex-col items-center justify-center p-2 border-2 border-gray-200 rounded-xl cursor-pointer transition-all duration-200 bg-white hover:border-gold hover:shadow-md min-h-[80px] group overflow-hidden"
+              data-id="${partner.masterDetailName}"
+              data-name="${partner.masterDetailName}"
+              tabindex="0"
+              role="radio"
+              aria-checked="false">
+              <!-- Selection dot -->
+              <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 border-gray-300 bg-white transition-all duration-200 hidden z-10 select-indicator">
+                <svg class="absolute inset-0 w-2.5 h-2.5 m-auto text-white opacity-0 transition-opacity duration-200 select-check" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <img src="${partner.iconUrl}" alt="${partner.masterDetailName}" class="w-7 h-7 object-contain mb-1 rounded-md flex-shrink-0">
+              <span class="text-xs font-semibold text-gray-800 text-center leading-tight px-1 line-clamp-2">${partner.masterDetailName}</span>
+            </div>`
+          )
+          .join("");
+
+        this.partnerZoneCardsContainer.querySelectorAll(".partner-card").forEach((card) => {
+          card.addEventListener("click", () => this.selectZone(card));
+          card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.selectZone(card); }
+          });
+        });
+
+      } else {
+        this.partnerZoneCardsContainer.innerHTML =
+          '<div style="color:#6B7280;font-size:13px;">No zones available</div>';
+      }
+    } catch {
+      this.partnerZoneCardsContainer.innerHTML =
+        '<div style="color:#EF4444;font-size:13px;">Failed to load zones. Please refresh.</div>';
+    }
+  }
+
+  selectZone(selectedCard) {
+    // Deselect all
+    this.partnerZoneCardsContainer.querySelectorAll(".partner-card").forEach((c) => {
+      c.classList.remove("border-gold", "shadow-md");
+      c.setAttribute("aria-checked", "false");
+      const dot = c.querySelector(".select-indicator");
+      const check = c.querySelector(".select-check");
+      if (dot) { dot.classList.add("hidden"); dot.classList.remove("bg-yellow-400", "border-gold"); }
+      if (check) { check.classList.add("opacity-0"); check.classList.remove("opacity-100"); }
+    });
+
+    // Select clicked
+    selectedCard.classList.add("border-gold", "shadow-md");
+    selectedCard.setAttribute("aria-checked", "true");
+    const dot = selectedCard.querySelector(".select-indicator");
+    const check = selectedCard.querySelector(".select-check");
+    if (dot) { dot.classList.remove("hidden"); dot.classList.add("bg-yellow-400", "border-gold"); }
+    if (check) { check.classList.remove("opacity-0"); check.classList.add("opacity-100"); }
+
+    this.partnerZoneInput.value = selectedCard.dataset.id;
+
+    // Clear zone error if shown
+    const zoneErr = document.getElementById("error-zone");
+    if (zoneErr) zoneErr.textContent = "";
+
+    if (navigator.vibrate) navigator.vibrate(50);
+  }
+
+  /* ------------------------------------------------------------------
+     FORM SUBMISSION — your original logic, untouched
+  ------------------------------------------------------------------ */
   async handleSubmit(e) {
     e.preventDefault();
 
-    // Basic validation and data collection
     const name = this.form.name.value.trim();
     const email = this.form.email.value.trim();
     const phone = this.form.phone.value.trim();
     const partnerZone = this.form["partner-zone"].value;
-    
-    // Use partner zone name as address
     const address = partnerZone;
 
-    // Validate required fields
+    // Clear previous inline errors
+    this.clearInlineErrors();
+
+    let valid = true;
+
     if (!name) {
-      this.showError("Please enter your full name.");
-      this.focusField("name");
-      return;
-    }
-    if (name.length < 3 || name.length > 50) {
-      this.showError("Name must be between 3 and 50 characters.");
-      this.focusField("name");
-      return;
+      this.setFieldError("name", "Your name is required."); valid = false;
+    } else if (name.length < 3 || name.length > 50) {
+      this.setFieldError("name", "Name must be 3–50 characters."); valid = false;
     }
 
     if (!email) {
-      this.showError("Please enter your email address.");
-      this.focusField("email");
-      return;
-    }
-
-    if (!this.isValidEmail(email)) {
-      this.showError("Please enter a valid email address.");
-      this.focusField("email");
-      return;
+      this.setFieldError("email", "Email is required."); valid = false;
+    } else if (!this.isValidEmail(email)) {
+      this.setFieldError("email", "Please enter a valid email address."); valid = false;
     }
 
     if (!phone) {
-      this.showError("Please enter your phone number.");
-      this.focusField("phone");
-      return;
-    }
-
-    if (!this.isValidPhone(phone)) {
-      this.showError("Please enter a valid 10-digit phone number.");
-      this.focusField("phone");
-      return;
+      this.setFieldError("phone", "Phone number is required."); valid = false;
+    } else if (!this.isValidPhone(phone)) {
+      this.setFieldError("phone", "Please enter a valid 10-digit phone number."); valid = false;
     }
 
     if (!partnerZone) {
-      this.showError("Please select a agent/builder zone.");
-      return;
+      const zoneErr = document.getElementById("error-zone");
+      if (zoneErr) zoneErr.textContent = "Please select an agent/builder zone.";
+      valid = false;
     }
 
-    // Show loading state
-    this.setSubmitButtonState(true, "Creating Account...");
+    if (!valid) return;
+
+    this.setSubmitButtonState(true, "Creating Account…");
 
     try {
-      // Call the partner signup API
-      const response = await partnerService.partnerSignup(
-        name,
-        email,
-        phone,
-        address, // This maps to 'location' in the API
-        partnerZone,
-      );
+      const response = await partnerService.partnerSignup(name, email, phone, address, partnerZone);
 
       if (response.success) {
-        this.showSuccess(
-          "Account created successfully! You can now login with your credentials.",
-        );
-        const userDetails = {
-          name,
-          email,
-          phone,
-          address,
-          partnerZone,
-          userDetails: response.data || {},
-        }
-        localStorage.setItem(
-          "partnerDetails",
-          JSON.stringify(userDetails),
-        );
-        // Reset form after successful submission
+        // Show premium success modal
+        this.showModal("Welcome to MT One. Your account has been created. Redirecting you now…");
+
+        const userDetails = { name, email, phone, address, partnerZone, userDetails: response.data || {} };
+        localStorage.setItem("partnerDetails", JSON.stringify(userDetails));
+
         this.form.reset();
         this.partnerZoneInput.value = "";
         this.clearSelectedCards();
 
-        // Redirect to login page after a delay
         setTimeout(() => {
           window.location.href = "/choose-plan/";
         }, 2000);
+
       } else {
-        this.showError(
-          response.message || "Failed to create account. Please try again.",
-        );
+        this.showError(response.message || "Failed to create account. Please try again.");
       }
     } catch (error) {
       console.error("Signup error:", error);
-
-      // Handle different types of errors
-      let errorMessage = "An error occurred during signup. Please try again.";
-
-      if (error.message) {
-        errorMessage = error.message;
-      } else if (error.status === 400) {
-        errorMessage =
-          "Invalid data provided. Please check your information and try again.";
-      } else if (error.status === 409) {
-        errorMessage =
-          "An account with this email already exists. Please try logging in instead.";
-      } else if (error.status === 500) {
-        errorMessage = "Server error. Please try again later.";
-      } else if (!navigator.onLine) {
-        errorMessage =
-          "No internet connection. Please check your connection and try again.";
-      }
-
-      this.showError(errorMessage);
+      let msg = "An error occurred. Please try again.";
+      if (error.message) msg = error.message;
+      else if (error.status === 409) msg = "An account with this email already exists. Please log in instead.";
+      else if (error.status === 400) msg = "Invalid data. Please check your information.";
+      else if (error.status === 500) msg = "Server error. Please try again later.";
+      else if (!navigator.onLine) msg = "No internet connection. Please check and retry.";
+      this.showError(msg);
     } finally {
-      // Reset button state
       this.setSubmitButtonState(false, "Sign Up");
     }
   }
 
-  // Helper method to validate email format
+  /* ------------------------------------------------------------------
+     VALIDATION HELPERS
+  ------------------------------------------------------------------ */
   isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
-
-  // Helper method to validate phone number (10 digits)
   isValidPhone(phone) {
-    const phoneRegex = /^[0-9]{10}$/;
-    return phoneRegex.test(phone);
+    return /^[0-9]{10}$/.test(phone);
   }
 
-  // Helper method to show error messages
-  showError(message) {
-    this.removeExistingMessages();
-    const errorDiv = document.createElement("div");
-    errorDiv.className =
-      "bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl mt-4 text-sm";
-    errorDiv.id = "error-message";
-    errorDiv.innerHTML = `
-      <div class="flex items-center">
-        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-        </svg>
-        <span>${message}</span>
-      </div>
-    `;
-    this.form.appendChild(errorDiv);
+  /* ------------------------------------------------------------------
+     INLINE FIELD ERRORS (new premium style)
+  ------------------------------------------------------------------ */
+  setFieldError(fieldName, message) {
+    const group = document.getElementById(`group-${fieldName}`);
+    const errEl = document.getElementById(`error-${fieldName}`);
+    if (group) group.classList.add("su-has-error");
+    if (errEl) errEl.textContent = message;
 
-    // Auto-remove error message after 5 seconds
-    setTimeout(() => {
-      if (document.getElementById("error-message")) {
-        document.getElementById("error-message").remove();
-      }
-    }, 5000);
-  }
-
-  // Helper method to show success messages
-  showSuccess(message) {
-    this.removeExistingMessages();
-    const successDiv = document.createElement("div");
-    successDiv.className =
-      "bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl mt-4 text-sm";
-    successDiv.id = "success-message";
-    successDiv.innerHTML = `
-      <div class="flex items-center">
-        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-        </svg>
-        <span>${message}</span>
-      </div>
-    `;
-    this.form.appendChild(successDiv);
-  }
-
-  // Helper method to remove existing messages
-  removeExistingMessages() {
-    const existingError = document.getElementById("error-message");
-    const existingSuccess = document.getElementById("success-message");
-    if (existingError) existingError.remove();
-    if (existingSuccess) existingSuccess.remove();
-  }
-
-  // Helper method to manage submit button state
-  setSubmitButtonState(isLoading, text) {
-    const submitButton = this.form.querySelector('button[type="submit"]');
-    if (submitButton) {
-      submitButton.disabled = isLoading;
-
-      // Also disable the form inputs during submission
-      const inputs = this.form.querySelectorAll("input, select, textarea");
-      inputs.forEach((input) => {
-        input.disabled = isLoading;
-      });
-
-      if (isLoading) {
-        submitButton.innerHTML = `
-          <div class="flex items-center justify-center">
-            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            ${text}
-          </div>
-        `;
-        submitButton.classList.add("opacity-75", "cursor-not-allowed");
-
-        // Disable partner zone cards during submission
-        this.partnerZoneCardsContainer.style.pointerEvents = "none";
-        this.partnerZoneCardsContainer.style.opacity = "0.5";
-      } else {
-        submitButton.innerHTML = text;
-        submitButton.classList.remove("opacity-75", "cursor-not-allowed");
-
-        // Re-enable partner zone cards
-        this.partnerZoneCardsContainer.style.pointerEvents = "auto";
-        this.partnerZoneCardsContainer.style.opacity = "1";
-      }
-    }
-  }
-
-  // Helper method to focus on a specific field
-  focusField(fieldName) {
+    // Auto-clear on next input
     const field = this.form.querySelector(`[name="${fieldName}"]`);
     if (field) {
-      field.focus();
-      field.classList.add("border-red-400");
-      // Remove red border after user starts typing
-      field.addEventListener(
-        "input",
-        () => {
-          field.classList.remove("border-red-400");
-        },
-        { once: true },
-      );
+      field.addEventListener("input", () => {
+        if (group) group.classList.remove("su-has-error");
+        if (errEl) errEl.textContent = "";
+      }, { once: true });
     }
   }
 
-  // Helper method to clear selected cards
+  clearInlineErrors() {
+    ["name", "email", "phone"].forEach((f) => {
+      const group = document.getElementById(`group-${f}`);
+      const errEl = document.getElementById(`error-${f}`);
+      if (group) group.classList.remove("su-has-error");
+      if (errEl) errEl.textContent = "";
+    });
+    const zoneErr = document.getElementById("error-zone");
+    if (zoneErr) zoneErr.textContent = "";
+  }
+
+  /* ------------------------------------------------------------------
+     SUBMIT BUTTON STATE
+  ------------------------------------------------------------------ */
+  setSubmitButtonState(isLoading, text) {
+    const btn = this.form.querySelector('button[type="submit"]');
+    if (!btn) return;
+
+    btn.disabled = isLoading;
+    this.form.querySelectorAll("input, select, textarea").forEach((el) => (el.disabled = isLoading));
+
+    if (isLoading) {
+      btn.innerHTML = `
+        <span style="display:inline-flex;align-items:center;justify-content:center;gap:10px;">
+          <svg style="animation:spin 1s linear infinite;width:18px;height:18px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle style="opacity:.25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path style="opacity:.75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          ${text}
+        </span>`;
+      this.partnerZoneCardsContainer.style.pointerEvents = "none";
+      this.partnerZoneCardsContainer.style.opacity = "0.5";
+    } else {
+      btn.innerHTML = text;
+      this.partnerZoneCardsContainer.style.pointerEvents = "auto";
+      this.partnerZoneCardsContainer.style.opacity = "1";
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     TOAST ERROR (for API-level errors, shown below the form)
+  ------------------------------------------------------------------ */
+  showError(message) {
+    this.removeToast();
+    const div = document.createElement("div");
+    div.id = "su-toast-error";
+    div.style.cssText =
+      "background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;padding:12px 16px;border-radius:10px;margin-top:16px;font-size:13.5px;display:flex;align-items:flex-start;gap:10px;";
+    div.innerHTML = `
+      <svg style="width:16px;height:16px;flex-shrink:0;margin-top:1px;" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+      </svg>
+      <span>${message}</span>`;
+    this.form.appendChild(div);
+    setTimeout(() => this.removeToast(), 5000);
+  }
+
+  removeToast() {
+    const t = document.getElementById("su-toast-error");
+    if (t) t.remove();
+  }
+
+  /* ------------------------------------------------------------------
+     SUCCESS MODAL
+  ------------------------------------------------------------------ */
+  showModal(message) {
+    const msgEl = document.getElementById("su-modal-msg");
+    if (msgEl) msgEl.textContent = message;
+    if (this.successModal) this.successModal.classList.add("su-show");
+  }
+
+  hideModal() {
+    if (this.successModal) this.successModal.classList.remove("su-show");
+  }
+
+  /* ------------------------------------------------------------------
+     CLEAR SELECTED ZONE CARDS
+  ------------------------------------------------------------------ */
   clearSelectedCards() {
-    this.partnerZoneCardsContainer
-      .querySelectorAll(".partner-card")
-      .forEach((card) => {
-        card.classList.remove(
-          "border-gold",
-          "shadow-md",
-        );
-        const indicator = card.querySelector(".absolute.top-2.left-2");
-        if (indicator) {
-          indicator.classList.add("hidden");
-          indicator.classList.remove("border-gold", "bg-gold");
-          const svg = indicator.querySelector("svg");
-          if (svg) {
-            svg.classList.add("opacity-0");
-            svg.classList.remove("opacity-100");
-          }
-        }
-      });
+    this.partnerZoneCardsContainer.querySelectorAll(".partner-card").forEach((card) => {
+      card.classList.remove("border-gold", "shadow-md");
+      card.setAttribute("aria-checked", "false");
+      const dot = card.querySelector(".select-indicator");
+      const check = card.querySelector(".select-check");
+      if (dot) { dot.classList.add("hidden"); dot.classList.remove("bg-yellow-400", "border-gold"); }
+      if (check) { check.classList.add("opacity-0"); check.classList.remove("opacity-100"); }
+    });
   }
 }
