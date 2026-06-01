@@ -48,6 +48,28 @@ services:
       - source: /terms-conditions
         destination: /pages/terms-conditions.html
         type: rewrite
+      # Prevent static assets and files from being rewritten to 404
+      - source: /assets/*
+        destination: /assets/:splat
+        type: rewrite
+      - source: /images/*
+        destination: /images/:splat
+        type: rewrite
+      - source: /css/*
+        destination: /css/:splat
+        type: rewrite
+      - source: /js/*
+        destination: /js/:splat
+        type: rewrite
+      - source: /robots.txt
+        destination: /robots.txt
+        type: rewrite
+      - source: /sitemap.xml
+        destination: /sitemap.xml
+        type: rewrite
+      - source: /favicon.ico
+        destination: /favicon.ico
+        type: rewrite
       # Fallback to 404 page for unmatched routes
       - source: /*
         destination: /pages/404.html
