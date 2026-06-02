@@ -1,6 +1,7 @@
 services:
-  - type: static
+  - type: web
     name: mtone-fe-modified
+    runtime: static
     buildCommand: npm run build:prod
     staticPublishPath: dist
     routes:
