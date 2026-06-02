@@ -12,65 +12,30 @@
   <!-- Header -->
   <div id="navbar"></div>
 
-  <main>
-
-  <main>
-
-  <section class="min-h-[40vh] flex items-center justify-center px-8 pt-24 md:pt-32 bg-gradient-to-r from-gold/10 to-orange/10">
-    <div class="max-w-3xl text-center">
-      <h1 class="text-4xl md:text-5xl font-extrabold mb-4 gradient-text leading-tight">Contact Us</h1>
-      <p class="text-lg md:text-xl text-gray-600 mb-8">We'd love to hear from you! Reach out for support, sales, or partnership inquiries.</p>
-    </div>
-  </section>
-
-  <section class="py-20 px-8 max-w-4xl mx-auto">
-    <div class="bg-white/90 rounded-3xl shadow-lg p-10 border border-gold/20 flex flex-col md:flex-row gap-10">
-      <div class="flex-1 mb-8 md:mb-0">
-        <h2 class="text-2xl font-bold mb-4 text-gold">Get in Touch</h2>
-        <form class="space-y-6">
-          <div>
-            <label class="block mb-2 text-gray-700 font-medium">Name</label>
-            <input type="text" class="w-full px-4 py-3 border border-gold/30 rounded-lg focus:ring-gold focus:border-gold outline-none" placeholder="Your Name" required>
-          </div>
-          <div>
-            <label class="block mb-2 text-gray-700 font-medium">Email</label>
-            <input type="email" class="w-full px-4 py-3 border border-gold/30 rounded-lg focus:ring-gold focus:border-gold outline-none" placeholder="you@email.com" required>
-          </div>
-          <div>
-            <label class="block mb-2 text-gray-700 font-medium">Phone</label>
-            <input type="tel" class="w-full px-4 py-3 border border-gold/30 rounded-lg focus:ring-gold focus:border-gold outline-none" placeholder="Your Phone Number" pattern="[0-9]{10}" maxlength="10" required>
-          </div>
-          <div>
-            <label class="block mb-2 text-gray-700 font-medium">Message</label>
-            <textarea class="w-full px-4 py-3 border border-gold/30 rounded-lg focus:ring-gold focus:border-gold outline-none" rows="5" placeholder="How can we help you?" required></textarea>
-          </div>
-          <button type="submit" class="w-full bg-gradient-to-r from-gold to-orange text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer">Send Message</button>
+  <section class="pt-32 pb-20 px-8 max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row gap-12 items-center">
+      
+      <!-- Left Column: Form -->
+      <div class="flex-1 w-full">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-[#141F39]" style="font-family: 'Outfit', sans-serif;">Get in <span class="text-[#FAAD13]">Touch</span></h1>
+        <p class="text-lg text-gray-600 mb-8 font-medium">We'd love to hear from you! Reach out for support, sales, or partnership inquiries.</p>
+        
+        <form class="space-y-5">
+          <input type="text" class="w-full px-4 py-4 border border-[#FAAD13]/30 rounded-xl focus:border-[#FAAD13] outline-none transition-all duration-300 text-[#141F39]" placeholder="Your Name" required>
+          <input type="email" class="w-full px-4 py-4 border border-[#FAAD13]/30 rounded-xl focus:border-[#FAAD13] outline-none transition-all duration-300 text-[#141F39]" placeholder="yourname@domain.com" required>
+          <input type="tel" class="w-full px-4 py-4 border border-[#FAAD13]/30 rounded-xl focus:border-[#FAAD13] outline-none transition-all duration-300 text-[#141F39]" placeholder="Your Phone Number" pattern="[0-9]{10}" maxlength="10" required>
+          <textarea class="w-full px-4 py-4 border border-[#FAAD13]/30 rounded-xl focus:border-[#FAAD13] outline-none transition-all duration-300 text-[#141F39]" rows="5" placeholder="How can we help you?" required></textarea>
+          <button type="submit" class="w-full bg-[#FAAD13] text-[#141F39] font-bold py-4 px-6 rounded-xl hover:opacity-90 active:scale-95 transition-all duration-300 cursor-pointer text-center">Send Message</button>
         </form>
       </div>
-      <div class="flex-1 flex flex-col justify-center">
-        <h3 class="text-xl font-semibold mb-4 text-gray-800">Contact Details</h3>
-        <p class="mb-2 text-gray-700"><span class="font-semibold">Address:</span> C-116 GF, OfficeOn, Sector 2, Noida, Uttar Pradesh - 201301</p>
-        <p class="mb-2 text-gray-700"><span class="font-semibold">Phone:</span> +91 7303062845</p>
-        <p class="mb-2 text-gray-700"><span class="font-semibold">Phone:</span> +91 9718361550</p>
-        <p class="mb-2 text-gray-700"><span class="font-semibold">Email:</span> <a href="mailto:info@mtone.in" class="text-gold hover:underline">info@mtone.in</a></p>
-        <div class="mt-6 flex gap-4">
-          <a href="#" class="text-gold hover:text-orange flex items-center justify-center" title="WhatsApp" aria-label="WhatsApp">
-            <svg class="w-7 h-7 fill-current" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L3 512l148.4-38.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-88 23.1 23.5-85.8-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
-          </a>
-          <a href="#" class="text-gold hover:text-orange flex items-center justify-center" title="LinkedIn" aria-label="LinkedIn">
-            <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-          </a>
-          <a href="#" class="text-gold hover:text-orange flex items-center justify-center" title="Twitter" aria-label="Twitter">
-            <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-          </a>
-        </div>
+
+      <!-- Right Column: Image -->
+      <div class="flex-1 w-full flex justify-center">
+        <img src="https://res.cloudinary.com/dxk3pdq1w/image/upload/v1779863973/image_14_smw1is.png" alt="Contact Us" class="w-full h-auto rounded-[32px] object-cover shadow-lg max-w-[500px] md:max-w-none">
       </div>
+
     </div>
   </section>
-
-  </main>
-
-  </main>
 
   <!-- Footer -->
   <div id="footer"></div>
