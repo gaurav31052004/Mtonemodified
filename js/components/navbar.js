@@ -262,10 +262,12 @@ export function loadNavbar() {
        /* Active state for Login/Signup nav buttons */
       .mt-nav-btn.active-nav-btn {
         background: #141F39 !important;
+        color: #FFFFFF !important;
         box-shadow: 0 4px 12px rgba(20,31,57,0.3);
       }
       .mt-mobile-btn.active-nav-btn {
         background: #141F39 !important;
+        color: #FFFFFF !important;
       }
     </style>
 
