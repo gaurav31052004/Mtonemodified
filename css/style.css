@@ -666,7 +666,8 @@ section {
   }
 
   /* Feature list font sizes */
-  #mobile-app h4 {
+  #mobile-app h4,
+  #mobile-app h3 {
     font-size: 26px !important;
     white-space: normal !important;
   }
