@@ -1453,7 +1453,7 @@ function showDemoStatus(message, isSuccess) {
     const proPeriod = document.getElementById('pro-period');
     if (!slider) return;
     if (plan === 'monthly') {
-      slider.style.left = '4.55px';
+      slider.style.transform = 'translateX(0)';
       btnMonthly.style.color = '#141F39';
       btnAnnual.style.color = '#6B7280';
       starterPrice.textContent = '₹3,999';
@@ -1461,7 +1461,7 @@ function showDemoStatus(message, isSuccess) {
       proPrice.textContent = '₹12,999';
       proPeriod.textContent = '/Month';
     } else {
-      slider.style.left = 'calc(50%)';
+      slider.style.transform = 'translateX(100%)';
       btnAnnual.style.color = '#141F39';
       btnMonthly.style.color = '#6B7280';
       starterPrice.textContent = '₹39,999';
