@@ -6,13 +6,7 @@
  * Dynamically add Font Awesome script to <head>
  */
 export function addFontAwesome() {
-  if (!document.querySelector('script[src*="fontawesome.com"]')) {
-    const fa = document.createElement('script');
-    fa.src = "https://kit.fontawesome.com/cfa9c31eb9.js";
-    fa.crossOrigin = "anonymous";
-    fa.async = true;
-    document.head.appendChild(fa);
-  }
+  // Disabled to eliminate render-blocking FontAwesome CDN script injection
 }
 
 /**

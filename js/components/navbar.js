@@ -414,25 +414,6 @@ function setActiveNav(identifier) {
   if (mobileEl)  mobileEl.classList.add("active-nav");
 }
 
-  function getCurrentSection() {
-    const sections = ["home", "features", "features-detail", "about", "pricing"];
-    const offset = 90;
-    for (const id of sections) {
-      const el = document.getElementById(id);
-      if (!el) continue;
-      const rect = el.getBoundingClientRect();
-      if (rect.top <= offset && rect.bottom > offset) return id;
-    }
-    let closest = "home", minDist = Infinity;
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const d = Math.abs(el.getBoundingClientRect().top - offset);
-      if (d < minDist) { minDist = d; closest = id; }
-    });
-    return closest;
-  }
-
   let manualTimeout = null;
 
   document.querySelectorAll("#mt-desktop-links a, #mobile-menu .mobile-menu-link").forEach((a) => {
@@ -456,16 +437,35 @@ function setActiveNav(identifier) {
   } else if (path.includes("/contact")) {
     setActiveNav("/contact");
   } else if (path === "/" || path === "/index.html") {
-    let scrollTimer = null;
-    const handleScroll = () => {
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        if (!manualTimeout) setActiveNav("#" + getCurrentSection());
-      }, 60);
-    };
     setTimeout(() => {
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      setActiveNav("#" + getCurrentSection());
+      const sections = ["home", "features", "features-detail", "about", "pricing"];
+      const observerOptions = {
+        root: null,
+        rootMargin: "-25% 0px -55% 0px",
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !manualTimeout) {
+            setActiveNav("#" + entry.target.id);
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+      
+      // Fallback/Initial active section
+      const activeSection = sections.find(id => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= 90 && rect.bottom > 90;
+      }) || "home";
+      setActiveNav("#" + activeSection);
     }, 300);
   }
 }
